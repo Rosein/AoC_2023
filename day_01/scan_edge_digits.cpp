@@ -59,24 +59,21 @@ int convert_verbal_digit_to_int(std::string verbal_digit)
     return counter;
 }
 
-std::map<int, std::string> make_positions_wordy(const std::string& input)
+std::map<int, int> make_positions_from_wordy_digits(const std::string& input)
 {
-    std::map<int, std::string> positions_wordy;
+    std::map<int, int> positions_wordy;
     for(auto& digit : wordy_digits)
     {
         auto founded_position = input.find(digit);
         if(founded_position != input.npos)
         {
-            positions_wordy[founded_position] =  digit;
+            positions_wordy[founded_position] =  convert_verbal_digit_to_int(digit);
         }
-    }
 
-    for(auto& digit : wordy_digits)
-    {
-        auto founded_position = input.rfind(digit);
-        if(founded_position != input.npos)
+        auto rfounded_position = input.rfind(digit);
+        if(rfounded_position != input.npos)
         {
-            positions_wordy[founded_position] =  digit;
+            positions_wordy[rfounded_position] =  convert_verbal_digit_to_int(digit);
         }
     }
 
@@ -85,6 +82,8 @@ std::map<int, std::string> make_positions_wordy(const std::string& input)
 
 int merge_edge_digits(const std::string& input)
 {
+    std::map<int, int> positions_digit = make_positions_from_wordy_digits(input);
+
     int first_digit{0};
     int position_of_first_digit{0};
     int position_of_last_digit{0};
@@ -107,84 +106,37 @@ int merge_edge_digits(const std::string& input)
         }
     }
 
-    std::map<int, std::string> positions_wordy = make_positions_wordy(input);
-
-    int first_word_digit{0};
-    int position_of_first_word_digit{0};
-    int last_word_digit{0};
-    int position_of_last_word_digit{0};
-
-    if(positions_wordy.empty())
+    if(counter == 1)
     {
-        return (counter == 1 ? first_digit : last_digit) +
-                first_digit * 10;
-    } 
-    else if (positions_wordy.size() == 1)
+        positions_digit[position_of_first_digit] = first_digit;
+    }
+    else if(counter > 1)
     {
-        first_word_digit = convert_verbal_digit_to_int(positions_wordy.begin()->second);
-        position_of_first_word_digit = positions_wordy.begin()->first;
-        last_word_digit = first_word_digit;
-        position_of_last_word_digit = position_of_first_word_digit;
-    } 
-    else
-    {
-        first_word_digit = convert_verbal_digit_to_int(positions_wordy.begin()->second);
-        position_of_first_word_digit = positions_wordy.begin()->first;
-        last_word_digit = convert_verbal_digit_to_int(positions_wordy.rbegin()->second);;
-        position_of_last_word_digit = positions_wordy.rbegin()->first;
+        positions_digit[position_of_first_digit] = first_digit;
+        positions_digit[position_of_last_digit] = last_digit;
     }
 
     int final_first_digit{0};
     int final_last_digit{0};
 
-    if(counter == 0)
+    if(positions_digit.empty())
     {
-        final_first_digit = first_word_digit;
-        final_last_digit = last_word_digit;
+        final_first_digit = 0;
+        final_last_digit = 0;
     } 
-    else if(counter == 1)
+    else if(positions_digit.size() == 1)
     {
-        if(position_of_first_digit < position_of_first_word_digit)
-        {
-            final_first_digit = first_digit;
-        }
-        else
-        {
-            final_first_digit = first_word_digit;
-        }
-
-
-        if(position_of_first_digit < position_of_last_word_digit)
-        {
-            final_last_digit = last_word_digit;
-        }
-        else
-        {
-            final_last_digit = first_digit;
-        }
+        final_first_digit = positions_digit.begin()->second;
+        final_last_digit = final_first_digit;
     }
-    else if(counter > 1)
+    else
     {
-        if(position_of_first_digit < position_of_first_word_digit)
-        {
-            final_first_digit = first_digit;
-        }
-        else
-        {
-            final_first_digit = first_word_digit;
-        }
-
-        if(position_of_last_digit < position_of_last_word_digit)
-        {
-            final_last_digit = last_word_digit;
-        }
-        else
-        {
-            final_last_digit = last_digit;
-        }
+        final_first_digit = positions_digit.begin()->second;
+        final_last_digit = positions_digit.rbegin()->second;
     }
 
+    auto result = final_first_digit * 10 + final_last_digit;
 
-    return final_first_digit * 10 + final_last_digit;
+    return result;
 }
 }
