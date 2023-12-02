@@ -28,7 +28,7 @@ bool is_game_set_possible(const GameSet& game_set)
     return is_possible;
 }
 
-Color convertColorToEnum(std::string color)
+Color convert_color_to_enum(std::string color)
 {
     if(color == "red")
     {
@@ -45,21 +45,21 @@ Color convertColorToEnum(std::string color)
     return {};
 }
 
-GameSet convertFromStringToGameSet(std::string game_set)
+GameSet convert_from_string_to_game_set(std::string game_set)
 {
-    std::stringstream gs{game_set};
+    std::stringstream ss{game_set};
     std::string cube_data;
 
     GameSet new_set;
 
-    while(std::getline(gs, cube_data, ','))
+    while(std::getline(ss, cube_data, ','))
     {
         std::stringstream cube_stream_conversion{cube_data};
         int amount{0};
         std::string color{};
 
         cube_stream_conversion >> amount >> color;
-        new_set[convertColorToEnum(color)] =  amount;
+        new_set[convert_color_to_enum(color)] =  amount;
     }
 
     return new_set;
@@ -77,7 +77,7 @@ bool is_game_possible(const std::string game)
 
     while(std::getline(ss, game_set, ';'))
     {
-        gameSets.emplace_back(convertFromStringToGameSet(game_set));
+        gameSets.emplace_back(convert_from_string_to_game_set(game_set));
     }
 
     for(auto& set : gameSets)
@@ -89,4 +89,18 @@ bool is_game_possible(const std::string game)
     }
     return is_possible;
 
+}
+
+int validate_game_result(const std::string game_with_prefix)
+{
+    std::stringstream ss{game_with_prefix};
+    std::string prefix{};
+    int index_of_game{};
+    char colon{};
+    std::string proper_game{};
+    
+    ss >> prefix >> index_of_game >> colon;
+    std::getline(ss, proper_game);
+    
+    return is_game_possible(proper_game) ? index_of_game : 0;
 }

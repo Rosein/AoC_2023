@@ -18,19 +18,21 @@ void run_app()
     }
 
     std::string line;
+    int sum{};
+
     while(std::getline(fs, line))
     {
-        std::cout << line << std::endl;
+       sum += validate_game_result(line);
     }
-
+    
+    std::cout << sum << std::endl;
     fs.close();
 }
 
-
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
@@ -50,6 +52,11 @@ void run_tests()
 
     {
         assert(is_game_possible("3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"));
+    }
+
+    {
+        std::string example_data{"Game 5: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"};
+        assert(validate_game_result(example_data) == 5);
     }
 
     std::cout << "Tests passed!" << std::endl;
