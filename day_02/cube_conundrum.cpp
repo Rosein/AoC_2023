@@ -65,20 +65,28 @@ GameSet convert_from_string_to_game_set(std::string game_set)
     return new_set;
 }
 
-
-bool is_game_possible(const std::string game)
+Game convert_from_string_to_game(std::string game)
 {
-
     Game gameSets;
 
     std::string game_set;
     std::stringstream ss{game}; 
-    bool is_possible = true;
 
     while(std::getline(ss, game_set, ';'))
     {
         gameSets.emplace_back(convert_from_string_to_game_set(game_set));
     }
+    
+    return gameSets;
+}
+
+
+bool is_game_possible(const std::string game)
+{
+
+    Game gameSets{convert_from_string_to_game(game)};
+
+    bool is_possible = true;
 
     for(auto& set : gameSets)
     {
@@ -87,10 +95,12 @@ bool is_game_possible(const std::string game)
             is_possible = false;
         }
     }
-    return is_possible;
 
+    return is_possible;
 }
 
+namespace v1
+{
 int validate_game_result(const std::string game_with_prefix)
 {
     std::stringstream ss{game_with_prefix};
@@ -103,6 +113,26 @@ int validate_game_result(const std::string game_with_prefix)
     std::getline(ss, proper_game);
     
     return is_game_possible(proper_game) ? index_of_game : 0;
+}
+}
+
+namespace v2
+{
+int validate_game_result(const std::string game_with_prefix)
+{
+    std::stringstream ss{game_with_prefix};
+    std::string prefix{};
+    int index_of_game{};
+    char colon{}; 
+    std::string proper_game{};
+    
+    ss >> prefix >> index_of_game >> colon;
+    std::getline(ss, proper_game);
+
+    Game game = convert_from_string_to_game(proper_game);
+    
+    return calculate_power_of_game(game);
+}
 }
 
 void adjust_max_game_set(const GameSet& game_set, GameSet& max_set)
@@ -124,4 +154,15 @@ GameSet find_max_amounts_for_one_game(const Game& game)
         adjust_max_game_set(game_set, max_game_set);
     }
     return max_game_set;
+}
+
+int calculate_power_of_game(const Game& game)
+{
+    GameSet max_game_set = find_max_amounts_for_one_game(game);
+    int game_power{1};
+    for(const auto [color, amount] : max_game_set)
+    {
+        game_power *= max_game_set[color];
+    }
+    return game_power;
 }
