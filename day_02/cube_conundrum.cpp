@@ -115,3 +115,13 @@ void adjust_max_game_set(const GameSet& game_set, GameSet& max_set)
       }
     }
 }
+
+GameSet find_max_amounts_for_one_game(const Game& game)
+{
+    GameSet max_game_set{};
+    for(const auto& game_set : game)
+    {
+        adjust_max_game_set(game_set, max_game_set);
+    }
+    return max_game_set;
+}
