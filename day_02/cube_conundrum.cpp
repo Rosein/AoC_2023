@@ -104,3 +104,14 @@ int validate_game_result(const std::string game_with_prefix)
     
     return is_game_possible(proper_game) ? index_of_game : 0;
 }
+
+void adjust_max_game_set(const GameSet& game_set, GameSet& max_set)
+{
+    for(const auto [color, amount] : game_set)
+    {
+      if(amount > max_set[color])
+      {
+        max_set[color] = amount;
+      }
+    }
+}

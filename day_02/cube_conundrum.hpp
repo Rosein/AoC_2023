@@ -29,3 +29,5 @@ bool is_game_set_possible(const GameSet& game_set);
 bool is_game_possible(const std::string game);
 
 int validate_game_result(const std::string prefix_game);
+
+void adjust_max_game_set(const GameSet& game_set, GameSet& max_set);
