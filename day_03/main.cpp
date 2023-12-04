@@ -309,5 +309,16 @@ void run_tests()
         assert(result.value().second == end_index);   
     }
 
+    {
+        std::vector<std::string> example_data{
+            {"..555...."},
+            {"......."},
+            {"...&..."},
+            {"....677"} 
+        };
+
+        assert(extract_next_part_number(example_data) = 677);   
+    }
+
     std::cout << "Tests passed!" << std::endl;
 }
