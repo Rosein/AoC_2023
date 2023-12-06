@@ -293,6 +293,7 @@ void run_tests()
     }    
 
     {
+        std::cout << "Test extract() #1:" << std::endl;
         std::vector<std::string> example_data{
             {"......."},
             {"...&..."},
@@ -311,6 +312,8 @@ void run_tests()
     }
 
     {
+        std::cout << "Test extract() #2:" << std::endl;
+
         std::vector<std::string> example_data{
             {"..555.."},
             {"......."},
@@ -338,6 +341,19 @@ void run_tests()
 
     }
 
+    {
+        std::cout << "Test extract_next_part_number() #1:" << std::endl;
+
+        std::vector<std::string> example_data{
+            {"..555.."},
+            {"......."},
+            {"...&..."},
+            {"....677"} 
+        };
+
+        ExtractorOfNumberAdjacetToSymbol extractor;
+        assert(extractor.extract_next_part_number(example_data) == 677);
+    }
 
     std::cout << "Tests passed!" << std::endl;
 }

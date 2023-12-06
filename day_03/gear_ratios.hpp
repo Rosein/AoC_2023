@@ -21,3 +21,13 @@ private:
     std::pair<Coordinates, Coordinates> next_indexes_{{0, 0}, {0, 0}};
 };
 
+class ExtractorOfNumberAdjacetToSymbol
+{
+public:
+    int extract_next_part_number(EngineSchematic engine_schematic);
+private:
+    ExtractorOfNextNumberIndexes extractor_;
+};
+
+
+

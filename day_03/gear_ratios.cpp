@@ -36,15 +36,16 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
     {
         return true;
     }
-
+    
     for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
     {
-        if(engine_schematic[begin_index.first - 1][i] == kCheckedSymbol)
-        {
-            return true;
+        if(begin_index.first > 0){
+            if(engine_schematic[begin_index.first - 1][i] == kCheckedSymbol)
+            {
+                return true;
+            }
         }
     }    
-
     return false;
 }
 
@@ -104,3 +105,27 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
 }
 
 
+int ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(EngineSchematic engine_schematic)
+{
+    bool is_symbol_founded = false;
+
+    while(!is_symbol_founded)
+    {
+        auto number_to_check_indexes =  extractor_.extract(engine_schematic);
+
+        if(!number_to_check_indexes.has_value())
+        {
+            return 0;
+        }
+
+        is_symbol_founded = is_number_adjacent_to_symbol(engine_schematic, number_to_check_indexes.value().first, number_to_check_indexes.value().second);
+        if(is_symbol_founded)
+        {
+            std::string row_with_number = engine_schematic[number_to_check_indexes.value().first.first];
+
+            return std::stoi(row_with_number.substr(number_to_check_indexes.value().first.second, number_to_check_indexes.value().second.second));
+        }
+    }
+
+    return 0;
+}
