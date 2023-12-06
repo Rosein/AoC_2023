@@ -53,39 +53,54 @@ int find_nr_of_column_of_last_digit_in_sequence(const std::string& row, int begi
     bool is_continous_digit_sequence = true;
     
     int i = begin_index_of_number;
-    for(; i < row.size() && is_continous_digit_sequence; ++i)
+    for(; i < row.size(); ++i)
     {
         if(!std::isdigit(row[i]))
         {
             is_continous_digit_sequence = false;
+            break;
         }
     }
 
     return i - 1;
 }
 
-std::optional<std::pair<Coordinates, Coordinates>> extract_next_number_indexes(EngineSchematic engine_schematic)
+std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes::extract(EngineSchematic engine_schematic)
 {
-    static std::pair<Coordinates, Coordinates> next_indexes{{0, 0}, {0, 0}};
 
-    for(const auto& row : engine_schematic)
+    for(auto row = next_indexes_.first.first; row < engine_schematic.size(); ++row )
     {
-        for(const auto& character : row)
+        for(auto character = next_indexes_.first.second; character < engine_schematic[row].size(); ++character)
         {
-            if(std::isdigit(character))
+            if(std::isdigit(engine_schematic[row][character]))
             {
-                next_indexes.second.first = next_indexes.first.first;
-                next_indexes.second.second = find_nr_of_column_of_last_digit_in_sequence(row, next_indexes.first.second);
+                next_indexes_.second.first = next_indexes_.first.first;
+                next_indexes_.second.second = find_nr_of_column_of_last_digit_in_sequence(engine_schematic[row], next_indexes_.first.second);
 
-                // std::cout << next_indexes.first << " " << next_indexes.second << std::endl;
-                return next_indexes;
+                std::cout << next_indexes_.first << " " << next_indexes_.second << std::endl;
+                auto return_indexes = next_indexes_;
+
+                next_indexes_.first = next_indexes_.second;
+                if(next_indexes_.first.second + 1 != engine_schematic[row].size())
+                {
+                    next_indexes_.first.second++;
+                }
+                else
+                {
+                    next_indexes_.first.first++;
+                    next_indexes_.first.second = 0;
+                }
+
+                return return_indexes;
             }
 
-            next_indexes.first.second++;
+            next_indexes_.first.second++;
         }
-        next_indexes.first.first++;
-        next_indexes.first.second = 0;
+        next_indexes_.first.first++;
+        next_indexes_.first.second = 0;
     }
 
     return std::nullopt;
 }
+
+

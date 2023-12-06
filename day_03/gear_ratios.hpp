@@ -13,4 +13,11 @@ int extract_number(std::string engine_schematic_one_line);
 
 int extract_number_when_symbol_is_adjacent(std::string engine_schematic_one_line);
 
-std::optional<std::pair<Coordinates, Coordinates>> extract_next_number_indexes(EngineSchematic engine_schematic);
+class ExtractorOfNextNumberIndexes
+{
+public:   
+    std::optional<std::pair<Coordinates, Coordinates>> extract(EngineSchematic engine_schematic);
+private:
+    std::pair<Coordinates, Coordinates> next_indexes_{{0, 0}, {0, 0}};
+};
+
