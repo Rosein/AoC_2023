@@ -106,25 +106,21 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
 
 int ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(EngineSchematic engine_schematic)
 {
-    bool is_symbol_founded = false;
-
-    while(!is_symbol_founded)
+    while(true)
     {
         auto number_to_check_indexes =  extractor_.extract(engine_schematic);
-
         if(!number_to_check_indexes.has_value())
         {
             return 0;
         }
 
-        is_symbol_founded = is_number_adjacent_to_symbol(engine_schematic, number_to_check_indexes.value().first, number_to_check_indexes.value().second);
-        if(is_symbol_founded)
+        if(is_number_adjacent_to_symbol(engine_schematic, number_to_check_indexes.value().first, number_to_check_indexes.value().second))
         {
-            std::string row_with_number = engine_schematic[number_to_check_indexes.value().first.first];
+            const std::string& row_with_number = engine_schematic[number_to_check_indexes.value().first.first];
 
-            return std::stoi(row_with_number.substr(number_to_check_indexes.value().first.second, number_to_check_indexes.value().second.second));
+            const int& index_of_first_digit_of_number = number_to_check_indexes.value().first.second;
+            const int& index_of_first_last_of_number = number_to_check_indexes.value().second.second;
+            return std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number));
         }
     }
-
-    return 0;
 }

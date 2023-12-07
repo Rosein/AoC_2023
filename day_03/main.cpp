@@ -339,7 +339,6 @@ void run_tests()
         assert(result.has_value());
         assert(result.value().first == begin_index);
         assert(result.value().second == end_index);
-
     }
 
     {
