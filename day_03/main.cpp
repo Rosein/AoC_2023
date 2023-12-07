@@ -5,6 +5,7 @@
 #include <map>
 #include "gear_ratios.hpp"
 
+
 void run_tests();
 
 void run_app()
@@ -23,7 +24,7 @@ void run_app()
     {
        std::cout << line << std::endl;
     }
-    
+
     fs.close();
 }
 
@@ -36,7 +37,7 @@ int main()
 
 void run_tests()
 {
-    { 
+    {
         {
             std::vector<std::string> example_data{
                 {"...677.."},
@@ -195,7 +196,7 @@ void run_tests()
 
             assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
         }
-        
+
 
         {
             std::vector<std::string> example_data{
@@ -209,7 +210,7 @@ void run_tests()
 
             assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
         }
-        
+
         {
             std::vector<std::string> example_data{
                 {"........"},
@@ -222,13 +223,13 @@ void run_tests()
 
             assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
         }
-        
+
 
         {
             std::vector<std::string> example_data{
                 {"......."},
                 {"..&...."},
-                {"...677."} 
+                {"...677."}
             };
 
             std::pair<int,int> begin_index = {2, 3};
@@ -236,27 +237,14 @@ void run_tests()
 
             assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
         }
-        
+
 
 
         {
             std::vector<std::string> example_data{
                 {"......."},
                 {"......&"},
-                {"...677."} 
-            };
-
-            std::pair<int,int> begin_index = {2, 3};
-            std::pair<int,int> end_index = {2, 5};
-
-            assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
-        }
-        
-        {
-            std::vector<std::string> example_data{
-                {"......."},
-                {"......."},
-                {"...677&"} 
+                {"...677."}
             };
 
             std::pair<int,int> begin_index = {2, 3};
@@ -269,7 +257,20 @@ void run_tests()
             std::vector<std::string> example_data{
                 {"......."},
                 {"......."},
-                {"...&677"} 
+                {"...677&"}
+            };
+
+            std::pair<int,int> begin_index = {2, 3};
+            std::pair<int,int> end_index = {2, 5};
+
+            assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
+        }
+
+        {
+            std::vector<std::string> example_data{
+                {"......."},
+                {"......."},
+                {"...&677"}
             };
 
             std::pair<int,int> begin_index = {2, 4};
@@ -282,7 +283,7 @@ void run_tests()
             std::vector<std::string> example_data{
                 {"......."},
                 {".&....."},
-                {"....677"} 
+                {"....677"}
             };
 
             std::pair<int,int> begin_index = {2, 4};
@@ -290,14 +291,14 @@ void run_tests()
 
             assert(!is_number_adjacent_to_symbol(example_data, begin_index, end_index));
         }
-    }    
+    }
 
     {
-        std::cout << "Test extract() #1:" << std::endl;
+        DEBUG_PRINT("Test extract() #1:");
         std::vector<std::string> example_data{
             {"......."},
             {"...&..."},
-            {"....677"} 
+            {"....677"}
         };
 
         std::pair<int,int> begin_index = {2, 4};
@@ -306,19 +307,19 @@ void run_tests()
         ExtractorOfNextNumberIndexes extractor;
         auto result = extractor.extract(example_data);
 
-        assert(result.has_value());   
-        assert(result.value().first == begin_index);   
-        assert(result.value().second == end_index);   
+        assert(result.has_value());
+        assert(result.value().first == begin_index);
+        assert(result.value().second == end_index);
     }
 
     {
-        std::cout << "Test extract() #2:" << std::endl;
+        DEBUG_PRINT("Test extract() #2:");
 
         std::vector<std::string> example_data{
             {"..555.."},
             {"......."},
             {"...&..."},
-            {"....677"} 
+            {"....677"}
         };
         std::pair<int,int> begin_index = {0, 2};
         std::pair<int,int> end_index = {0, 4};
@@ -326,34 +327,34 @@ void run_tests()
         ExtractorOfNextNumberIndexes extractor;
         auto result = extractor.extract(example_data);
 
-        assert(result.has_value());   
-        assert(result.value().first == begin_index);   
-        assert(result.value().second == end_index);  
+        assert(result.has_value());
+        assert(result.value().first == begin_index);
+        assert(result.value().second == end_index);
 
         result = extractor.extract(example_data);
 
         begin_index = {3, 4};
         end_index = {3, 6};
 
-        assert(result.has_value());   
-        assert(result.value().first == begin_index);   
-        assert(result.value().second == end_index);  
+        assert(result.has_value());
+        assert(result.value().first == begin_index);
+        assert(result.value().second == end_index);
 
     }
 
     {
-        std::cout << "Test extract_next_part_number() #1:" << std::endl;
+        DEBUG_PRINT("Test extract_next_part_number() #1:");
 
         std::vector<std::string> example_data{
             {"..555.."},
             {"......."},
             {"...&..."},
-            {"....677"} 
+            {"....677"}
         };
 
         ExtractorOfNumberAdjacetToSymbol extractor;
         assert(extractor.extract_next_part_number(example_data) == 677);
     }
 
-    std::cout << "Tests passed!" << std::endl;
+    std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }

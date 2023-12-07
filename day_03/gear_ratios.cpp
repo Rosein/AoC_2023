@@ -15,8 +15,8 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
     // std::cout << "Begin idnex: {,} : "  <<  begin_index.first << " " << begin_index.second <<std::endl;
     // std::cout << "End idnex: {,} : "  <<  end_index.first << " " << end_index.second <<std::endl;
     const char kCheckedSymbol{'&'};
-   
-    if(begin_index.first < engine_schematic.size() -1 ) 
+
+    if(begin_index.first < engine_schematic.size() -1 )
     {
         for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
         {
@@ -36,7 +36,7 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
     {
         return true;
     }
-    
+
     for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
     {
         if(begin_index.first > 0){
@@ -45,14 +45,14 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
                 return true;
             }
         }
-    }    
+    }
     return false;
 }
 
 int find_nr_of_column_of_last_digit_in_sequence(const std::string& row, int begin_index_of_number)
 {
     bool is_continous_digit_sequence = true;
-    
+
     int i = begin_index_of_number;
     for(; i < row.size(); ++i)
     {
@@ -78,7 +78,7 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
                 next_indexes_.second.first = next_indexes_.first.first;
                 next_indexes_.second.second = find_nr_of_column_of_last_digit_in_sequence(engine_schematic[row], next_indexes_.first.second);
 
-                std::cout << next_indexes_.first << " " << next_indexes_.second << std::endl;
+                DEBUG_PRINT(next_indexes_.first << " " << next_indexes_.second);
                 auto return_indexes = next_indexes_;
 
                 next_indexes_.first = next_indexes_.second;
@@ -103,7 +103,6 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
 
     return std::nullopt;
 }
-
 
 int ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(EngineSchematic engine_schematic)
 {
