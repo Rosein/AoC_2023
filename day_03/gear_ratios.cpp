@@ -9,30 +9,40 @@ std::ostream& operator<<(std::ostream& os, Coordinates coordinates)
     return os;
 }
 
+bool is_symbol(const char character)
+{
+    return !(character == '.' || std::isdigit(character));
+}
+
+bool are_indexes_in_scope(const EngineSchematic& engine_schematic, int first, int second)
+{
+    return 0 <= first && first < engine_schematic.size() &&
+           0 <= second && second < engine_schematic[0].size();
+}
+
 bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates begin_index, Coordinates end_index)
 {
 
-    // std::cout << "Begin idnex: {,} : "  <<  begin_index.first << " " << begin_index.second <<std::endl;
-    // std::cout << "End idnex: {,} : "  <<  end_index.first << " " << end_index.second <<std::endl;
-    const char kCheckedSymbol{'&'};
-
-    if(begin_index.first < engine_schematic.size() -1 )
+    if(begin_index.first < engine_schematic.size() -1)
     {
         for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
         {
-            if(engine_schematic[begin_index.first + 1][i] == kCheckedSymbol)
+            if(are_indexes_in_scope(engine_schematic, begin_index.first + 1, i) && 
+               is_symbol(engine_schematic[begin_index.first + 1][i]))
             {
                 return true;
             }
         }
     }
 
-    if(engine_schematic[end_index.first][end_index.second + 1] == kCheckedSymbol)
+    if(are_indexes_in_scope(engine_schematic, end_index.first, end_index.second + 1) && 
+       is_symbol(engine_schematic[end_index.first][end_index.second + 1]))
     {
         return true;
     }
 
-    if(engine_schematic[begin_index.first][begin_index.second - 1] == kCheckedSymbol)
+    if(are_indexes_in_scope(engine_schematic, begin_index.first, begin_index.second - 1) && 
+       is_symbol(engine_schematic[begin_index.first][begin_index.second - 1]))
     {
         return true;
     }
@@ -40,7 +50,8 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
     for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
     {
         if(begin_index.first > 0){
-            if(engine_schematic[begin_index.first - 1][i] == kCheckedSymbol)
+            if(are_indexes_in_scope(engine_schematic, begin_index.first - 1, i) && 
+               is_symbol(engine_schematic[begin_index.first - 1][i]))
             {
                 return true;
             }
@@ -104,23 +115,48 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
     return std::nullopt;
 }
 
-int ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(EngineSchematic engine_schematic)
+std::optional<int> ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(EngineSchematic engine_schematic)
 {
     while(true)
     {
         auto number_to_check_indexes =  extractor_.extract(engine_schematic);
         if(!number_to_check_indexes.has_value())
         {
-            return 0;
+            DEBUG_PRINT("Didn't find any number");
+            return std::nullopt;
         }
 
         if(is_number_adjacent_to_symbol(engine_schematic, number_to_check_indexes.value().first, number_to_check_indexes.value().second))
         {
+            DEBUG_PRINT("")
             const std::string& row_with_number = engine_schematic[number_to_check_indexes.value().first.first];
 
             const int& index_of_first_digit_of_number = number_to_check_indexes.value().first.second;
             const int& index_of_first_last_of_number = number_to_check_indexes.value().second.second;
-            return std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number));
+            const int part_number{std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number))};
+            DEBUG_PRINT("Founded part number: " << part_number);
+            return std::make_optional<int>(part_number);
         }
+    }
+}
+
+int ExtractorOfNumberAdjacetToSymbol::sum_part_numbers(EngineSchematic engine_schematic)
+{
+    int total_sum_of_part_numbers{0};
+    while(true)
+    {
+        auto candi_part_number = extract_next_part_number(engine_schematic);
+
+        if(candi_part_number.has_value())
+        {
+            DEBUG_PRINT("candi_part_number: " << candi_part_number.value());
+            total_sum_of_part_numbers += candi_part_number.value();
+        }
+        else
+        {
+            DEBUG_PRINT("total_sum_of_part_numbers: " << total_sum_of_part_numbers);
+            return total_sum_of_part_numbers;
+        }
+
     }
 }

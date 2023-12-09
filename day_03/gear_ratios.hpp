@@ -5,7 +5,7 @@
 #include <optional>
 #include <iomanip>
 
-const bool kIsDebugOn = false;
+const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
@@ -35,7 +35,8 @@ private:
 class ExtractorOfNumberAdjacetToSymbol
 {
 public:
-    int extract_next_part_number(EngineSchematic engine_schematic);
+    int sum_part_numbers(EngineSchematic engine_schematic);
+    std::optional<int> extract_next_part_number(EngineSchematic engine_schematic);
 private:
     ExtractorOfNextNumberIndexes extractor_;
 };

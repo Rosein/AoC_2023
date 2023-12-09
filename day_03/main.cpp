@@ -352,8 +352,26 @@ void run_tests()
         };
 
         ExtractorOfNumberAdjacetToSymbol extractor;
-        assert(extractor.extract_next_part_number(example_data) == 677);
+        assert(extractor.extract_next_part_number(example_data).value() == 677);
     }
+
+    {
+        DEBUG_PRINT("Test sum_part_numbers() #1:");
+
+        std::vector<std::string> example_data{
+            {"..555.."},
+            {"......."},
+            {"...^23."},
+            {"......."},
+            {".../..."},
+            {"....677"}
+        };
+
+        ExtractorOfNumberAdjacetToSymbol extractor;
+        assert(extractor.sum_part_numbers(example_data) == 700);
+    }
+
+
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
