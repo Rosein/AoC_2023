@@ -151,6 +151,7 @@ int ExtractorOfNumberAdjacetToSymbol::sum_part_numbers(EngineSchematic engine_sc
         {
             DEBUG_PRINT("candi_part_number: " << candi_part_number.value());
             total_sum_of_part_numbers += candi_part_number.value();
+            DEBUG_PRINT("total_sum_of_part_numbers: " << total_sum_of_part_numbers);
         }
         else
         {

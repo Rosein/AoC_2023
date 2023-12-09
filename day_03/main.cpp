@@ -19,11 +19,14 @@ void run_app()
     }
 
     std::string line;
+    EngineSchematic engine_schematic{};
 
     while(std::getline(fs, line))
     {
-       std::cout << line << std::endl;
+       engine_schematic.push_back(line);
     }
+
+    std::cout << ExtractorOfNumberAdjacetToSymbol{}.sum_part_numbers(engine_schematic) << std::endl;
 
     fs.close();
 }
@@ -294,7 +297,7 @@ void run_tests()
     }
 
     {
-        DEBUG_PRINT("Test extract() #1:");
+        DEBUG_PRINT_TESTNAME("Test extract() #1:");
         std::vector<std::string> example_data{
             {"......."},
             {"...&..."},
@@ -313,7 +316,7 @@ void run_tests()
     }
 
     {
-        DEBUG_PRINT("Test extract() #2:");
+        DEBUG_PRINT_TESTNAME("Test extract() #2:");
 
         std::vector<std::string> example_data{
             {"..555.."},
@@ -342,7 +345,7 @@ void run_tests()
     }
 
     {
-        DEBUG_PRINT("Test extract_next_part_number() #1:");
+        DEBUG_PRINT_TESTNAME("Test extract_next_part_number() #1:");
 
         std::vector<std::string> example_data{
             {"..555.."},
@@ -356,7 +359,7 @@ void run_tests()
     }
 
     {
-        DEBUG_PRINT("Test sum_part_numbers() #1:");
+        DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #1:");
 
         std::vector<std::string> example_data{
             {"..555.."},
@@ -371,7 +374,25 @@ void run_tests()
         assert(extractor.sum_part_numbers(example_data) == 700);
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #2:");
+        std::vector<std::string> example_data
+        {
+            {"467..114.."},
+            {"...*......"},
+            {"..35..633."},
+            {"......#..."},
+            {"617*......"},
+            {".....+.58."},
+            {"..592....."},
+            {"......755."},
+            {"...$.*...."},
+            {".664.598.."}
+        };
 
+        ExtractorOfNumberAdjacetToSymbol extractor;
+        assert(extractor.sum_part_numbers(example_data) == 4361);
+    }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
