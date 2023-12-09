@@ -33,8 +33,8 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 

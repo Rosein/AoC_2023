@@ -102,7 +102,6 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
                     next_indexes_.first.first++;
                     next_indexes_.first.second = 0;
                 }
-
                 return return_indexes;
             }
 
@@ -133,7 +132,7 @@ std::optional<int> ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(En
 
             const int& index_of_first_digit_of_number = number_to_check_indexes.value().first.second;
             const int& index_of_first_last_of_number = number_to_check_indexes.value().second.second;
-            const int part_number{std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number))};
+            const int part_number{std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number + 1))};
             DEBUG_PRINT("Founded part number: " << part_number);
             return std::make_optional<int>(part_number);
         }
@@ -158,6 +157,5 @@ int ExtractorOfNumberAdjacetToSymbol::sum_part_numbers(EngineSchematic engine_sc
             DEBUG_PRINT("total_sum_of_part_numbers: " << total_sum_of_part_numbers);
             return total_sum_of_part_numbers;
         }
-
     }
 }

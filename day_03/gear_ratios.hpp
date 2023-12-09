@@ -5,7 +5,7 @@
 #include <optional>
 #include <iomanip>
 
-const bool kIsDebugOn = false;
+const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
