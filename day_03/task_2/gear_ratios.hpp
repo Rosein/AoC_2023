@@ -4,6 +4,7 @@
 #include <string>
 #include <optional>
 #include <iomanip>
+#include <map>
 
 const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
@@ -18,8 +19,14 @@ const bool kIsDebugOn = true;
 
 using Coordinates = std::pair<int,int>;
 using EngineSchematic = std::vector<std::string>;
+using PotentialGears =  std::map<Coordinates, std::pair<int, int>>;
 
-bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates begin_index, Coordinates end_index);
+struct NumberDescription
+{
+    int value;
+    Coordinates begin_number;
+    Coordinates end_number;
+};
 
 int extract_number(std::string engine_schematic_one_line);
 
@@ -36,8 +43,17 @@ private:
 class ExtractorOfNumberAdjacetToSymbol
 {
 public:
-    int sum_part_numbers(EngineSchematic engine_schematic);
-    std::optional<int> extract_next_part_number(EngineSchematic engine_schematic);
+    ExtractorOfNumberAdjacetToSymbol(EngineSchematic engine_schematic) : engine_schematic_(engine_schematic){};
+
+    std::optional<Coordinates> is_number_adjacent_to_symbol(Coordinates begin_index, Coordinates end_index);
+    int sum_part_numbers();
+    std::optional<NumberDescription> extract_next_part_number();
+    void save_potential_gear(std::optional<NumberDescription>  number_to_check);
+    void save_potential_gears();
+    PotentialGears& get_potential_gears();
+
 private:
+    PotentialGears potential_gears_;
     ExtractorOfNextNumberIndexes extractor_;
+    EngineSchematic engine_schematic_;
 };

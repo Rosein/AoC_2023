@@ -26,7 +26,7 @@ void run_app()
        engine_schematic.push_back(line);
     }
 
-    std::cout << ExtractorOfNumberAdjacetToSymbol{}.sum_part_numbers(engine_schematic) << std::endl;
+    // std::cout << ExtractorOfNumberAdjacetToSymbol{engine_schematic}.sum_part_numbers() << std::endl;
 
     fs.close();
 }
@@ -51,7 +51,10 @@ void run_tests()
             std::pair<int,int> begin_index = {0, 3};
             std::pair<int,int> end_index = {0, 5};
 
-            assert(is_number_adjacent_to_symbol(example_data, begin_index, end_index));
+            ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+
+            assert(extractor.is_number_adjacent_to_symbol(begin_index, end_index).has_value());
+            assert((extractor.is_number_adjacent_to_symbol(begin_index, end_index).value() == Coordinates{1, 5}));
         }
 
         {
@@ -63,8 +66,10 @@ void run_tests()
 
             std::pair<int,int> begin_index = {0, 3};
             std::pair<int,int> end_index = {0, 5};
+            
+            ExtractorOfNumberAdjacetToSymbol extractor{example_data};
 
-            assert(!is_number_adjacent_to_symbol(example_data, begin_index, end_index));
+            assert(!extractor.is_number_adjacent_to_symbol(begin_index, end_index).has_value());
         }
 
     //     {
@@ -315,22 +320,6 @@ void run_tests()
         assert(result.value().second == end_index);
     }
 
-
-    {
-        DEBUG_PRINT_TESTNAME("Test extract() #1:");
-        std::vector<std::string> example_data{
-            {"......."},
-            {"...&..."},
-            {"....677"}
-        };
-
-        ExtractorOfNextNumberIndexes extractor;
-        auto result = extractor.extract(example_data);
-
-        assert(!result.has_value());
-    }
-
-
     // {
     //     DEBUG_PRINT_TESTNAME("Test extract() #2:");
 
@@ -360,35 +349,106 @@ void run_tests()
     //     assert(result.value().second == end_index);
     // }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test extract_next_part_number() #1:");
+    {
+        DEBUG_PRINT_TESTNAME("Test extract_next_part_number() #1:");
 
-    //     std::vector<std::string> example_data{
-    //         {"..555.."},
-    //         {"......."},
-    //         {"...&..."},
-    //         {"....677"}
-    //     };
+        std::vector<std::string> example_data{
+            {"..555.."},
+            {"......."},
+            {"...*..."},
+            {"....677"}
+        };
 
-    //     ExtractorOfNumberAdjacetToSymbol extractor;
-    //     assert(extractor.extract_next_part_number(example_data).value() == 677);
-    // }
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        auto actual_result = extractor.extract_next_part_number();
+        assert(actual_result.has_value());
+        assert(actual_result.value().value == 677);
+    }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #1:");
+    {
+        DEBUG_PRINT_TESTNAME("Test extract_next_part_number() #1:");
 
-    //     std::vector<std::string> example_data{
-    //         {"..555.."},
-    //         {"......."},
-    //         {"...^23."},
-    //         {"......."},
-    //         {".../..."},
-    //         {"....677"}
-    //     };
+        std::vector<std::string> example_data{
+            {"..555.."},
+            {"......."},
+            {".../..."},
+            {"....677"}
+        };
 
-    //     ExtractorOfNumberAdjacetToSymbol extractor;
-    //     assert(extractor.sum_part_numbers(example_data) == 700);
-    // }
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        auto actual_result = extractor.extract_next_part_number();
+        assert(!actual_result.has_value());
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test save_potential_gear() #1:");
+
+        std::vector<std::string> example_data{
+            {"..555.."},
+            {"......."},
+            {"...*..."},
+            {"....677"}
+        };
+
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        extractor.save_potential_gears();
+        PotentialGears actual_result = extractor.get_potential_gears();
+
+        Coordinates expected_coordinates{2,3};
+        
+        assert(actual_result.size() == 1);
+        assert((actual_result.find({2,3}) != actual_result.end()));
+        assert((actual_result[{2,3}].first == 677));
+        assert((actual_result[{2,3}].second == 1));
+    }
+
+
+    {
+        DEBUG_PRINT_TESTNAME("Test save_potential_gear() #2:");
+
+        std::vector<std::string> example_data{
+            {"......."},
+            {"...555."},
+            {"...*..."},
+            {"....677"}
+        };
+
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        extractor.save_potential_gears();
+        PotentialGears actual_result = extractor.get_potential_gears();
+
+        Coordinates expected_coordinates{2,3};
+        
+        assert(actual_result.size() == 1);
+        assert((actual_result.find({2,3}) != actual_result.end()));
+        assert((actual_result[{2,3}].first == (375735)));
+        assert((actual_result[{2,3}].second == 2));
+    }
+
+
+    {
+        DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #1:");
+
+        std::vector<std::string> example_data{
+            {"467..114.."},
+            {"...*......"},
+            {"..35..633."},
+            {"......#..."},
+            {"617*......"}
+        };
+
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        extractor.save_potential_gears();
+        PotentialGears actual_result = extractor.get_potential_gears();
+
+        
+        assert(actual_result.size() == 2);
+        assert((actual_result[{1,3}].first == (16345)));
+        assert((actual_result[{1,3}].second == 2));
+
+        assert((actual_result[{4,3}].first == (617)));
+        assert((actual_result[{4,3}].second == 1));
+    }
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #2:");
