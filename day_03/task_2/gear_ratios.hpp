@@ -40,10 +40,10 @@ private:
     std::pair<Coordinates, Coordinates> next_indexes_{{0, 0}, {0, 0}};
 };
 
-class ExtractorOfNumberAdjacetToSymbol
+class ExtractorOfNumberAdjacentToSymbol
 {
 public:
-    ExtractorOfNumberAdjacetToSymbol(EngineSchematic engine_schematic) : engine_schematic_(engine_schematic){};
+    ExtractorOfNumberAdjacentToSymbol(EngineSchematic engine_schematic) : engine_schematic_(engine_schematic){};
 
     std::optional<Coordinates> is_number_adjacent_to_symbol(Coordinates begin_index, Coordinates end_index);
     int sum_part_numbers();
@@ -51,6 +51,7 @@ public:
     void save_potential_gear(std::optional<NumberDescription>  number_to_check);
     void save_potential_gears();
     PotentialGears& get_potential_gears();
+    int sum_gear_ratios();
 
 private:
     PotentialGears potential_gears_;

@@ -20,7 +20,7 @@ bool are_indexes_in_scope(const EngineSchematic& engine_schematic, int first, in
            0 <= second && second < engine_schematic[0].size();
 }
 
-std::optional<Coordinates> ExtractorOfNumberAdjacetToSymbol::is_number_adjacent_to_symbol(Coordinates begin_index, Coordinates end_index)
+std::optional<Coordinates> ExtractorOfNumberAdjacentToSymbol::is_number_adjacent_to_symbol(Coordinates begin_index, Coordinates end_index)
 {
     // PRECONDTION(zakładamy, że koło liczby jest conajwyżej jedna gwiazdka());
 
@@ -115,7 +115,7 @@ std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes:
     return std::nullopt;
 }
 
-std::optional<NumberDescription> ExtractorOfNumberAdjacetToSymbol::extract_next_part_number()
+std::optional<NumberDescription> ExtractorOfNumberAdjacentToSymbol::extract_next_part_number()
 {
     while(true)
     {
@@ -140,7 +140,7 @@ std::optional<NumberDescription> ExtractorOfNumberAdjacetToSymbol::extract_next_
     }
 }
 
-int ExtractorOfNumberAdjacetToSymbol::sum_part_numbers()
+int ExtractorOfNumberAdjacentToSymbol::sum_part_numbers()
 {
     int total_sum_of_part_numbers{0};
     while(true)
@@ -162,7 +162,7 @@ int ExtractorOfNumberAdjacetToSymbol::sum_part_numbers()
     return total_sum_of_part_numbers;
 }
 
-void ExtractorOfNumberAdjacetToSymbol::save_potential_gear(std::optional<NumberDescription>  number_to_check)
+void ExtractorOfNumberAdjacentToSymbol::save_potential_gear(std::optional<NumberDescription>  number_to_check)
 {
     if(number_to_check.has_value())
     {
@@ -177,16 +177,15 @@ void ExtractorOfNumberAdjacetToSymbol::save_potential_gear(std::optional<NumberD
         (potential_gears_[symbol_coords.value()].second)++;
 
         DEBUG_PRINT("potential_gears_[symbol_coords.value()].first: " << potential_gears_[symbol_coords.value()].first);
-
     }
 }
 
-PotentialGears& ExtractorOfNumberAdjacetToSymbol::get_potential_gears()
+PotentialGears& ExtractorOfNumberAdjacentToSymbol::get_potential_gears()
 {
     return potential_gears_;
 }
 
-void ExtractorOfNumberAdjacetToSymbol::save_potential_gears()
+void ExtractorOfNumberAdjacentToSymbol::save_potential_gears()
 {
     auto candi_part_number{extract_next_part_number()};
 
@@ -195,4 +194,24 @@ void ExtractorOfNumberAdjacetToSymbol::save_potential_gears()
         save_potential_gear(candi_part_number);
         candi_part_number = extract_next_part_number();
     }
+}
+
+int ExtractorOfNumberAdjacentToSymbol::sum_gear_ratios()
+{
+    int total_sum_gear_ratios{0};
+
+    save_potential_gears();
+    auto potential_gears_ = get_potential_gears();
+    for(auto [symbol_coordinate, pair] : potential_gears_)
+    {
+        auto& product = pair.first;
+        auto& counter = pair.second;
+
+        if(counter == 2)
+        {
+            total_sum_gear_ratios += product;
+        }
+    }
+
+    return total_sum_gear_ratios;
 }
