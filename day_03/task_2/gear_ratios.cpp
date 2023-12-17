@@ -28,7 +28,7 @@ std::optional<Coordinates> ExtractorOfNumberAdjacetToSymbol::is_number_adjacent_
     {
         for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
         {
-            if(are_indexes_in_scope(engine_schematic_, begin_index.first + 1, i) && 
+            if(are_indexes_in_scope(engine_schematic_, begin_index.first + 1, i) &&
                is_symbol(engine_schematic_[begin_index.first + 1][i]))
             {
                 return Coordinates{begin_index.first + 1, i};
@@ -36,13 +36,13 @@ std::optional<Coordinates> ExtractorOfNumberAdjacetToSymbol::is_number_adjacent_
         }
     }
 
-    if(are_indexes_in_scope(engine_schematic_, end_index.first, end_index.second + 1) && 
+    if(are_indexes_in_scope(engine_schematic_, end_index.first, end_index.second + 1) &&
        is_symbol(engine_schematic_[end_index.first][end_index.second + 1]))
     {
         return Coordinates{end_index.first, end_index.second + 1};
     }
 
-    if(are_indexes_in_scope(engine_schematic_, begin_index.first, begin_index.second - 1) && 
+    if(are_indexes_in_scope(engine_schematic_, begin_index.first, begin_index.second - 1) &&
        is_symbol(engine_schematic_[begin_index.first][begin_index.second - 1]))
     {
         return Coordinates{begin_index.first, begin_index.second - 1};
@@ -51,7 +51,7 @@ std::optional<Coordinates> ExtractorOfNumberAdjacetToSymbol::is_number_adjacent_
     for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
     {
         if(begin_index.first > 0){
-            if(are_indexes_in_scope(engine_schematic_, begin_index.first - 1, i) && 
+            if(are_indexes_in_scope(engine_schematic_, begin_index.first - 1, i) &&
                is_symbol(engine_schematic_[begin_index.first - 1][i]))
             {
                 return Coordinates{begin_index.first - 1, i};
@@ -168,11 +168,11 @@ void ExtractorOfNumberAdjacetToSymbol::save_potential_gear(std::optional<NumberD
     {
         std::cout << "number_to_check: " << number_to_check.value().value << std::endl;
         auto symbol_coords = is_number_adjacent_to_symbol(number_to_check.value().begin_number, number_to_check.value().end_number);
-        // if(potential_gears_[symbol_coords.value()] != {1, 0})
+
         if(potential_gears_.find(symbol_coords.value()) == potential_gears_.end()){
             potential_gears_[symbol_coords.value()] = {1, 0};
         }
-    
+
         potential_gears_[symbol_coords.value()].first *= number_to_check.value().value;
         (potential_gears_[symbol_coords.value()].second)++;
 
@@ -188,16 +188,11 @@ PotentialGears& ExtractorOfNumberAdjacetToSymbol::get_potential_gears()
 
 void ExtractorOfNumberAdjacetToSymbol::save_potential_gears()
 {
-    while(true)
+    auto candi_part_number{extract_next_part_number()};
+
+    while(candi_part_number.has_value())
     {
-        auto candi_part_number = extract_next_part_number();
-
-        if(candi_part_number.has_value()){
-            save_potential_gear(candi_part_number);
-        } else { 
-            return;
-        }
-
+        save_potential_gear(candi_part_number);
+        candi_part_number = extract_next_part_number();
     }
-
 }
