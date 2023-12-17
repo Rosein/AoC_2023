@@ -427,7 +427,7 @@ void run_tests()
 
 
     {
-        DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #1:");
+        DEBUG_PRINT_TESTNAME("Test save_potential_gear() #3:");
 
         std::vector<std::string> example_data{
             {"467..114.."},
@@ -450,25 +450,26 @@ void run_tests()
         assert((actual_result[{4,3}].second == 1));
     }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test sum_part_numbers() #2:");
-    //     std::vector<std::string> example_data
-    //     {
-    //         {"467..114.."},
-    //         {"...*......"},
-    //         {"..35..633."},
-    //         {"......#..."},
-    //         {"617*......"},
-    //         {".....+.58."},
-    //         {"..592....."},
-    //         {"......755."},
-    //         {"...$.*...."},
-    //         {".664.598.."}
-    //     };
+    {
+        DEBUG_PRINT_TESTNAME("Test sum_gear_ratio() #1:");
+        std::vector<std::string> example_data
+        {
+            {"467..114.."},
+            {"...*......"},
+            {"..35..633."},
+            {"......#..."},
+            {"617*......"},
+            {".....+.58."},
+            {"..592....."},
+            {"......755."},
+            {"...$.*...."},
+            {".664.598.."}
+        };
 
-    //     ExtractorOfNumberAdjacetToSymbol extractor;
-    //     assert(extractor.sum_part_numbers(example_data) == 4361);
-    // }
+        ExtractorOfNumberAdjacetToSymbol extractor{example_data};
+        
+        assert(extractor.sum_gear_ratio() == 467835);
+    }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
