@@ -34,3 +34,24 @@ std::set<int> extract_winning_numbers(std::string input_data)
 
     return winning_numbers;
 }
+
+std::list<int> extract_scratched_numbers(std::string input_data)
+{
+    std::stringstream ss{input_data};
+    std::list<int> scratched_numbers{}; 
+
+    std::string to_ignore; 
+    do
+    {
+        ss >> to_ignore;  
+    } while(to_ignore != "|");
+
+    int scratched_number{};
+    while(ss >> scratched_number)
+    {
+        scratched_numbers.push_back(scratched_number);
+    }
+
+    return scratched_numbers;
+    
+}
