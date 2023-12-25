@@ -16,3 +16,5 @@ const bool kIsDebugOn = true;
 #define DEBUG_PRINT_TESTNAME(MSG) DEBUG_PRINT(RESET << YELLOW << MSG)
 
 int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
+int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
+
