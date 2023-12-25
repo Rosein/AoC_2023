@@ -88,8 +88,20 @@ void run_tests()
 
         auto result = extract_winning_numbers(example_input_line);
         std::set<int> winning_numbers{50, 23, 26, 14, 83, 51, 12, 13, 37, 68};
-        
+
         assert(result == winning_numbers);
+    }
+
+
+    {
+        DEBUG_PRINT_TESTNAME("Test extract_scratched_numbers() #1:");
+
+        std::string example_input_line{"Card 153: 50 23 26 14 83 51 12 13 37 68 | 93 58 56 98 39 55 92 54 36 29 50 85 42 49 66 61 14 70  7 75 51 87 37 30 96"};
+
+        auto result = extract_scratched_numbers(example_input_line);
+        std::set<int> scratched_numbers{93, 58, 56, 98, 39, 55, 92, 54, 36, 29, 50, 85, 42, 49, 66, 61, 14, 70,  7, 75, 51, 87, 37, 30, 96};
+        
+        assert(result == scratched_numbers);
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
