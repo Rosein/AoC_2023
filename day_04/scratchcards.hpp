@@ -14,3 +14,5 @@ const bool kIsDebugOn = true;
 
 #define DEBUG_PRINT(MSG) if(kIsDebugOn){ std::cout << "[" << std::right << std::setw(16) << __FILE__ << ":" << std::left << std::setw(4) << __LINE__ << "] " << BOLDWHITE << MSG << RESET << std::endl;}
 #define DEBUG_PRINT_TESTNAME(MSG) DEBUG_PRINT(RESET << YELLOW << MSG)
+
+int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
