@@ -3,6 +3,7 @@
 #include <set>
 #include <list>
 #include <iomanip>
+#include <sstream>
 
 const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
@@ -17,4 +18,5 @@ const bool kIsDebugOn = true;
 
 int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
 int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
+std::set<int> extract_winning_numbers(std::string input);
 

@@ -86,9 +86,9 @@ void run_tests()
 
         std::string example_input_line{"Card 153: 50 23 26 14 83 51 12 13 37 68 | 93 58 56 98 39 55 92 54 36 29 50 85 42 49 66 61 14 70  7 75 51 87 37 30 96"};
 
-        auto result = extract_winning_numbers(example_input_line);>
+        auto result = extract_winning_numbers(example_input_line);
         std::set<int> winning_numbers{50, 23, 26, 14, 83, 51, 12, 13, 37, 68};
-
+        
         assert(result == winning_numbers);
     }
 
