@@ -54,6 +54,15 @@ void run_tests()
         assert(calculate_round_points(winning_numbers, scratched_numbers) == 8);
     }
 
+      {
+        DEBUG_PRINT_TESTNAME("Test calculate_round_points() #2:");
+
+        std::set<int> winning_numbers{13, 32, 20, 16, 61};
+        std::list<int> scratched_numbers{61, 30, 68, 82, 17, 32, 24, 19};
+
+        assert(calculate_round_points(winning_numbers, scratched_numbers) == 2);
+    }
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
 
