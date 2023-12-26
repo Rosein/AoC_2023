@@ -54,42 +54,42 @@ int extract_card_number(std::string input_data)
 //     return std::pow(2, --guessed_no);
 // }
 
-// std::set<int> extract_winning_numbers(std::string input_data)
-// {
+std::set<int> extract_winning_numbers(std::string input_data)
+{
 
-//     std::stringstream ss{input_data};
-//     std::set<int> winning_numbers{};
+    std::stringstream ss{input_data};
+    std::set<int> winning_numbers{};
 
-//     std::string to_ignore;
-//     ss >> to_ignore >> to_ignore;
+    std::string to_ignore;
+    ss >> to_ignore >> to_ignore;
 
-//     int winning_number{};
-//     while(ss >> winning_number)
-//     {
-//         winning_numbers.insert(winning_number);
-//     }
+    int winning_number{};
+    while(ss >> winning_number)
+    {
+        winning_numbers.insert(winning_number);
+    }
 
-//     return winning_numbers;
-// }
+    return winning_numbers;
+}
 
-// std::list<int> extract_scratched_numbers(std::string input_data)
-// {
-//     std::stringstream ss{input_data};
-//     std::list<int> scratched_numbers{};
+std::list<int> extract_scratched_numbers(std::string input_data)
+{
+    std::stringstream ss{input_data};
+    std::list<int> scratched_numbers{};
 
-//     std::string to_ignore;
-//     do
-//     {
-//         ss >> to_ignore;
-//     } while(to_ignore != "|");
+    std::string to_ignore;
+    do
+    {
+        ss >> to_ignore;
+    } while(to_ignore != "|");
 
-//     int scratched_number{};
-//     while(ss >> scratched_number)
-//     {
-//         scratched_numbers.push_back(scratched_number);
-//     }
+    int scratched_number{};
+    while(ss >> scratched_number)
+    {
+        scratched_numbers.push_back(scratched_number);
+    }
 
-//     return scratched_numbers;
+    return scratched_numbers;
 
-// }
+}
 

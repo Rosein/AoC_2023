@@ -19,9 +19,18 @@ void run_app()
 
     std::string line;
     int total_sum{0};
+    CardScratcher card_scratcher;
     while(std::getline(fs, line))
     {
-        //total_sum += calculate_round_points(extract_winning_numbers(line), extract_scratched_numbers(line));
+        card_scratcher.execute_step_nr(extract_card_number(line), extract_winning_numbers(line), extract_scratched_numbers(line));
+    }
+
+    const auto total_cards = card_scratcher.get_card_amounts();
+
+    for(const auto [key, value] : total_cards)
+    {
+        std::cout << "[ Key : value ]: " << key << " : " << value << std::endl;
+        total_sum += value;
     }
 
     std::cout << total_sum << std::endl;
@@ -31,8 +40,8 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
