@@ -29,7 +29,7 @@ void run_app()
 
     for(const auto [key, value] : total_cards)
     {
-        std::cout << "[ Key : value ]: " << key << " : " << value << std::endl;
+        // std::cout << "[ Key : value ]: " << key << " : " << value << std::endl;
         total_sum += value;
     }
 
@@ -41,7 +41,7 @@ void run_app()
 int main()
 {
     run_app();
-    // run_tests();
+    run_tests();
     return 0;
 }
 
@@ -80,8 +80,8 @@ void run_tests()
         std::map<CardNumber, Amount> card_amounts_expected{
             {1, 1},
             {2, 2},
-            {3, 2},
-            {4, 2},
+            {3, 3},
+            {4, 3},
             {5, 1}
         };
 

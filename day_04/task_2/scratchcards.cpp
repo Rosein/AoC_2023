@@ -25,11 +25,20 @@ void CardScratcher::execute_step_nr(CardNumber card_number, const std::set<int>&
 {
     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
 
-    for(int i = 0; i <= guessed_no; i++)
+    if(card_amounts_.contains(card_number))
+    {
+        card_amounts_[card_number] += 1;
+    }
+    else
+    {
+        card_amounts_[card_number] = 1;
+    }
+
+    for(int i = 1; i <= guessed_no; i++)
     {
         if(card_amounts_.contains(card_number + i))
         {
-            card_amounts_[card_number + i] += 1;
+            card_amounts_[card_number + i] += card_amounts_[card_number];
         }
         else
         {
