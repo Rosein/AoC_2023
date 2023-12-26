@@ -11,7 +11,7 @@ int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> s
                    });
 }
 
-std::map<CardNumber, Amount> CardScratcher::get_card_amounts()
+std::map<CardNumber, Amount>& CardScratcher::get_card_amounts()
 {
     return cards_;
 }

@@ -57,6 +57,34 @@ void run_tests()
         assert(card_scratcher.get_card_amounts() == card_amounts_expected);
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test execute_step_nr() #2:");
+
+        std::map<CardNumber, Amount> card_amounts_before{
+            {1, 1},
+            {2, 1},
+            {3, 1},
+            {4, 1},
+            {5, 1}
+        };
+
+        std::map<CardNumber, Amount> card_amounts_expected{
+            {1, 1},
+            {2, 2},
+            {3, 2},
+            {4, 2},
+            {5, 1}
+        };
+
+        int card_number_to_be_executed{2};
+        std::set<int> winning_numbers{13, 32, 20, 16, 61};
+        std::list<int> scratched_numbers{61, 30, 68, 82, 17, 32, 24, 19};
+
+        CardScratcher card_scratcher(card_amounts_before);
+        card_scratcher.execute_step_nr(card_number_to_be_executed, winning_numbers, scratched_numbers);
+        assert(card_scratcher.get_card_amounts() == card_amounts_expected);
+    }
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
 
