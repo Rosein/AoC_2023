@@ -25,12 +25,11 @@ int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> 
 std::set<int> extract_winning_numbers(std::string input);
 std::list<int>  extract_scratched_numbers(std::string input);
 
-class CardScratcher 
+class CardScratcher
 {
 public:
-    void execute_step_nr(CardNumber, std::set<int>, std::list<int>);
-    std::map<CardNumber, Amount> get_card_amounts();
+    void execute_step_nr(CardNumber card_number, const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
+    std::map<CardNumber, Amount>& get_card_amounts();
 private:
     std::map<CardNumber, Amount> cards_;
-
 };

@@ -16,13 +16,13 @@ std::map<CardNumber, Amount> CardScratcher::get_card_amounts()
     return cards_;
 }
 
-void CardScratcher::execute_step_nr(CardNumber card_number, std::set<int> winning_numbers, std::list<int> scratched_numbers)
+void CardScratcher::execute_step_nr(CardNumber card_number, const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
 {
     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
 
     for(int i = 0; i <= guessed_no; i++)
     {
-        cards_[card_number + i ] = 1;
+        cards_[card_number + i] = 1;
     }
 }
 
@@ -39,7 +39,7 @@ void CardScratcher::execute_step_nr(CardNumber card_number, std::set<int> winnin
 //     std::stringstream ss{input_data};
 //     std::set<int> winning_numbers{};
 
-//     std::string to_ignore; 
+//     std::string to_ignore;
 //     ss >> to_ignore >> to_ignore;
 
 //     int winning_number{};
@@ -54,12 +54,12 @@ void CardScratcher::execute_step_nr(CardNumber card_number, std::set<int> winnin
 // std::list<int> extract_scratched_numbers(std::string input_data)
 // {
 //     std::stringstream ss{input_data};
-//     std::list<int> scratched_numbers{}; 
+//     std::list<int> scratched_numbers{};
 
-//     std::string to_ignore; 
+//     std::string to_ignore;
 //     do
 //     {
-//         ss >> to_ignore;  
+//         ss >> to_ignore;
 //     } while(to_ignore != "|");
 
 //     int scratched_number{};
@@ -69,6 +69,6 @@ void CardScratcher::execute_step_nr(CardNumber card_number, std::set<int> winnin
 //     }
 
 //     return scratched_numbers;
-    
+
 // }
 
