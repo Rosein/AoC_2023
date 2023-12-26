@@ -21,9 +21,10 @@ using CardNumber = int;
 using Amount = int;
 
 int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
-int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
-std::set<int> extract_winning_numbers(std::string input);
-std::list<int>  extract_scratched_numbers(std::string input);
+// int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
+// std::set<int> extract_winning_numbers(std::string input);
+// std::list<int>  extract_scratched_numbers(std::string input);
+int extract_card_number(std::string input);
 
 class CardScratcher
 {

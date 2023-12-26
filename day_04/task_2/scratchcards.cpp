@@ -38,6 +38,16 @@ void CardScratcher::execute_step_nr(CardNumber card_number, const std::set<int>&
     }
 }
 
+int extract_card_number(std::string input_data)
+{
+    std::stringstream ss{input_data};
+    int card_number{};
+    std::string to_ignore;
+    ss >> to_ignore >> card_number;
+    
+    return card_number;
+}
+
 // int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
 // {
 //     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
