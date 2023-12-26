@@ -28,8 +28,10 @@ std::list<int>  extract_scratched_numbers(std::string input);
 class CardScratcher
 {
 public:
+    CardScratcher() = default;
+    CardScratcher(const std::map<CardNumber, Amount>&);
     void execute_step_nr(CardNumber card_number, const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
     std::map<CardNumber, Amount>& get_card_amounts();
 private:
-    std::map<CardNumber, Amount> cards_;
+    std::map<CardNumber, Amount> card_amounts_;
 };
