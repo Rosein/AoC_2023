@@ -18,19 +18,21 @@ void run_app()
     }
 
     std::string line;
-
+    int total_sum{0};
     while(std::getline(fs, line))
     {
-        std::cout << line << std::endl;
+        total_sum += calculate_round_points(extract_winning_numbers(line), extract_scratched_numbers(line));
     }
+
+    std::cout << total_sum << std::endl;
 
     fs.close();
 }
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
@@ -100,7 +102,7 @@ void run_tests()
 
         auto result = extract_scratched_numbers(example_input_line);
         std::list<int> scratched_numbers{93, 58, 56, 98, 39, 55, 92, 54, 36, 29, 50, 85, 42, 49, 66, 61, 14, 70,  7, 75, 51, 87, 37, 30, 96};
-        
+
         assert(result == scratched_numbers);
     }
 
