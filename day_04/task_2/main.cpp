@@ -21,7 +21,7 @@ void run_app()
     int total_sum{0};
     while(std::getline(fs, line))
     {
-        total_sum += calculate_round_points(extract_winning_numbers(line), extract_scratched_numbers(line));
+        //total_sum += calculate_round_points(extract_winning_numbers(line), extract_scratched_numbers(line));
     }
 
     std::cout << total_sum << std::endl;
@@ -39,7 +39,7 @@ int main()
 void run_tests()
 {
     {
-        DEBUG_PRINT_TESTNAME("Test () #1:");
+        DEBUG_PRINT_TESTNAME("Test execute_step_nr() #1:");
 
         std::map<CardNumber, Amount> card_amounts_expected{
             {1, 1},

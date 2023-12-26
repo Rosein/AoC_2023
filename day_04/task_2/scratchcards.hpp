@@ -4,6 +4,7 @@
 #include <list>
 #include <iomanip>
 #include <sstream>
+#include <map>
 
 const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
@@ -16,8 +17,20 @@ const bool kIsDebugOn = true;
 #define DEBUG_PRINT(MSG) if(kIsDebugOn){ std::cout << "[" << std::right << std::setw(16) << __FILE__ << ":" << std::left << std::setw(4) << __LINE__ << "] " << BOLDWHITE << MSG << RESET << std::endl;}
 #define DEBUG_PRINT_TESTNAME(MSG) DEBUG_PRINT(RESET << YELLOW << MSG)
 
+using CardNumber = int;
+using Amount = int;
+
 int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
 int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers);
 std::set<int> extract_winning_numbers(std::string input);
 std::list<int>  extract_scratched_numbers(std::string input);
 
+class CardScratcher 
+{
+public:
+    void execute_step_nr(CardNumber, std::set<int>, std::list<int>);
+    std::map<CardNumber, Amount> get_card_amounts();
+private:
+    std::map<CardNumber, Amount> cards_;
+
+};

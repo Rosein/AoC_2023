@@ -11,47 +11,64 @@ int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> s
                    });
 }
 
-int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
+std::map<CardNumber, Amount> CardScratcher::get_card_amounts()
+{
+    return cards_;
+}
+
+void CardScratcher::execute_step_nr(CardNumber card_number, std::set<int> winning_numbers, std::list<int> scratched_numbers)
 {
     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
-    return std::pow(2, --guessed_no);
+
+    for(int i = 0; i <= guessed_no; i++)
+    {
+        cards_[card_number + i ] = 1;
+    }
 }
 
-std::set<int> extract_winning_numbers(std::string input_data)
-{
 
-    std::stringstream ss{input_data};
-    std::set<int> winning_numbers{};
+// int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
+// {
+//     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
+//     return std::pow(2, --guessed_no);
+// }
 
-    std::string to_ignore; 
-    ss >> to_ignore >> to_ignore;
+// std::set<int> extract_winning_numbers(std::string input_data)
+// {
 
-    int winning_number{};
-    while(ss >> winning_number)
-    {
-        winning_numbers.insert(winning_number);
-    }
+//     std::stringstream ss{input_data};
+//     std::set<int> winning_numbers{};
 
-    return winning_numbers;
-}
+//     std::string to_ignore; 
+//     ss >> to_ignore >> to_ignore;
 
-std::list<int> extract_scratched_numbers(std::string input_data)
-{
-    std::stringstream ss{input_data};
-    std::list<int> scratched_numbers{}; 
+//     int winning_number{};
+//     while(ss >> winning_number)
+//     {
+//         winning_numbers.insert(winning_number);
+//     }
 
-    std::string to_ignore; 
-    do
-    {
-        ss >> to_ignore;  
-    } while(to_ignore != "|");
+//     return winning_numbers;
+// }
 
-    int scratched_number{};
-    while(ss >> scratched_number)
-    {
-        scratched_numbers.push_back(scratched_number);
-    }
+// std::list<int> extract_scratched_numbers(std::string input_data)
+// {
+//     std::stringstream ss{input_data};
+//     std::list<int> scratched_numbers{}; 
 
-    return scratched_numbers;
+//     std::string to_ignore; 
+//     do
+//     {
+//         ss >> to_ignore;  
+//     } while(to_ignore != "|");
+
+//     int scratched_number{};
+//     while(ss >> scratched_number)
+//     {
+//         scratched_numbers.push_back(scratched_number);
+//     }
+
+//     return scratched_numbers;
     
-}
+// }
+
