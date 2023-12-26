@@ -7,7 +7,14 @@ int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> s
     return scratched_numbers.remove_if(
                    [&winning_numbers](int number)
                    {
-                        return winning_numbers.contains(number);
+                        bool result_predicate = winning_numbers.contains(number);
+                        
+                        if(result_predicate)
+                        {
+                            std::cout << number << " " <<std::endl;
+                        }
+
+                        return result_predicate;
                    });
 }
 
@@ -42,7 +49,7 @@ void CardScratcher::execute_step_nr(CardNumber card_number, const std::set<int>&
         }
         else
         {
-            card_amounts_[card_number + i] = 1;
+            card_amounts_[card_number + i] = card_amounts_[card_number];
         }
     }
 }
@@ -56,12 +63,6 @@ int extract_card_number(std::string input_data)
     
     return card_number;
 }
-
-// int calculate_round_points(const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
-// {
-//     auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
-//     return std::pow(2, --guessed_no);
-// }
 
 std::set<int> extract_winning_numbers(std::string input_data)
 {

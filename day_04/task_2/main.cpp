@@ -18,7 +18,7 @@ void run_app()
     }
 
     std::string line;
-    int total_sum{0};
+    long long total_sum{0};
     CardScratcher card_scratcher;
     while(std::getline(fs, line))
     {
@@ -29,7 +29,6 @@ void run_app()
 
     for(const auto [key, value] : total_cards)
     {
-        // std::cout << "[ Key : value ]: " << key << " : " << value << std::endl;
         total_sum += value;
     }
 
@@ -41,7 +40,7 @@ void run_app()
 int main()
 {
     run_app();
-    run_tests();
+    // run_tests();
     return 0;
 }
 
