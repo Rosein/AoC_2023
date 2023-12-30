@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iomanip>
-
+#include <iostream>
 const bool kIsDebugOn = true;
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -10,5 +10,5 @@ const bool kIsDebugOn = true;
 #define YELLOW  "\033[33m"      /* Yellow */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-#define DEBUG_PRINT(MSG) if(kIsDebugOn){ std::cout << "[" << std::right << std::setw(16) << __FILE__ << ":" << std::left << std::setw(4) << __LINE__ << "] " << BOLDWHITE << MSG << RESET;}
+#define DEBUG_PRINT(MSG) if(kIsDebugOn){ std::cout << "[" << std::right << std::setw(16) << __FILE__ << ":" << std::left << std::setw(4) << __LINE__ << "] " << BOLDWHITE << MSG << RESET << std::endl;}
 #define DEBUG_PRINT_TESTNAME(MSG) DEBUG_PRINT(RESET << YELLOW << MSG)
