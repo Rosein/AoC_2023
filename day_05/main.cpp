@@ -30,15 +30,25 @@ void run_app()
 
 int main()
 {
-    run_app();
-    // run_tests();
+    // run_app();
+    run_tests();
     return 0;
 }
 
 void run_tests()
 {
     {
+        DEBUG_PRINT_TESTNAME("Test evaluate_value_of_mapping() #1:");
+        auto seed_to_soil_map = std::vector<MapSubcharacterisctic>{
+            {50, 98, 2},
+            {52, 50, 48},
+        };
 
+        int seed{79};
+        auto result = evaluate_value_of_mapping(seed, seed_to_soil_map); 
+
+        assert(evaluate_value_of_mapping(seed, seed_to_soil_map) == 81);
+        std::cout << GREEN << " OK" << RESET << std::endl;
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
