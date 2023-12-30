@@ -3,8 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <cassert>
+#include <limits>
 #include "seed_planter.hpp"
-#include "../debug_features.hpp"
+#include "../../debug_features.hpp"
 
 void run_tests();
 
@@ -21,16 +22,17 @@ void run_app()
     std::string line;
     // wczytamy seedy
     std::getline(fs, line);
-    std::vector<MapRange> seeds;
+    std::vector<std::pair<MapRange, MapRange>> seeds_pack;
 
     {
         std::stringstream seed_stream{line};
         std::string to_ignore;
         seed_stream >> to_ignore;
         MapRange read_seed;
-        while(seed_stream >> read_seed)
+        MapRange seed_range;
+        while(seed_stream >> read_seed >> seed_range)
         {
-            seeds.push_back(read_seed);
+            seeds_pack.emplace_back(read_seed, seed_range);
         }
     }
 
@@ -60,21 +62,32 @@ void run_app()
     }
 
     // Finding the smallest location
-    std::vector<MapRange> locations;
-    for(auto seed : seeds)
+    MapRange the_lowerst_location{std::numeric_limits<MapRange>::max()};
+    int k{};
+    for(const auto& seeds : seeds_pack)
     {
-        for(const auto& map : maps)
+        std::cout << "seeds_pack nr " << k++ << std::endl;
+        MapRange current_seed = seeds.first;
+
+        while(current_seed < seeds.first + seeds.second)
         {
-            seed = evaluate_value_of_mapping(seed, map);
+            MapRange current_location{current_seed};
+
+            for(const auto& map : maps)
+            {
+                current_location = evaluate_value_of_mapping(current_location, map);
+            }
+            
+            if(the_lowerst_location > current_location)
+            {
+                the_lowerst_location = current_location;
+                std::cout << the_lowerst_location << std::endl;
+            }
+            current_seed++;
         }
-        locations.push_back(seed);
     }
 
-    auto it = std::minmax_element(locations.begin(), locations.end());
-    if(it.first != locations.end())
-    {
-        std::cout << "Smallest location is: " << *(it.first) << std::endl;
-    }
+    std::cout << "Smallest location is: " << the_lowerst_location << std::endl;
 
     fs.close();
 }
