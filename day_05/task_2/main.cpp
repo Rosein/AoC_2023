@@ -4,10 +4,32 @@
 #include <iostream>
 #include <cassert>
 #include <limits>
+#include <thread>
 #include "seed_planter.hpp"
 #include "../../debug_features.hpp"
 
 void run_tests();
+
+void find_lowest_location_in_seed_pack(std::pair<MapRange, MapRange> seeds, const std::vector<Map>& maps,   MapRange& lowest_location)
+{
+        MapRange current_seed = seeds.first;
+
+        while(current_seed < seeds.first + seeds.second)
+        {
+            MapRange current_location{current_seed};
+
+            for(const auto& map : maps)
+            {
+                current_location = evaluate_value_of_mapping(current_location, map);
+            }
+            
+            if(lowest_location > current_location)
+            {
+                lowest_location = current_location;
+            }
+            current_seed++;
+        }
+}
 
 void run_app()
 {
@@ -62,29 +84,30 @@ void run_app()
     }
 
     // Finding the smallest location
-    MapRange the_lowerst_location{std::numeric_limits<MapRange>::max()};
+    std::vector<MapRange> locations(seeds_pack.size(), std::numeric_limits<MapRange>::max());
     int k{};
-    for(const auto& seeds : seeds_pack)
+    std::vector<std::thread> threads;
+    for(auto i = 0; i < seeds_pack.size(); ++i)
     {
-        std::cout << "seeds_pack nr " << k++ << std::endl;
-        MapRange current_seed = seeds.first;
+        auto t = std::thread(find_lowest_location_in_seed_pack, seeds_pack[i], std::ref(maps), std::ref(locations[i]));
+        std::cout << "Thread nr " << i << " was started" << std::endl;
+        threads.push_back(std::move(t));
+    }
+    
+    for(auto& t : threads)
+    {
+        t.join();
+    }
 
-        while(current_seed < seeds.first + seeds.second)
-        {
-            MapRange current_location{current_seed};
+    // za tą linią już obliczenia się skończyły
 
-            for(const auto& map : maps)
+    MapRange the_lowerst_location{std::numeric_limits<MapRange>::max()};
+    for(auto location : locations)
+    {
+            if(the_lowerst_location > location)
             {
-                current_location = evaluate_value_of_mapping(current_location, map);
+                the_lowerst_location = location;
             }
-            
-            if(the_lowerst_location > current_location)
-            {
-                the_lowerst_location = current_location;
-                std::cout << the_lowerst_location << std::endl;
-            }
-            current_seed++;
-        }
     }
 
     std::cout << "Smallest location is: " << the_lowerst_location << std::endl;
