@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <map>
 
-bool hasFiveOfAKind(const HandOfCards& hand)
+bool has_five_of_a_kind(const HandOfCards& hand)
 {
     return std::all_of(std::begin(hand), std::end(hand),
                        [first_value = hand.front()](const auto& el){
@@ -30,7 +30,7 @@ CountedCards count_cards(const HandOfCards& hand)
     return counters;
 }
 
-bool hasFourOfAKind(const HandOfCards& hand)
+bool has_four_of_a_kind(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
     const int four_of_a_kind{4};
@@ -46,7 +46,7 @@ bool hasFourOfAKind(const HandOfCards& hand)
     return false;
 }
 
-bool hasFullHouse(const HandOfCards& hand)
+bool has_full_house(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
 
@@ -59,7 +59,7 @@ bool hasFullHouse(const HandOfCards& hand)
             is_full(std::next(counters.begin())->second, counters.begin()->second));
 }
 
-bool hasOnePair(const HandOfCards& hand)
+bool has_one_pair(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
     const int one_pair{4};
@@ -74,7 +74,7 @@ auto is_two_pairs = [](const int& first_type_of_card, const int& second_type_of_
     };
 
 
-bool hasThreeOfAKind(const HandOfCards& hand)
+bool has_three_of_a_kind(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
     const int three_of_a_kind{3};
@@ -82,7 +82,7 @@ bool hasThreeOfAKind(const HandOfCards& hand)
     return counters.size() == three_of_a_kind && !is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
 }
 
-bool hasTwoPairs(const HandOfCards& hand)
+bool has_two_pairs(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
 

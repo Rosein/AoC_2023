@@ -39,66 +39,66 @@ int main()
 void run_tests()
 {
     {
-        DEBUG_PRINT_TESTNAME("Test hasFiveOfAKind() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_five_of_a_kind() #1:");
         HandOfCards hand{'A', 'A', 'A', 'A', 'A'};
 
-        assert(hasFiveOfAKind(hand));
+        assert(has_five_of_a_kind(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasFourOfAKind() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #1:");
         HandOfCards hand{'A', 'A', 'B', 'A', 'A'};
 
-        assert(hasFourOfAKind(hand));
+        assert(has_four_of_a_kind(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasThreeOfAKind() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #1:");
         HandOfCards hand{'A', 'A', 'C', 'A', 'B'};
 
-        assert(hasThreeOfAKind(hand));
+        assert(has_three_of_a_kind(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasThreeOfAKind() #2:");
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #2:");
         HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
 
-        assert(!hasThreeOfAKind(hand));
+        assert(!has_three_of_a_kind(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasThreeOfAKind() #3:");
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #3:");
         HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
 
-        assert(!hasThreeOfAKind(hand));
+        assert(!has_three_of_a_kind(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasFullHouse() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #1:");
         HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
 
-        assert(hasFullHouse(hand));
+        assert(has_full_house(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasTwoPairs() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #1:");
         HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
 
-        assert(hasTwoPairs(hand));
+        assert(has_two_pairs(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasOnePair() #1:");
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #1:");
         HandOfCards hand{'A', 'Q', 'J', 'A', 'B'};
 
-        assert(hasOnePair(hand));
+        assert(has_one_pair(hand));
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasOnePair() #2:");
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #2:");
         HandOfCards hand{'A', 'J', 'J', 'A', 'B'};
 
-        assert(!hasOnePair(hand));
+        assert(!has_one_pair(hand));
     }
 
 
