@@ -87,7 +87,21 @@ void run_tests()
         assert(hasTwoPairs(hand));
     }
 
-    
+    {
+        DEBUG_PRINT_TESTNAME("Test hasOnePair() #1:");
+        HandOfCards hand{'A', 'Q', 'J', 'A', 'B'};
+
+        assert(hasOnePair(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test hasOnePair() #2:");
+        HandOfCards hand{'A', 'J', 'J', 'A', 'B'};
+
+        assert(!hasOnePair(hand));
+    }
+
+
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
     //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};

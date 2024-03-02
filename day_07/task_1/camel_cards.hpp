@@ -16,6 +16,7 @@ bool hasFourOfAKind(const HandOfCards& hand);
 bool hasFullHouse(const HandOfCards& hand);
 bool hasThreeOfAKind(const HandOfCards& hand);
 bool hasTwoPairs(const HandOfCards& hand);
+bool hasOnePair(const HandOfCards& hand);
 
 // int transform_to_key(HandOfCards hand);
 
