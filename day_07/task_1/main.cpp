@@ -120,5 +120,17 @@ void run_tests()
         assert(right_key > left_key);
     }
 
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #2:");
+        HandOfCards right_hand{'A', 'A', 'A', 'A', 'A'};
+        HandOfCards left_hand{'Q', 'Q', 'Q', 'Q', 'Q'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key > left_key);
+    }
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }

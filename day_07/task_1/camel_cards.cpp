@@ -136,13 +136,19 @@ int count_card_value(const HandOfCards& hand){
 
 int transform_to_key(const HandOfCards& hand)
 {
+    if(has_five_of_a_kind(hand))
+    {
+        return count_card_value(hand) * 1000000;
+    }
     if(has_four_of_a_kind(hand))
     {
         return count_card_value(hand) * 100000;
     }
-    if(has_full_house(hand)){
+    if(has_full_house(hand))
+    {
         return count_card_value(hand) * 10000;
     }
+
     return 0;
 }
 
