@@ -11,9 +11,9 @@ bool hasFiveOfAKind(const HandOfCards& hand)
                       });
 }
 
-bool hasFourOfAKind(const HandOfCards& hand)
+CountedCards count_cards(const HandOfCards& hand)
 {
-    std::map<char,int> counters{};
+    CountedCards counters{};
     const int four_of_a_kind{4};
 
     for(auto const& card : hand)
@@ -27,14 +27,36 @@ bool hasFourOfAKind(const HandOfCards& hand)
         }
     }
 
+    return counters;
+}
+
+bool hasFourOfAKind(const HandOfCards& hand)
+{
+    auto counters = count_cards(hand);
+    const int four_of_a_kind{4};
+
     for(auto const& [card_type, amount] : counters)
     {
-        if(amount == four_of_a_kind){
+        if(amount == four_of_a_kind)
+        {
             return true;
         }
     }
-    return false;
 
+    return false;
+}
+
+bool hasFullHouse(const HandOfCards& hand)
+{
+    auto counters = count_cards(hand);
+
+    auto is_full = [](const int& two_cards, const int& three_cards){
+        return two_cards == 2 && three_cards == 3;
+    };
+
+    return counters.size() == 2 && 
+           (is_full(counters.begin()->second, std::next(counters.begin())->second) ||
+            is_full(std::next(counters.begin())->second, counters.begin()->second));
 }
 
 // std::array<char, number_of_cards>;

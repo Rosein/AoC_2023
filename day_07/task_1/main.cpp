@@ -46,11 +46,19 @@ void run_tests()
     }
 
     {
-        DEBUG_PRINT_TESTNAME("Test hasFourOfAKind() #2:");
+        DEBUG_PRINT_TESTNAME("Test hasFourOfAKind() #1:");
         HandOfCards hand{'A', 'A', 'B', 'A', 'A'};
 
         assert(hasFourOfAKind(hand));
     }
+
+        {
+        DEBUG_PRINT_TESTNAME("Test hasFullHouse() #1:");
+        HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
+
+        assert(hasFullHouse(hand));
+    }
+
 
 
     // {
