@@ -73,7 +73,12 @@ void run_tests()
         assert(hasFullHouse(hand));
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test hasTwoPairs() #1:");
+        HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
 
+        assert(hasTwoPairs(hand));
+    }
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");

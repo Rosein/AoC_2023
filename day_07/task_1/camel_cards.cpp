@@ -54,7 +54,7 @@ bool hasFullHouse(const HandOfCards& hand)
         return two_cards == 2 && three_cards == 3;
     };
 
-    return counters.size() == 2 && 
+    return counters.size() == 2 &&
            (is_full(counters.begin()->second, std::next(counters.begin())->second) ||
             is_full(std::next(counters.begin())->second, counters.begin()->second));
 }
@@ -66,6 +66,21 @@ bool hasThreeOfAKind(const HandOfCards& hand)
 
     return counters.size() == three_of_a_kind;
 }
+
+bool hasTwoPairs(const HandOfCards& hand)
+{
+    auto counters = count_cards(hand);
+
+    auto is_pair = [](const int& first_type_of_card, const int& second_type_of_card, const int& third_type_of_card){
+        return first_type_of_card == 2 && second_type_of_card == 2 && third_type_of_card == 1 ||
+               first_type_of_card == 2 && second_type_of_card == 1 && third_type_of_card == 2 ||
+               first_type_of_card == 1 && second_type_of_card == 2 && third_type_of_card == 2;
+    };
+
+    return counters.size() == 3 &&
+        is_pair(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
+}
+
 
 // std::array<char, number_of_cards>;
 
