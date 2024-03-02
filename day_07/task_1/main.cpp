@@ -67,6 +67,13 @@ void run_tests()
     }
 
     {
+        DEBUG_PRINT_TESTNAME("Test hasThreeOfAKind() #3:");
+        HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
+
+        assert(!hasThreeOfAKind(hand));
+    }
+
+    {
         DEBUG_PRINT_TESTNAME("Test hasFullHouse() #1:");
         HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
 
@@ -80,6 +87,7 @@ void run_tests()
         assert(hasTwoPairs(hand));
     }
 
+    
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
     //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
