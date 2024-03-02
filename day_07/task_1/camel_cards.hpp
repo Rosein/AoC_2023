@@ -17,6 +17,7 @@ bool has_full_house(const HandOfCards& hand);
 bool has_three_of_a_kind(const HandOfCards& hand);
 bool has_two_pairs(const HandOfCards& hand);
 bool has_one_pair(const HandOfCards& hand);
+bool has_high_card(const HandOfCards& hand);
 
 // int transform_to_key(HandOfCards hand);
 

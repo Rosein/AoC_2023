@@ -102,16 +102,13 @@ void run_tests()
     }
 
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
-    //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
-    //     HandOfCards left_hand{'2', '3', '3', '3', '2'};
+    {
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #2:");
+        HandOfCards hand{'A', 'J', 'Q', '3', 'B'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        assert(has_high_card(hand));
+    }
 
-    //     assert(right_key > left_key);
-    // }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }

@@ -90,6 +90,11 @@ bool has_two_pairs(const HandOfCards& hand)
         is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
 }
 
+bool has_high_card(const HandOfCards& hand)
+{
+    auto counters = count_cards(hand);
+    return counters.size() == 5; 
+}
 // std::array<char, number_of_cards>;
 
 // int transform_to_key(HandOfCards hand)
