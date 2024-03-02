@@ -148,6 +148,14 @@ int transform_to_key(const HandOfCards& hand)
     {
         return count_card_value(hand) * 10000;
     }
+    if(has_three_of_a_kind(hand))
+    {
+        return count_card_value(hand) * 1000;
+    }
+    if(has_two_pairs(hand))
+    {
+        return count_card_value(hand) * 100;
+    }
 
     return 0;
 }
