@@ -109,6 +109,16 @@ void run_tests()
         assert(has_high_card(hand));
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
+        HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
+        HandOfCards left_hand{'2', '3', '3', '3', '2'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key > left_key);
+    }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }

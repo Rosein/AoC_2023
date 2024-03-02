@@ -93,8 +93,60 @@ bool has_two_pairs(const HandOfCards& hand)
 bool has_high_card(const HandOfCards& hand)
 {
     auto counters = count_cards(hand);
-    return counters.size() == 5; 
+    return counters.size() == 5;
 }
+
+int change_card_to_value(char card)
+{
+    if(std::isdigit(static_cast<unsigned char>(card))){
+        return card - '0';
+    }
+
+    switch (card)
+    {
+    case 'T':
+        return 10;
+        break;
+    case 'J':
+        return 11;
+        break;
+    case 'Q':
+        return 12;
+        break;
+    case 'K':
+        return 13;
+        break;
+    case 'A':
+        return 14;
+        break;
+    default:
+        return -1;
+        break;
+    }
+}
+
+int count_card_value(const HandOfCards& hand){
+    int sum{0};
+    for(const auto& card : hand)
+    {
+        sum += change_card_to_value(card);
+    }
+    return sum;
+}
+
+int transform_to_key(const HandOfCards& hand)
+{
+    if(has_four_of_a_kind(hand))
+    {
+        return count_card_value(hand) * 100000;
+    }
+    if(has_full_house(hand)){
+        return count_card_value(hand) * 10000;
+    }
+    return 0;
+}
+
+
 // std::array<char, number_of_cards>;
 
 // int transform_to_key(HandOfCards hand)
