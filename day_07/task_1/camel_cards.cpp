@@ -59,6 +59,14 @@ bool hasFullHouse(const HandOfCards& hand)
             is_full(std::next(counters.begin())->second, counters.begin()->second));
 }
 
+bool hasThreeOfAKind(const HandOfCards& hand)
+{
+    auto counters = count_cards(hand);
+    const int three_of_a_kind{3};
+
+    return counters.size() == three_of_a_kind;
+}
+
 // std::array<char, number_of_cards>;
 
 // int transform_to_key(HandOfCards hand)
