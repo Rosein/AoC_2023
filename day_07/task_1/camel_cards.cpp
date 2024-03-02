@@ -156,6 +156,15 @@ int transform_to_key(const HandOfCards& hand)
     {
         return count_card_value(hand) * 100;
     }
+    if(has_one_pair(hand))
+    {
+        return count_card_value(hand) * 10;
+    }
+    if(has_high_card(hand))
+    {
+        return count_card_value(hand);
+    }
+
 
     return 0;
 }
