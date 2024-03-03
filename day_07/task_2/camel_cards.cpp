@@ -54,15 +54,20 @@ bool has_four_of_a_kind(const CountedCards& counters_without_jokers)
     return is_expected_counter(counters_without_jokers, expected_amount);
 }
 
-bool has_four_of_a_kind(const HandOfCards& hand)
+int sum_counters(const CountedCards& counters)
 {
-    auto counters = count_cards_without_jokers(hand);
     int sum_of_other_cards{};
     for(auto& counter : counters)
     {
         sum_of_other_cards += counter.second;
     }
-    int number_of_jokers{5 - sum_of_other_cards};
+    return sum_of_other_cards;
+}
+
+bool has_four_of_a_kind(const HandOfCards& hand)
+{
+    auto counters = count_cards_without_jokers(hand);
+    int number_of_jokers{5 - sum_counters(counters)};
     // DEBUG_PRINT(number_of_jokers);
 
     return (number_of_jokers == 0 && has_four_of_a_kind(counters)) or
@@ -119,6 +124,19 @@ bool has_three_of_a_kind(const CountedCards& counters_without_jokers)
 {
     const int expected_amount{3};
     return is_expected_counter(counters_without_jokers, expected_amount);
+}
+
+bool has_three_of_a_kind(const HandOfCards& hand)
+{
+    const auto counters_without_jokers = count_cards_without_jokers(hand);
+    int number_of_jokers{5 - sum_counters(counters_without_jokers)};
+
+    const int amount_of_cards = 3;
+    const int amount_of_kinds = 3;
+    return counters_without_jokers.size() == amount_of_kinds &&
+          ((number_of_jokers == 0 && is_expected_counter(counters_without_jokers, amount_of_cards)) or
+            number_of_jokers == 1 or
+            number_of_jokers == 2);
 }
 
 // bool has_two_pairs(const HandOfCards& hand)

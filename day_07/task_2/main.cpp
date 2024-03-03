@@ -124,27 +124,6 @@ void run_tests()
         assert(has_four_of_a_kind(hand));
     }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #1:");
-    //     HandOfCards hand{'A', 'A', 'C', 'A', 'B'};
-
-    //     assert(has_three_of_a_kind(hand));
-    // }
-
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #2:");
-    //     HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
-
-    //     assert(!has_three_of_a_kind(hand));
-    // }
-
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #3:");
-    //     HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
-
-    //     assert(!has_three_of_a_kind(hand));
-    // }
-
     {
         DEBUG_PRINT_TESTNAME("Test has_full_house() #1:");
         HandOfCards hand{'A', 'A', 'K', 'A', 'K'};
@@ -166,13 +145,64 @@ void run_tests()
         assert(has_full_house(hand));
     }
 
-
     {
-        DEBUG_PRINT_TESTNAME("Test has_full_house() #3:");
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #4:");
         HandOfCards hand{'A', 'K', 'K', 'J', 'J'};
 
         assert(!has_full_house(hand));
     }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #5:");
+        HandOfCards hand{'J', 'K', 'K', 'J', 'J'};
+
+        assert(!has_full_house(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #1:");
+        HandOfCards hand{'A', 'A', 'C', 'A', 'Q'};
+
+        assert(has_three_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #2:");
+        HandOfCards hand{'A', 'A', 'Q', 'A', 'Q'};
+
+        assert(!has_three_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #3:");
+        HandOfCards hand{'A', 'Q', 'K', 'A', 'K'};
+
+        assert(!has_three_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #4:");
+        HandOfCards hand{'A', 'Q', 'K', 'J', 'K'};
+
+        assert(has_three_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #5:");
+        HandOfCards hand{'A', 'Q', 'J', 'J', 'K'};
+
+        assert(has_three_of_a_kind(hand));
+    }
+
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #6:");
+        HandOfCards hand{'A', 'J', 'J', 'J', 'K'};
+
+        assert(!has_three_of_a_kind(hand));
+    }
+
+
 
 
     // {
