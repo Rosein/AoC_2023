@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <map>
+#include <cmath>
+#include <cassert>
 
 bool has_five_of_a_kind(const HandOfCards& hand)
 {
@@ -96,28 +98,28 @@ bool has_high_card(const HandOfCards& hand)
     return counters.size() == 5;
 }
 
-int change_card_to_value(char card)
+int change_card_to_hex_digit(char card)
 {
     if(std::isdigit(static_cast<unsigned char>(card))){
-        return card - '0';
+        return card - '0' - 2;
     }
 
     switch (card)
     {
     case 'T':
-        return 10;
+        return 8;
         break;
     case 'J':
-        return 11;
+        return 9;
         break;
     case 'Q':
-        return 12;
+        return 0xA;
         break;
     case 'K':
-        return 13;
+        return 0xB;
         break;
     case 'A':
-        return 14;
+        return 0xC;
         break;
     default:
         return -1;
@@ -125,12 +127,28 @@ int change_card_to_value(char card)
     }
 }
 
-int count_card_value(const HandOfCards& hand){
+/* # Description of idea of convertion to hex_representation #
+
+Cards mapping to hex digits
+23456789TJQKA ← CARD
+↓↓↓↓↓↓↓↓↓↓↓↓↓
+0123456789ABC ← HEX
+
+Example convertion of card hand into hex representation of card
+
+       A23A4 ← HAND OF CARD
+       ↓↓↓↓↓
+0x10000C01C2 ← HEX representation of card */
+int convert_to_hex_representation(const HandOfCards& hand)
+{
     int sum{0};
+    int exponent{4};
     for(const auto& card : hand)
     {
-        sum += change_card_to_value(card);
+        sum += change_card_to_hex_digit(card) * std::pow(0x10, exponent);
+        exponent--;
     }
+    assert(exponent == -1);
     return sum;
 }
 
@@ -138,35 +156,48 @@ int transform_to_key(const HandOfCards& hand)
 {
     if(has_five_of_a_kind(hand))
     {
-        return count_card_value(hand) * 1000000;
+        return convert_to_hex_representation(hand) + 0x700000;
     }
     if(has_four_of_a_kind(hand))
     {
-        return count_card_value(hand) * 100000;
+        return convert_to_hex_representation(hand) + 0x600000;
     }
     if(has_full_house(hand))
     {
-        return count_card_value(hand) * 10000;
+        return convert_to_hex_representation(hand) + 0x500000;
     }
     if(has_three_of_a_kind(hand))
     {
-        return count_card_value(hand) * 1000;
+        return convert_to_hex_representation(hand) + 0x400000;
     }
     if(has_two_pairs(hand))
     {
-        return count_card_value(hand) * 100;
+        return convert_to_hex_representation(hand) + 0x300000;
     }
     if(has_one_pair(hand))
     {
-        return count_card_value(hand) * 10;
+        return convert_to_hex_representation(hand) + 0x200000;
     }
     if(has_high_card(hand))
     {
-        return count_card_value(hand);
+        return convert_to_hex_representation(hand) + 0x100000;
     }
 
 
     return 0;
+}
+
+HandOfCards convert_string_hand_to_hand_type(std::string hand)
+{
+    HandOfCards converted_hand{};
+    int card_no{0};
+    for(const auto& card : hand)
+    {
+        converted_hand[card_no] = card;
+        card_no++;
+    }
+    assert(card_no == 5);
+    return converted_hand;
 }
 
 
@@ -176,3 +207,4 @@ int transform_to_key(const HandOfCards& hand)
 // {
 
 // }
+

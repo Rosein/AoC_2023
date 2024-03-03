@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <cassert>
+#include <map>
 #include "camel_cards.hpp"
 #include "../../debug_features.hpp"
 
@@ -10,7 +11,7 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input_example"};
+    std::string filename{"input"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -18,12 +19,27 @@ void run_app()
         std::cout << "File couldn't be open" << std::endl;
     }
 
-    std::string line;
+    std::string hand;
+    int bid;
 
-    while(std::getline(fs, line))
+    std::map<int, int> hand_of_cards{};
+
+    while(fs >> hand >> bid)
     {
-        std::cout << line <<std::endl;
+        HandOfCards cards = convert_string_hand_to_hand_type(hand);
+        int key = transform_to_key(cards);
+        hand_of_cards[key] = bid;
     }
+
+    int sum{0};
+    int rank{1};
+
+    for (const auto& [key, value] : hand_of_cards)
+    {
+        sum += (value * rank);
+        rank++;
+    }
+    std::cout << sum << std::endl;
 
     fs.close();
 }
@@ -31,8 +47,8 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
@@ -154,5 +170,70 @@ void run_tests()
         assert(right_key > left_key);
     }
 
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #3:");
+        HandOfCards right_hand{'A', 'C', 'B', '2', 'A'};
+        HandOfCards left_hand{'Q', 'A', 'J', '9', 'B'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key > left_key);
+    }
+
+    {
+        //        A23A4 ← HAND OF CARD
+        //        ↓↓↓↓↓
+        // 0x10000C01C2 ← HEX representation of card
+        DEBUG_PRINT_TESTNAME("Test convert_to_hex_representation() #1:");
+        HandOfCards hand{'A', '2', '3', 'A', '4'};
+        int hex_hand{0xC01C2};
+
+        assert(convert_to_hex_representation(hand) == hex_hand);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #4: Both high card, second stronger");
+        HandOfCards right_hand{'Q', 'A', 'J', '9', 'B'};
+        HandOfCards left_hand{'A', 'C', 'B', '2', 'D'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key < left_key);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test convert string hand to hand type() #4: Both high card, second stronger");
+        std::string string_hand{"QAJ9B"};
+        HandOfCards expected_hand{'Q', 'A', 'J', '9', 'B'};
+
+        assert(convert_string_hand_to_hand_type(string_hand) == expected_hand);
+    }
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AJAA2 → High card + 3 x J
+
+AJJAA → One pair + 3 x J
+
+
+*/
