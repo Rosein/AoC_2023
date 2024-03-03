@@ -10,6 +10,9 @@ using Key = int;
 using CountedCards = std::map<char,int>;
 
 CountedCards count_cards(const HandOfCards& hand);
+bool has_three_of_a_kind(const CountedCards& counters);
+bool has_one_pair(const CountedCards& counters);
+
 int convert_to_hex_representation(const HandOfCards& hand);
 
 bool has_five_of_a_kind(const HandOfCards& hand);

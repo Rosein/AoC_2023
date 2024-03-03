@@ -11,37 +11,37 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input"};
-    std::fstream fs;
-    fs.open(filename);
-    if(!fs.is_open())
-    {
-        std::cout << "File couldn't be open" << std::endl;
-    }
+    // std::string filename{"input"};
+    // std::fstream fs;
+    // fs.open(filename);
+    // if(!fs.is_open())
+    // {
+    //     std::cout << "File couldn't be open" << std::endl;
+    // }
 
-    std::string hand;
-    int bid;
+    // std::string hand;
+    // int bid;
 
-    std::map<int, int> hand_of_cards{};
+    // std::map<int, int> hand_of_cards{};
 
-    while(fs >> hand >> bid)
-    {
-        HandOfCards cards = convert_string_hand_to_hand_type(hand);
-        int key = transform_to_key(cards);
-        hand_of_cards[key] = bid;
-    }
+    // while(fs >> hand >> bid)
+    // {
+    //     HandOfCards cards = convert_string_hand_to_hand_type(hand);
+    //     int key = transform_to_key(cards);
+    //     hand_of_cards[key] = bid;
+    // }
 
-    int sum{0};
-    int rank{1};
+    // int sum{0};
+    // int rank{1};
 
-    for (const auto& [key, value] : hand_of_cards)
-    {
-        sum += (value * rank);
-        rank++;
-    }
-    std::cout << sum << std::endl;
+    // for (const auto& [key, value] : hand_of_cards)
+    // {
+    //     sum += (value * rank);
+    //     rank++;
+    // }
+    // std::cout << sum << std::endl;
 
-    fs.close();
+    // fs.close();
 }
 
 
@@ -68,12 +68,61 @@ void run_tests()
         assert(has_five_of_a_kind(hand));
     }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #1:");
-    //     HandOfCards hand{'A', 'A', 'B', 'A', 'A'};
+    {
+        DEBUG_PRINT_TESTNAME("Test has_five_of_a_kind() #3:");
+        HandOfCards hand{'A', 'A', 'A', 'A', 'A'};
 
-    //     assert(has_four_of_a_kind(hand));
-    // }
+        assert(has_five_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_five_of_a_kind() #4:");
+        HandOfCards hand{'A', 'A', 'A', 'J', '2'};
+
+        assert(!has_five_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #1:");
+        HandOfCards hand{'A', 'A', '2', 'J', 'A'};
+
+        assert(has_four_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #2:");
+        HandOfCards hand{'A', 'A', '2', 'J', 'J'};
+
+        assert(has_four_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #3:");
+        HandOfCards hand{'A', 'J', '2', 'J', 'J'};
+
+        assert(has_four_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #4:");
+        HandOfCards hand{'A', 'J', 'J', 'J', 'J'};
+
+        assert(!has_four_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #5:");
+        HandOfCards hand{'A', 'K', '2', 'J', 'A'};
+
+        assert(!has_four_of_a_kind(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_four_of_a_kind() #6:");
+        HandOfCards hand{'A', 'A', '2', 'A', 'A'};
+
+        assert(has_four_of_a_kind(hand));
+    }
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test has_three_of_a_kind() #1:");

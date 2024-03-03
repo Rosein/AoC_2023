@@ -1,12 +1,13 @@
 #include "camel_cards.hpp"
 
 #include <algorithm>
+#include <numeric>
 #include <map>
 #include <cmath>
 #include <cassert>
 
 
-CountedCards count_cards(const HandOfCards& hand)
+CountedCards count_cards_without_jokers(const HandOfCards& hand)
 {
     CountedCards counters{};
     const char joker = 'J';
@@ -30,17 +31,15 @@ CountedCards count_cards(const HandOfCards& hand)
 
 bool has_five_of_a_kind(const HandOfCards& hand)
 {
-    return count_cards(hand).size() == 1 or count_cards(hand).size() == 0;
+    return count_cards_without_jokers(hand).size() == 1 or count_cards_without_jokers(hand).size() == 0;
 }
 
-bool has_four_of_a_kind(const HandOfCards& hand)
+bool is_expected_counter(const CountedCards& counters, const int expected_amount)
 {
-    auto counters = count_cards(hand);
-    const int four_of_a_kind{4};
-
     for(auto const& [card_type, amount] : counters)
     {
-        if(amount == four_of_a_kind)
+        // DEBUG_PRINT(card_type << " " << amount)
+        if(amount == expected_amount)
         {
             return true;
         }
@@ -49,55 +48,91 @@ bool has_four_of_a_kind(const HandOfCards& hand)
     return false;
 }
 
-bool has_full_house(const HandOfCards& hand)
+bool has_four_of_a_kind(const CountedCards& counters_without_jokers)
 {
-    auto counters = count_cards(hand);
+    const int expected_amount{4};
+    return is_expected_counter(counters_without_jokers, expected_amount);
+}
 
-    auto is_full = [](const int& two_cards, const int& three_cards){
-        return two_cards == 2 && three_cards == 3;
-    };
+bool has_four_of_a_kind(const HandOfCards& hand)
+{
+    auto counters = count_cards_without_jokers(hand);
+    int sum_of_other_cards{};
+    for(auto& counter : counters)
+    {
+        sum_of_other_cards += counter.second;
+    }
+    int number_of_jokers{5 - sum_of_other_cards};
+    // DEBUG_PRINT(number_of_jokers);
 
-    return counters.size() == 2 &&
-           (is_full(counters.begin()->second, std::next(counters.begin())->second) ||
-            is_full(std::next(counters.begin())->second, counters.begin()->second));
+    return (number_of_jokers == 0 && has_four_of_a_kind(counters)) or
+           (number_of_jokers == 1 && has_three_of_a_kind(counters)) or
+           (number_of_jokers == 2 && has_one_pair(counters)) or
+           (number_of_jokers == 3 && !has_one_pair(counters));
+
+
+}
+
+// bool has_full_house(const HandOfCards& hand)
+// {
+//     auto counters = count_cards(hand);
+
+//     auto is_full = [](const int& two_cards, const int& three_cards){
+//         return two_cards == 2 && three_cards == 3;
+//     };
+
+//     return counters.size() == 2 &&
+//            (is_full(counters.begin()->second, std::next(counters.begin())->second) ||
+//             is_full(std::next(counters.begin())->second, counters.begin()->second));
+// }
+
+bool has_one_pair(const CountedCards& counters_without_jokers)
+{
+    const int one_pair{2};
+    bool found_already_pair{false};
+
+    for(const auto& counter : counters_without_jokers)
+    {
+        if(counter.second == one_pair)
+        {
+            if(found_already_pair)
+            {
+                return false;
+            }
+            else
+            {
+                found_already_pair = true;
+            }
+        }
+    }
+
+    return found_already_pair;
 }
 
 bool has_one_pair(const HandOfCards& hand)
 {
-    auto counters = count_cards(hand);
-    const int one_pair{4};
-
-    return counters.size() == one_pair;
+    return has_one_pair(count_cards_without_jokers(hand));
 }
 
-auto is_two_pairs = [](const int& first_type_of_card, const int& second_type_of_card, const int& third_type_of_card){
-        return first_type_of_card == 2 && second_type_of_card == 2 && third_type_of_card == 1 ||
-               first_type_of_card == 2 && second_type_of_card == 1 && third_type_of_card == 2 ||
-               first_type_of_card == 1 && second_type_of_card == 2 && third_type_of_card == 2;
-    };
-
-
-bool has_three_of_a_kind(const HandOfCards& hand)
+bool has_three_of_a_kind(const CountedCards& counters_without_jokers)
 {
-    auto counters = count_cards(hand);
-    const int three_of_a_kind{3};
-
-    return counters.size() == three_of_a_kind && !is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
+    const int expected_amount{3};
+    return is_expected_counter(counters_without_jokers, expected_amount);
 }
 
-bool has_two_pairs(const HandOfCards& hand)
-{
-    auto counters = count_cards(hand);
+// bool has_two_pairs(const HandOfCards& hand)
+// {
+//     auto counters = count_cards(hand);
 
-    return counters.size() == 3 &&
-        is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
-}
+//     return counters.size() == 3 &&
+//         is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
+// }
 
-bool has_high_card(const HandOfCards& hand)
-{
-    auto counters = count_cards(hand);
-    return counters.size() == 5;
-}
+// bool has_high_card(const HandOfCards& hand)
+// {
+//     auto counters = count_cards(hand);
+//     return counters.size() == 5;
+// }
 
 int change_card_to_hex_digit(char card)
 {
@@ -153,40 +188,40 @@ int convert_to_hex_representation(const HandOfCards& hand)
     return sum;
 }
 
-int transform_to_key(const HandOfCards& hand)
-{
-    if(has_five_of_a_kind(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x700000;
-    }
-    if(has_four_of_a_kind(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x600000;
-    }
-    if(has_full_house(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x500000;
-    }
-    if(has_three_of_a_kind(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x400000;
-    }
-    if(has_two_pairs(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x300000;
-    }
-    if(has_one_pair(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x200000;
-    }
-    if(has_high_card(hand))
-    {
-        return convert_to_hex_representation(hand) + 0x100000;
-    }
+// int transform_to_key(const HandOfCards& hand)
+// {
+//     if(has_five_of_a_kind(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x700000;
+//     }
+//     if(has_four_of_a_kind(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x600000;
+//     }
+//     if(has_full_house(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x500000;
+//     }
+//     if(has_three_of_a_kind(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x400000;
+//     }
+//     if(has_two_pairs(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x300000;
+//     }
+//     if(has_one_pair(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x200000;
+//     }
+//     if(has_high_card(hand))
+//     {
+//         return convert_to_hex_representation(hand) + 0x100000;
+//     }
 
 
-    return 0;
-}
+//     return 0;
+// }
 
 HandOfCards convert_string_hand_to_hand_type(std::string hand)
 {
