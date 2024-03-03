@@ -202,15 +202,40 @@ void run_tests()
         assert(!has_three_of_a_kind(hand));
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #1:");
+        HandOfCards hand{'A', 'K', 'K', 'A', '3'};
 
+        assert(has_two_pairs(hand));
+    }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #2:");
+        HandOfCards hand{'A', 'K', 'K', 'A', 'K'};
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_two_pairs() #1:");
-    //     HandOfCards hand{'A', 'Q', 'B', 'A', 'B'};
+        assert(!has_two_pairs(hand));
+    }
 
-    //     assert(has_two_pairs(hand));
-    // }
+    {
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #3:");
+        HandOfCards hand{'A', '2', 'K', 'A', 'J'};
+
+        assert(!has_two_pairs(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #4:");
+        HandOfCards hand{'A', '2', 'K', 'J', 'J'};
+
+        assert(!has_two_pairs(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_two_pairs() #5:");
+        HandOfCards hand{'A', 'K', 'K', 'J', 'J'};
+
+        assert(!has_two_pairs(hand));
+    }
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test has_one_pair() #1:");

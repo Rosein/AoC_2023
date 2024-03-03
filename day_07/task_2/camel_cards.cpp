@@ -115,6 +115,22 @@ bool has_one_pair(const CountedCards& counters_without_jokers)
     return found_already_pair;
 }
 
+bool has_two_pairs(const CountedCards& counters_without_jokers)
+{
+    const int one_pair{2};
+    int founded_already_pairs{0};
+
+    for(const auto& counter : counters_without_jokers)
+    {
+        if(counter.second == one_pair)
+        {
+            founded_already_pairs++;
+        }
+    }
+
+    return founded_already_pairs == 2 ? true : false;
+}
+
 bool has_one_pair(const HandOfCards& hand)
 {
     return has_one_pair(count_cards_without_jokers(hand));
@@ -139,13 +155,17 @@ bool has_three_of_a_kind(const HandOfCards& hand)
             number_of_jokers == 2);
 }
 
-// bool has_two_pairs(const HandOfCards& hand)
-// {
-//     auto counters = count_cards(hand);
+bool has_two_pairs(const HandOfCards& hand)
+{
+    auto counters_without_jokers = count_cards_without_jokers(hand);
 
-//     return counters.size() == 3 &&
-//         is_two_pairs(counters.begin()->second, std::next(counters.begin())->second, std::next(counters.begin(), 2)->second);
-// }
+    int number_of_jokers{5 - sum_counters(counters_without_jokers)};
+    const int amount_of_different_cards = 3;
+
+    return counters_without_jokers.size() == amount_of_different_cards && (
+           (number_of_jokers == 0 && has_two_pairs(counters_without_jokers))
+    );
+}
 
 // bool has_high_card(const HandOfCards& hand)
 // {
