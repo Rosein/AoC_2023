@@ -73,18 +73,19 @@ bool has_four_of_a_kind(const HandOfCards& hand)
 
 }
 
-// bool has_full_house(const HandOfCards& hand)
-// {
-//     auto counters = count_cards(hand);
+bool has_full_house(const HandOfCards& hand)
+{
+    auto counters = count_cards_without_jokers(hand);
 
-//     auto is_full = [](const int& two_cards, const int& three_cards){
-//         return two_cards == 2 && three_cards == 3;
-//     };
+    auto is_full = [](const int& first_set_of_cards, const int& second_set_of_cards){
+        return (first_set_of_cards == 2 && second_set_of_cards == 3)
+                or (first_set_of_cards == 2 && second_set_of_cards == 2);
+    };
 
-//     return counters.size() == 2 &&
-//            (is_full(counters.begin()->second, std::next(counters.begin())->second) ||
-//             is_full(std::next(counters.begin())->second, counters.begin()->second));
-// }
+    return counters.size() == 2 &&
+           (is_full(counters.begin()->second, std::next(counters.begin())->second) or
+            is_full(std::next(counters.begin())->second, counters.begin()->second));
+}
 
 bool has_one_pair(const CountedCards& counters_without_jokers)
 {

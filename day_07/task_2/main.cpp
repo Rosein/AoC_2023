@@ -145,12 +145,35 @@ void run_tests()
     //     assert(!has_three_of_a_kind(hand));
     // }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_full_house() #1:");
-    //     HandOfCards hand{'A', 'A', 'B', 'A', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #1:");
+        HandOfCards hand{'A', 'A', 'K', 'A', 'K'};
 
-    //     assert(has_full_house(hand));
-    // }
+        assert(has_full_house(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #2: GivenOneJokerAndThreeOfKind_ThenFourOfAKind");
+        HandOfCards hand{'A', 'A', 'K', 'A', 'J'};
+
+        assert(!has_full_house(hand));
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #3:");
+        HandOfCards hand{'A', 'K', 'K', 'A', 'J'};
+
+        assert(has_full_house(hand));
+    }
+
+
+    {
+        DEBUG_PRINT_TESTNAME("Test has_full_house() #3:");
+        HandOfCards hand{'A', 'K', 'K', 'J', 'J'};
+
+        assert(!has_full_house(hand));
+    }
+
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test has_two_pairs() #1:");
