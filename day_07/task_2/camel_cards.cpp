@@ -133,7 +133,11 @@ bool has_two_pairs(const CountedCards& counters_without_jokers)
 
 bool has_one_pair(const HandOfCards& hand)
 {
-    return has_one_pair(count_cards_without_jokers(hand));
+    const auto counters_without_jokers = count_cards_without_jokers(hand);
+    int number_of_jokers{5 - sum_counters(counters_without_jokers)};
+
+    return number_of_jokers == 0 && has_one_pair(count_cards_without_jokers(hand)) ||
+           number_of_jokers == 1 && !has_one_pair(count_cards_without_jokers(hand));
 }
 
 bool has_three_of_a_kind(const CountedCards& counters_without_jokers)

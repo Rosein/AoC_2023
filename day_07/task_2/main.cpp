@@ -237,27 +237,32 @@ void run_tests()
         assert(!has_two_pairs(hand));
     }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_one_pair() #1:");
-    //     HandOfCards hand{'A', 'Q', 'J', 'A', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #1:");
+        HandOfCards hand{'A', 'Q', 'J', 'A', '9'};
+        assert(!has_one_pair(hand));
+    }
 
-    //     assert(has_one_pair(hand));
-    // }
+    {
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #2:");
+        HandOfCards hand{'A', '1', '8', 'A', '9'};
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_one_pair() #2:");
-    //     HandOfCards hand{'A', 'J', 'J', 'A', 'B'};
+        assert(has_one_pair(hand));
+    }
 
-    //     assert(!has_one_pair(hand));
-    // }
+    {
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #3:");
+        HandOfCards hand{'A', '1', '8', 'J', 'J'};
 
+        assert(!has_one_pair(hand));
+    }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test has_one_pair() #2:");
-    //     HandOfCards hand{'A', 'J', 'Q', '3', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test has_one_pair() #4:");
+        HandOfCards hand{'A', 'J', 'Q', '3', '9'};
 
-    //     assert(has_high_card(hand));
-    // }
+        assert(has_one_pair(hand));
+    }
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
