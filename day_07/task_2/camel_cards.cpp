@@ -5,31 +5,32 @@
 #include <cmath>
 #include <cassert>
 
-bool has_five_of_a_kind(const HandOfCards& hand)
-{
-    return std::all_of(std::begin(hand), std::end(hand),
-                       [first_value = hand.front()](const auto& el){
-                        return first_value == el;
-                      });
-}
 
 CountedCards count_cards(const HandOfCards& hand)
 {
     CountedCards counters{};
-    const int four_of_a_kind{4};
+    const char joker = 'J';
 
     for(auto const& card : hand)
     {
-        if(counters.contains(card))
+        if(card != joker)
         {
-            counters[card]++;
-        } else
-        {
-            counters[card] = 1;
+            if(counters.contains(card))
+            {
+                counters[card]++;
+            } else
+            {
+                counters[card] = 1;
+            }
         }
     }
 
     return counters;
+}
+
+bool has_five_of_a_kind(const HandOfCards& hand)
+{
+    return count_cards(hand).size() == 1 or count_cards(hand).size() == 0;
 }
 
 bool has_four_of_a_kind(const HandOfCards& hand)
