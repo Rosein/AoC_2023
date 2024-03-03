@@ -171,11 +171,11 @@ bool has_two_pairs(const HandOfCards& hand)
     );
 }
 
-// bool has_high_card(const HandOfCards& hand)
-// {
-//     auto counters = count_cards(hand);
-//     return counters.size() == 5;
-// }
+bool has_high_card(const HandOfCards& hand)
+{
+    auto counters = count_cards_without_jokers(hand);
+    return counters.size() == 5;
+}
 
 int change_card_to_hex_digit(char card)
 {

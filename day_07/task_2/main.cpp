@@ -264,6 +264,22 @@ void run_tests()
         assert(has_one_pair(hand));
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test has_high_card() #1:");
+        HandOfCards hand{'A', '2', 'Q', '3', '9'};
+
+        assert(has_high_card(hand));
+    }
+
+      {
+        DEBUG_PRINT_TESTNAME("Test has_high_card() #2:");
+        HandOfCards hand{'A', 'J', 'Q', '3', '9'};
+
+        assert(!has_high_card(hand));
+    }
+
+
+
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
     //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
