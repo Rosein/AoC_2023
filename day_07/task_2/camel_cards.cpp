@@ -180,16 +180,16 @@ bool has_high_card(const HandOfCards& hand)
 int change_card_to_hex_digit(char card)
 {
     if(std::isdigit(static_cast<unsigned char>(card))){
-        return card - '0' - 2;
+        return card - '0' - 1;
     }
 
     switch (card)
     {
     case 'T':
-        return 8;
+        return 9;
         break;
     case 'J':
-        return 9;
+        return 0;
         break;
     case 'Q':
         return 0xA;
@@ -209,7 +209,7 @@ int change_card_to_hex_digit(char card)
 /* # Description of idea of convertion to hex_representation #
 
 Cards mapping to hex digits
-23456789TJQKA ← CARD
+J23456789TQKA ← CARD
 ↓↓↓↓↓↓↓↓↓↓↓↓↓
 0123456789ABC ← HEX
 

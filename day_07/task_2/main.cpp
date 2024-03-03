@@ -278,8 +278,6 @@ void run_tests()
         assert(!has_high_card(hand));
     }
 
-
-
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
     //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
@@ -290,7 +288,6 @@ void run_tests()
 
     //     assert(right_key > left_key);
     // }
-
 
     // {
     //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #2:");
@@ -315,7 +312,7 @@ void run_tests()
     // }
 
     // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #3:");
+    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #4:");
     //     HandOfCards right_hand{'A', 'C', 'B', '2', 'A'};
     //     HandOfCards left_hand{'Q', 'A', 'J', '9', 'B'};
 
@@ -343,7 +340,18 @@ void run_tests()
         // 0x10000C01C2 ← HEX representation of card
         DEBUG_PRINT_TESTNAME("Test convert_to_hex_representation() #1:");
         HandOfCards hand{'A', '2', '3', 'A', '4'};
-        int hex_hand{0xC01C2};
+        int hex_hand{0xC12C3};
+
+        assert(convert_to_hex_representation(hand) == hex_hand);
+    }
+
+    {
+        //        A23AJ ← HAND OF CARD
+        //        ↓↓↓↓↓
+        // 0x10000C12C0 ← HEX representation of card
+        DEBUG_PRINT_TESTNAME("Test convert_to_hex_representation() #2:");
+        HandOfCards hand{'A', '2', '3', 'A', 'J'};
+        int hex_hand{0xC12C0};
 
         assert(convert_to_hex_representation(hand) == hex_hand);
     }
