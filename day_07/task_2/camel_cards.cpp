@@ -231,40 +231,40 @@ int convert_to_hex_representation(const HandOfCards& hand)
     return sum;
 }
 
-// int transform_to_key(const HandOfCards& hand)
-// {
-//     if(has_five_of_a_kind(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x700000;
-//     }
-//     if(has_four_of_a_kind(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x600000;
-//     }
-//     if(has_full_house(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x500000;
-//     }
-//     if(has_three_of_a_kind(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x400000;
-//     }
-//     if(has_two_pairs(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x300000;
-//     }
-//     if(has_one_pair(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x200000;
-//     }
-//     if(has_high_card(hand))
-//     {
-//         return convert_to_hex_representation(hand) + 0x100000;
-//     }
+int transform_to_key(const HandOfCards& hand)
+{
+    if(has_five_of_a_kind(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x700000;
+    }
+    if(has_four_of_a_kind(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x600000;
+    }
+    if(has_full_house(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x500000;
+    }
+    if(has_three_of_a_kind(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x400000;
+    }
+    if(has_two_pairs(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x300000;
+    }
+    if(has_one_pair(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x200000;
+    }
+    if(has_high_card(hand))
+    {
+        return convert_to_hex_representation(hand) + 0x100000;
+    }
 
 
-//     return 0;
-// }
+    return 0;
+}
 
 HandOfCards convert_string_hand_to_hand_type(std::string hand)
 {

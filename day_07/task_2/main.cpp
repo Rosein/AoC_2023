@@ -278,61 +278,94 @@ void run_tests()
         assert(!has_high_card(hand));
     }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
-    //     HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
-    //     HandOfCards left_hand{'2', '3', '3', '3', '2'};
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #1:");
+        HandOfCards right_hand{'A', 'A', '8', 'A', 'A'};
+        HandOfCards left_hand{'2', '3', '3', '3', '2'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
 
-    //     assert(right_key > left_key);
-    // }
+        assert(right_key > left_key);
+    }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #2:");
-    //     HandOfCards right_hand{'A', 'A', 'A', 'A', 'A'};
-    //     HandOfCards left_hand{'Q', 'Q', 'Q', 'Q', 'Q'};
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #2:");
+        HandOfCards right_hand{'A', 'A', 'A', 'A', 'A'};
+        HandOfCards left_hand{'Q', 'Q', 'Q', 'Q', 'Q'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
 
-    //     assert(right_key > left_key);
-    // }
+        assert(right_key > left_key);
+    }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #3:");
-    //     HandOfCards right_hand{'A', 'C', 'B', 'A', 'A'};
-    //     HandOfCards left_hand{'Q', 'A', 'A', 'Q', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #3:");
+        HandOfCards right_hand{'A', '2', '3', 'A', 'A'};
+        HandOfCards left_hand{'Q', 'A', 'A', 'Q', '3'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
 
-    //     assert(right_key > left_key);
-    // }
+        assert(right_key > left_key);
+    }
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #4:");
-    //     HandOfCards right_hand{'A', 'C', 'B', '2', 'A'};
-    //     HandOfCards left_hand{'Q', 'A', 'J', '9', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #4:");
+        HandOfCards right_hand{'A', '1', '3', '2', 'A'};
+        HandOfCards left_hand{'Q', 'A', '2', '9', '3'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
 
-    //     assert(right_key > left_key);
-    // }
+        assert(right_key > left_key);
+    }
 
 
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #3:");
-    //     HandOfCards right_hand{'A', 'C', 'B', '2', 'A'};
-    //     HandOfCards left_hand{'Q', 'A', 'J', '9', 'B'};
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #6:");
+        HandOfCards right_hand{'A', '5', '6', '2', 'A'};
+        HandOfCards left_hand{'A', 'A', '5', '9', '6'};
 
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
 
-    //     assert(right_key > left_key);
-    // }
+        assert(right_key < left_key);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #7: Both high card, second stronger");
+        HandOfCards right_hand{'Q', 'A', '7', '9', '3'};
+        HandOfCards left_hand{'A', '3', '4', '2', '5'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key < left_key);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #8: Same type, but joker is weaker then Q");
+        HandOfCards right_hand{'Q', 'J', '7', '9', '3'};
+        HandOfCards left_hand{'J', '3', '4', '2', '5'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key > left_key);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test transform_to_key() #8: Same type, but joker is weaker then Q");
+        HandOfCards right_hand{'Q', 'J', '7', '9', '3'};
+        HandOfCards left_hand{'J', '3', '3', '2', '5'};
+
+        auto right_key = transform_to_key(right_hand);
+        auto left_key = transform_to_key(left_hand);
+
+        assert(right_key < left_key);
+    }
 
     {
         //        A23A4 ← HAND OF CARD
@@ -355,17 +388,6 @@ void run_tests()
 
         assert(convert_to_hex_representation(hand) == hex_hand);
     }
-
-    // {
-    //     DEBUG_PRINT_TESTNAME("Test transform_to_key() #4: Both high card, second stronger");
-    //     HandOfCards right_hand{'Q', 'A', 'J', '9', 'B'};
-    //     HandOfCards left_hand{'A', 'C', 'B', '2', 'D'};
-
-    //     auto right_key = transform_to_key(right_hand);
-    //     auto left_key = transform_to_key(left_hand);
-
-    //     assert(right_key < left_key);
-    // }
 
     {
         DEBUG_PRINT_TESTNAME("Test convert string hand to hand type() #4: Both high card, second stronger");
