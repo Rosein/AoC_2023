@@ -59,5 +59,15 @@ void run_tests()
         assert(go_to_next_place(desert_plan, current_place, direction) == expected_place);
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test count_steps_to_ZZZ() #1: GivenCurrentPlanAndDirections_WhenCountStepsToZZZ_ShouldReturnTwo");
+        std::string current_place{"AAA"};
+        std::string directions{"RL"};
+        int expected_no_steps{2};
+
+        assert(count_steps_to_ZZZ(desert_plan, current_place, directions) == expected_no_steps);
+    }
+
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
