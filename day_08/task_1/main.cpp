@@ -11,7 +11,7 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input"};
+    std::string filename{"input_example"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -19,13 +19,26 @@ void run_app()
         std::cout << "File couldn't be open" << std::endl;
     }
 
-    std::string line;
+   std::string directions;
+   std::string step;
+   std::string left_option;
+   std::string right_option;
+   char to_ignore;
 
-    while(std::getline(fs,line))
+   int desired_length{3};
+
+   DesertPlan desert_plan{};
+
+   fs >> directions;
+
+   while(fs >> step >> to_ignore >> to_ignore >> left_option >> right_option)
     {
-        std::cout << line << std::endl;
+        left_option.resize(desired_length);
+        right_option.resize(desired_length);
+        desert_plan[step] = {left_option, right_option};
     }
 
+    std::cout << count_steps_to_ZZZ(desert_plan, "AAA", directions) << std::endl;
 
     fs.close();
 }
@@ -33,8 +46,8 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
