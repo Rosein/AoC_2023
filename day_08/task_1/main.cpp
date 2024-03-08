@@ -33,16 +33,30 @@ void run_app()
 
 int main()
 {
-    run_app();
-    // run_tests();
+    // run_app();
+    run_tests();
     return 0;
 }
 
 void run_tests()
 {
-    {
-        DEBUG_PRINT_TESTNAME("Test has_five_of_a_kind() #1:");
+    const DesertPlan desert_plan {
+        {"AAA", {"BBB", "CCC"}},
+        {"BBB", {"DDD", "EEE"}},
+        {"CCC", {"ZZZ", "GGG"}},
+        {"DDD", {"DDD", "DDD"}},
+        {"EEE", {"EEE", "EEE"}},
+        {"GGG", {"GGG", "GGG"}},
+        {"ZZZ", {"ZZZ", "ZZZ"}}
+    };
 
+    {
+        DEBUG_PRINT_TESTNAME("Test go_to_next_place() #1: GivenCurrentPlace_WhenGoLeft_ThenReachExpectedPlace");
+        std::string current_place{"AAA"};
+        char direction{'L'};
+        std::string expected_place{"BBB"};
+
+        assert(go_to_next_place(desert_plan, current_place, direction) == expected_place);
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
