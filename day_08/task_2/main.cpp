@@ -74,13 +74,20 @@ void run_tests()
 
     {
         DEBUG_PRINT_TESTNAME("Test found_starting_positions() #1: GivenDesertPlan_WhenLookingForStartingPositions_ThenFindThem");
-
         StartPositions expected_all_start_positions{"11A", "22A"};
         auto found_start_positions = found_starting_positions(desert_plan);
 
         assert(found_start_positions == expected_all_start_positions);
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test count_steps_to_XXZ() #1: GivenDesertPlanAndStartingPositions_WhenCountingStepsToXXZ_ThenReceive");
+        StartPositions start_positions{"11A", "22A"};
+        auto expected_nr_steps{6};
+        std::string directions{"LR"};
+
+        assert(count_steps_to_XXZ(desert_plan, start_positions, directions) == expected_nr_steps);
+    }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
