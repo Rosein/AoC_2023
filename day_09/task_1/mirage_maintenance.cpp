@@ -22,3 +22,13 @@ void calcucale_final_values(Report& report)
         are_zeroes_reached = std::all_of(std::begin(report), std::prev(std::end(report), i), [](int value){return value == 0;});
     }
 }
+
+void calculate_extrapolated_values(Report& report)
+{
+    calcucale_final_values(report);
+
+    for(int i = 0; i < report.size(); i++)
+    {
+        report[i] = report[i] + report[i - 1];
+    }
+}
