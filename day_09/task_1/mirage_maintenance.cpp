@@ -7,10 +7,12 @@ void calcucale_one_step_difference(Report& report, const int depth)
     assert(report.size() > 0U);
     assert(report.size() > depth);
 
+    auto value_to_save = report.front();
     for(std::size_t i = 0; i < report.size() - depth; ++i)
     {
         report[i] = report[i + 1] - report[i];
     }
+    report[report.size() - depth] = value_to_save;
 }
 
 void calcucale_final_values(Report& report)
@@ -27,8 +29,8 @@ void calculate_extrapolated_values(Report& report)
 {
     calcucale_final_values(report);
 
-    for(int i = 0; i < report.size(); i++)
+    for(int i = 1; i < report.size(); i++)
     {
-        report[i] = report[i] + report[i - 1];
+        report[i] = report[i] - report[i - 1];
     }
 }

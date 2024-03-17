@@ -10,7 +10,7 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input"};
+    std::string filename{"input_example"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -20,7 +20,6 @@ void run_app()
 
     std::string line;
 
-    // std::vector<Report> reports{};
     Report single_report;
     int sum{0};
 
@@ -58,7 +57,7 @@ void run_tests()
         DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #1:");
         const int depth = 1;
         std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_report {3, 3, 3, 3, 3, 15};
+        std::vector<int> expected_report {3, 3, 3, 3, 3, 0};
         calcucale_one_step_difference(report, depth);
 
         assert(report == expected_report);
@@ -67,8 +66,8 @@ void run_tests()
     {
         DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #2:");
         const int depth = 2;
-        std::vector<int> report {3, 3, 3, 3, 3, 15};
-        std::vector<int> expected_report {0, 0, 0, 0, 3, 15};
+        std::vector<int> report {3, 3, 3, 3, 3, 0};
+        std::vector<int> expected_report {0, 0, 0, 0, 3, 0};
         calcucale_one_step_difference(report, depth);
 
         assert(report == expected_report);
@@ -77,7 +76,7 @@ void run_tests()
     {
         DEBUG_PRINT_TESTNAME("Test calcucale_final_values() #1:");
         std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_report {0, 0, 0, 0, 3, 15};
+        std::vector<int> expected_report {0, 0, 0, 0, 3, 0};
         calcucale_final_values(report);
 
         assert(report == expected_report);
@@ -86,9 +85,15 @@ void run_tests()
     {
         DEBUG_PRINT_TESTNAME("Test calculate_extrapolated_values() #1:");
         std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_extrapolated_values {0, 0, 0, 0, 3, 18};
+        std::vector<int> expected_extrapolated_values {0, 0, 0, 0, 3, -3};
         calculate_extrapolated_values(report);
 
+        DEBUG_PRINT("Stan rzeczywisty reportu");
+        for(auto el : report)
+        {
+            std::cout << el << " ";
+        }
+        DEBUG_PRINT(std::endl);
         assert(report == expected_extrapolated_values);
     }
 
@@ -106,6 +111,9 @@ void run_tests()
 0   0   2   8   23  68
 
 
+a  0   3   6   9  12  15
+  b  3   3   3   3   3
+    c  0   0   0   0
 
 
 */
