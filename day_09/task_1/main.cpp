@@ -61,7 +61,7 @@ void run_tests()
         DEBUG_PRINT_TESTNAME("Test calcucale_final_values() #1:");
         std::vector<int> report {0, 3, 6, 9, 12, 15};
         std::vector<int> expected_report {0, 0, 0, 0, 3, 15};
-        calcucale_final_values(report, depth);
+        calcucale_final_values(report);
 
         assert(report == expected_report);
     }
