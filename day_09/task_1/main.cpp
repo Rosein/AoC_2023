@@ -66,6 +66,15 @@ void run_tests()
         assert(report == expected_report);
     }
 
+    {
+        DEBUG_PRINT_TESTNAME("Test calculate_extrapolated_values() #1:");
+        std::vector<int> report {0, 3, 6, 9, 12, 15};
+        std::vector<int> expected_extrapolated_values {0, 0, 0, 0, 3, 18};
+        calculate_extrapolated_values(report);
+
+        assert(report == expected_extrapolated_values);
+    }
+
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }
 
