@@ -3,6 +3,7 @@
 
 std::string go_to_next_place(const DesertPlan& plan, const std::string& current_position, const char direction)
 {
+    DEBUG_PRINT(current_position);
     assert(plan.contains(current_position));
     const auto& next_step_options = plan.at(current_position);
 
@@ -21,7 +22,7 @@ int count_steps_to_ZZZ(const DesertPlan& desert_plan, const std::string& begin_p
 
         counter_of_steps++;
         it_dir = std::next(it_dir) == directions.end() ? directions.begin() : std::next(it_dir);
-    } while(current_place != "ZZZ");
+    } while(current_place[2] != 'Z');
 
 
 

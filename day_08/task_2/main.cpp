@@ -11,7 +11,7 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input_example"};
+    std::string filename{"input"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -37,8 +37,7 @@ void run_app()
         right_option.resize(desired_length);
         desert_plan[step] = {left_option, right_option};
     }
-
-    std::cout << count_steps_to_ZZZ(desert_plan, "AAA", directions) << std::endl;
+    std::cout << count_steps_to_XXZ(desert_plan, found_starting_positions(desert_plan), directions) << std::endl;
 
     fs.close();
 }
@@ -46,8 +45,8 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 

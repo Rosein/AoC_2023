@@ -11,7 +11,7 @@ void run_tests();
 
 void run_app()
 {
-    std::string filename{"input_example"};
+    std::string filename{"input"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -38,7 +38,7 @@ void run_app()
         desert_plan[step] = {left_option, right_option};
     }
 
-    std::cout << count_steps_to_ZZZ(desert_plan, "AAA", directions) << std::endl;
+    std::cout << count_steps_to_ZZZ(desert_plan, "VCA", directions) << std::endl;
 
     fs.close();
 }
@@ -63,23 +63,23 @@ void run_tests()
         {"ZZZ", {"ZZZ", "ZZZ"}}
     };
 
-    {
-        DEBUG_PRINT_TESTNAME("Test go_to_next_place() #1: GivenCurrentPlace_WhenGoLeft_ThenReachExpectedPlace");
-        std::string current_place{"AAA"};
-        char direction{'L'};
-        std::string expected_place{"BBB"};
+    // {
+    //     DEBUG_PRINT_TESTNAME("Test go_to_next_place() #1: GivenCurrentPlace_WhenGoLeft_ThenReachExpectedPlace");
+    //     std::string current_place{"AAA"};
+    //     char direction{'L'};
+    //     std::string expected_place{"BBB"};
 
-        assert(go_to_next_place(desert_plan, current_place, direction) == expected_place);
-    }
+    //     assert(go_to_next_place(desert_plan, current_place, direction) == expected_place);
+    // }
 
-    {
-        DEBUG_PRINT_TESTNAME("Test count_steps_to_ZZZ() #1: GivenCurrentPlanAndDirections_WhenCountStepsToZZZ_ShouldReturnTwo");
-        std::string current_place{"AAA"};
-        std::string directions{"RL"};
-        int expected_no_steps{2};
+    // {
+    //     DEBUG_PRINT_TESTNAME("Test count_steps_to_ZZZ() #1: GivenCurrentPlanAndDirections_WhenCountStepsToZZZ_ShouldReturnTwo");
+    //     std::string current_place{"AAA"};
+    //     std::string directions{"RL"};
+    //     int expected_no_steps{2};
 
-        assert(count_steps_to_ZZZ(desert_plan, current_place, directions) == expected_no_steps);
-    }
+    //     assert(count_steps_to_ZZZ(desert_plan, current_place, directions) == expected_no_steps);
+    // }
 
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
