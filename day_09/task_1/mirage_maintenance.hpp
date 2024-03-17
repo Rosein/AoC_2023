@@ -5,4 +5,4 @@
 
 using Report = std::vector<int>;
 
-void calcucale_one_step_difference(Report& report);
+void calcucale_one_step_difference(Report& report, const int depth);

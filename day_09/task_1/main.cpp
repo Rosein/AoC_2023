@@ -39,9 +39,20 @@ void run_tests()
 {
     {
         DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #1:");
+        const int depth = 1;
         std::vector<int> report {0, 3, 6, 9, 12, 15};
         std::vector<int> expected_report {3, 3, 3, 3, 3, 15};
-        calcucale_one_step_difference(report);
+        calcucale_one_step_difference(report, depth);
+
+        assert(report == expected_report);
+    }
+
+    {
+        DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #2:");
+        const int depth = 2;
+        std::vector<int> report {3, 3, 3, 3, 3, 15};
+        std::vector<int> expected_report {0, 0, 0, 0, 3, 15};
+        calcucale_one_step_difference(report, depth);
 
         assert(report == expected_report);
     }
