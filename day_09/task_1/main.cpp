@@ -1,5 +1,6 @@
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <cassert>
 #include "mirage_maintenance.hpp"
@@ -19,10 +20,26 @@ void run_app()
 
     std::string line;
 
+    // std::vector<Report> reports{};
+    Report single_report;
+    int sum{0};
+
     while(std::getline(fs, line))
     {
-        std::cout << line << std::endl;
+        std::stringstream ss{line};
+        int value{0};
+        while(ss >> value)
+        {
+            single_report.push_back(value);
+        }
+
+        calculate_extrapolated_values(single_report);
+        sum += single_report.back();
+        single_report.clear();
+
     }
+
+    std::cout << sum <<std::endl;
 
     fs.close();
 }
@@ -30,8 +47,8 @@ void run_app()
 
 int main()
 {
-    // run_app`();
-    run_tests();
+    run_app();
+    // run_tests();
     return 0;
 }
 
