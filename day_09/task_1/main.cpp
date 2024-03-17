@@ -30,17 +30,19 @@ void run_app()
 
 int main()
 {
-    run_app();
-    // run_tests();
+    // run_app`();
+    run_tests();
     return 0;
 }
 
 void run_tests()
 {
     {
-        DEBUG_PRINT_TESTNAME("Test () #1:");
+        DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #1:");
+        std::vector<int> report {0, 3, 6, 9, 12, 15};
+        std::vector<int> expected_report {3, 3, 3, 3, 3, 15};
 
-        assert(true);
+        assert(calcucale_one_step_difference(report) == expected_report);
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
