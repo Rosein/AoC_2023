@@ -48,7 +48,8 @@ void run_tests()
 
     {
         DEBUG_PRINT_TESTNAME("Test find_starting_point() #1:");
-        assert(find_starting_point(pipe_maze) == std::make_pair<int,int>(1,1));
+
+        assert((find_starting_point(pipe_maze) == std::make_pair<int,int>(1,1)));
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
