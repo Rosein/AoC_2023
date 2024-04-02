@@ -37,9 +37,18 @@ int main()
 
 void run_tests()
 {
+    const PipeMaze pipe_maze =
     {
-        DEBUG_PRINT_TESTNAME("Test () #1:");
-        assert(true);
+        "-L|F7",
+        "7S-7|",
+        "L|7||",
+        "-L-J|",
+        "L|-JF"
+    };
+
+    {
+        DEBUG_PRINT_TESTNAME("Test find_starting_point() #1:");
+        assert(find_starting_point(pipe_maze) == std::make_pair<int,int>(1,1));
     }
 
     std::cout << GREEN << "Tests passed!" << RESET << std::endl;
