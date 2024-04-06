@@ -14,7 +14,8 @@ constexpr int kDestinationStart = 0;
 constexpr int kSourceStart = 1;
 constexpr int kRangeLenght = 2;
 
-using MapSubcharacterisctic = std::tuple<DestinationRangeStart, SourceRangeStart, RangeLenght>;
+using MapSubcharacterisctic =
+    std::tuple<DestinationRangeStart, SourceRangeStart, RangeLenght>;
 using Map = std::vector<MapSubcharacterisctic>;
 
 MapRange evaluate_value_of_mapping(MapRange seed, std::vector<MapSubcharacterisctic> seed_to_soil_map);

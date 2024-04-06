@@ -7,7 +7,7 @@ constexpr int number_of_cards = 5;
 using HandOfCards = std::array<char, number_of_cards>;
 using BeforeTransformToKey = HandOfCards;
 using Key = int;
-using CountedCards = std::map<char,int>;
+using CountedCards = std::map<char, int>;
 
 CountedCards count_cards(const HandOfCards& hand);
 int convert_to_hex_representation(const HandOfCards& hand);
@@ -24,5 +24,3 @@ HandOfCards convert_string_hand_to_hand_type(std::string hand);
 
 
 // int transform_to_key(HandOfCards hand);
-
-

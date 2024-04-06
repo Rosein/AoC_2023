@@ -1,12 +1,11 @@
 #pragma once
 
-#include<map>
-#include <vector>
-#include <string>
 #include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 
-
-enum class Color 
+enum class Color
 {
     red,
     green,
@@ -15,14 +14,10 @@ enum class Color
 
 std::ostream& operator<<(std::ostream& os, const Color& v);
 
-using GameSet = std::map<Color,int>;
-using Game =  std::vector<GameSet>;
+using GameSet = std::map<Color, int>;
+using Game = std::vector<GameSet>;
 
-static GameSet kMaximalPossibleGameSet{
-    {Color::red, 12},
-    {Color::green, 13},
-    {Color::blue, 14}
-};
+static GameSet kMaximalPossibleGameSet{{Color::red, 12}, {Color::green, 13}, {Color::blue, 14}};
 
 bool is_game_set_possible(const GameSet& game_set);
 
