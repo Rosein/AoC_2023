@@ -1,16 +1,15 @@
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <cassert>
 #include "mirage_maintenance.hpp"
-#include "../../debug_features.hpp"
+#include <cassert>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
 
-void run_tests();
 
 void run_app()
 {
-    std::string filename{"input_example"};
+    std::string filename{
+        "/home/rkumanek/Repos/AoC_2023/day_09/task_1/input_example"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -35,10 +34,9 @@ void run_app()
         calculate_extrapolated_values(single_report);
         sum += single_report.back();
         single_report.clear();
-
     }
 
-    std::cout << sum <<std::endl;
+    std::cout << sum << std::endl;
 
     fs.close();
 }
@@ -47,58 +45,9 @@ void run_app()
 int main()
 {
     run_app();
-    // run_tests();
     return 0;
 }
 
-void run_tests()
-{
-    {
-        DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #1:");
-        const int depth = 1;
-        std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_report {3, 3, 3, 3, 3, 0};
-        calcucale_one_step_difference(report, depth);
-
-        assert(report == expected_report);
-    }
-
-    {
-        DEBUG_PRINT_TESTNAME("Test calcucale_one_step_difference() #2:");
-        const int depth = 2;
-        std::vector<int> report {3, 3, 3, 3, 3, 0};
-        std::vector<int> expected_report {0, 0, 0, 0, 3, 0};
-        calcucale_one_step_difference(report, depth);
-
-        assert(report == expected_report);
-    }
-
-    {
-        DEBUG_PRINT_TESTNAME("Test calcucale_final_values() #1:");
-        std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_report {0, 0, 0, 0, 3, 0};
-        calcucale_final_values(report);
-
-        assert(report == expected_report);
-    }
-
-    {
-        DEBUG_PRINT_TESTNAME("Test calculate_extrapolated_values() #1:");
-        std::vector<int> report {0, 3, 6, 9, 12, 15};
-        std::vector<int> expected_extrapolated_values {0, 0, 0, 0, 3, -3};
-        calculate_extrapolated_values(report);
-
-        DEBUG_PRINT("Stan rzeczywisty reportu");
-        for(auto el : report)
-        {
-            std::cout << el << " ";
-        }
-        DEBUG_PRINT(std::endl);
-        assert(report == expected_extrapolated_values);
-    }
-
-    std::cout << GREEN << "Tests passed!" << RESET << std::endl;
-}
 
 /*
 
