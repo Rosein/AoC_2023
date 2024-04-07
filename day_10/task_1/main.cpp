@@ -1,15 +1,13 @@
-#include <string>
+#include "pipe_maze.hpp"
 #include <fstream>
 #include <iostream>
-#include <cassert>
-#include "pipe_maze.hpp"
-#include "../../debug_features.hpp"
+#include <string>
 
 void run_tests();
 
 void run_app()
 {
-    std::string filename{"input"};
+    std::string filename{"/home/rkumanek/Repos/AoC_2023/day_10/task_1/input"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -30,27 +28,6 @@ void run_app()
 
 int main()
 {
-    // run_app();
-    run_tests();
+    run_app();
     return 0;
-}
-
-void run_tests()
-{
-    const PipeMaze pipe_maze =
-    {
-        "-L|F7",
-        "7S-7|",
-        "L|7||",
-        "-L-J|",
-        "L|-JF"
-    };
-
-    {
-        DEBUG_PRINT_TESTNAME("Test find_starting_point() #1:");
-
-        assert((find_starting_point(pipe_maze) == std::make_pair<int,int>(1,1)));
-    }
-
-    std::cout << GREEN << "Tests passed!" << RESET << std::endl;
 }

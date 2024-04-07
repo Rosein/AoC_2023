@@ -1,0 +1,9 @@
+# This file marks the root of the Bazel workspace.
+# See MODULE.bazel for external dependencies setup.
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "googletest",
+    remote = "https://github.com/google/googletest",
+    commit = "f10e11fb27301fba21caa71030bb5024e67aa135",
+)
