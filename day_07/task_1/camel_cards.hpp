@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../debug_features.hpp"
+#include "debug_features/debug_features.hpp"
 #include <map>
 constexpr int number_of_cards = 5;
 
@@ -21,6 +21,7 @@ bool has_one_pair(const HandOfCards& hand);
 bool has_high_card(const HandOfCards& hand);
 int transform_to_key(const HandOfCards& hand);
 HandOfCards convert_string_hand_to_hand_type(std::string hand);
+std::string convert_type_hand_to_string_hand(HandOfCards hand);
 
 
 // int transform_to_key(HandOfCards hand);

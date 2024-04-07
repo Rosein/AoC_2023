@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../debug_features.hpp"
+#include "debug_features/debug_features.hpp"
 #include <map>
 constexpr int number_of_cards = 5;
 
