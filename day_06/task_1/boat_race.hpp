@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../debug_features.hpp"
-
 bool is_loading_time_enough_to_win(long long int, long long int, long long int);
 
 long long int find_the_shortest_loading_time_to_win(long long int time, long long int distance);
