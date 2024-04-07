@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "../../debug_features.hpp"
+#include "debug_features/debug_features.hpp"
 
 using Coordinates = std::pair<int, int>;
 using EngineSchematic = std::vector<std::string>;

@@ -1,7 +1,7 @@
 #include "gear_ratios.hpp"
-#include <iostream>
 #include <algorithm>
 #include <cctype>
+#include <iostream>
 
 std::ostream& operator<<(std::ostream& os, Coordinates coordinates)
 {
@@ -14,20 +14,22 @@ bool is_symbol(const char character)
     return !(character == '.' || std::isdigit(character));
 }
 
-bool are_indexes_in_scope(const EngineSchematic& engine_schematic, int first, int second)
+bool are_indexes_in_scope(const EngineSchematic& engine_schematic, std::size_t first, std::size_t second)
 {
-    return 0 <= first && first < engine_schematic.size() &&
-           0 <= second && second < engine_schematic[0].size();
+    return 0 <= first && first < engine_schematic.size() && 0 <= second &&
+        second < engine_schematic[0].size();
 }
 
-bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates begin_index, Coordinates end_index)
+bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic,
+                                  Coordinates begin_index,
+                                  Coordinates end_index)
 {
 
-    if(begin_index.first < engine_schematic.size() -1)
+    if(static_cast<std::size_t>(begin_index.first) < engine_schematic.size() - 1)
     {
         for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
         {
-            if(are_indexes_in_scope(engine_schematic, begin_index.first + 1, i) && 
+            if(are_indexes_in_scope(engine_schematic, begin_index.first + 1, i) &&
                is_symbol(engine_schematic[begin_index.first + 1][i]))
             {
                 return true;
@@ -35,13 +37,13 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
         }
     }
 
-    if(are_indexes_in_scope(engine_schematic, end_index.first, end_index.second + 1) && 
+    if(are_indexes_in_scope(engine_schematic, end_index.first, end_index.second + 1) &&
        is_symbol(engine_schematic[end_index.first][end_index.second + 1]))
     {
         return true;
     }
 
-    if(are_indexes_in_scope(engine_schematic, begin_index.first, begin_index.second - 1) && 
+    if(are_indexes_in_scope(engine_schematic, begin_index.first, begin_index.second - 1) &&
        is_symbol(engine_schematic[begin_index.first][begin_index.second - 1]))
     {
         return true;
@@ -49,8 +51,9 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
 
     for(int i = begin_index.second - 1; i <= end_index.second + 1; i++)
     {
-        if(begin_index.first > 0){
-            if(are_indexes_in_scope(engine_schematic, begin_index.first - 1, i) && 
+        if(begin_index.first > 0)
+        {
+            if(are_indexes_in_scope(engine_schematic, begin_index.first - 1, i) &&
                is_symbol(engine_schematic[begin_index.first - 1][i]))
             {
                 return true;
@@ -60,16 +63,13 @@ bool is_number_adjacent_to_symbol(EngineSchematic engine_schematic, Coordinates 
     return false;
 }
 
-int find_nr_of_column_of_last_digit_in_sequence(const std::string& row, int begin_index_of_number)
+int find_nr_of_column_of_last_digit_in_sequence(const std::string& row, std::size_t begin_index_of_number)
 {
-    bool is_continous_digit_sequence = true;
-
-    int i = begin_index_of_number;
+    std::size_t i = begin_index_of_number;
     for(; i < row.size(); ++i)
     {
         if(!std::isdigit(row[i]))
         {
-            is_continous_digit_sequence = false;
             break;
         }
     }
@@ -80,20 +80,24 @@ int find_nr_of_column_of_last_digit_in_sequence(const std::string& row, int begi
 std::optional<std::pair<Coordinates, Coordinates>> ExtractorOfNextNumberIndexes::extract(EngineSchematic engine_schematic)
 {
 
-    for(auto row = next_indexes_.first.first; row < engine_schematic.size(); ++row )
+    for(auto row = next_indexes_.first.first;
+        static_cast<std::size_t>(row) < engine_schematic.size(); ++row)
     {
-        for(auto character = next_indexes_.first.second; character < engine_schematic[row].size(); ++character)
+        for(auto character = next_indexes_.first.second;
+            static_cast<std::size_t>(character) < engine_schematic[row].size(); ++character)
         {
             if(std::isdigit(engine_schematic[row][character]))
             {
                 next_indexes_.second.first = next_indexes_.first.first;
-                next_indexes_.second.second = find_nr_of_column_of_last_digit_in_sequence(engine_schematic[row], next_indexes_.first.second);
+                next_indexes_.second.second = find_nr_of_column_of_last_digit_in_sequence(
+                    engine_schematic[row], next_indexes_.first.second);
 
                 DEBUG_PRINT(next_indexes_.first << " " << next_indexes_.second);
                 auto return_indexes = next_indexes_;
 
                 next_indexes_.first = next_indexes_.second;
-                if(next_indexes_.first.second + 1 != engine_schematic[row].size())
+                if(static_cast<std::size_t>(next_indexes_.first.second + 1) !=
+                   engine_schematic[row].size())
                 {
                     next_indexes_.first.second++;
                 }
@@ -118,21 +122,28 @@ std::optional<int> ExtractorOfNumberAdjacetToSymbol::extract_next_part_number(En
 {
     while(true)
     {
-        auto number_to_check_indexes =  extractor_.extract(engine_schematic);
+        auto number_to_check_indexes = extractor_.extract(engine_schematic);
         if(!number_to_check_indexes.has_value())
         {
             DEBUG_PRINT("Didn't find any number");
             return std::nullopt;
         }
 
-        if(is_number_adjacent_to_symbol(engine_schematic, number_to_check_indexes.value().first, number_to_check_indexes.value().second))
+        if(is_number_adjacent_to_symbol(engine_schematic,
+                                        number_to_check_indexes.value().first,
+                                        number_to_check_indexes.value().second))
         {
             DEBUG_PRINT("")
-            const std::string& row_with_number = engine_schematic[number_to_check_indexes.value().first.first];
+            const std::string& row_with_number =
+                engine_schematic[number_to_check_indexes.value().first.first];
 
-            const int& index_of_first_digit_of_number = number_to_check_indexes.value().first.second;
-            const int& index_of_first_last_of_number = number_to_check_indexes.value().second.second;
-            const int part_number{std::stoi(row_with_number.substr(index_of_first_digit_of_number, index_of_first_last_of_number + 1))};
+            const int& index_of_first_digit_of_number =
+                number_to_check_indexes.value().first.second;
+            const int& index_of_first_last_of_number =
+                number_to_check_indexes.value().second.second;
+            const int part_number{
+                std::stoi(row_with_number.substr(index_of_first_digit_of_number,
+                                                 index_of_first_last_of_number + 1))};
             DEBUG_PRINT("Founded part number: " << part_number);
             return std::make_optional<int>(part_number);
         }
