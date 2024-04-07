@@ -6,8 +6,6 @@
 #include <set>
 #include <sstream>
 
-#include "../../debug_features.hpp"
-
 using CardNumber = int;
 using Amount = long long int;
 

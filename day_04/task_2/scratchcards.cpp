@@ -1,26 +1,21 @@
 #include "scratchcards.hpp"
+#include "debug_features/debug_features.hpp"
 #include <cmath>
 #include <iostream>
 
 int count_guessed_numbers(const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
 {
     return scratched_numbers.remove_if(
-                   [&winning_numbers](int number)
-                   {
-                        bool result_predicate = winning_numbers.contains(number);
-                        
-                        if(result_predicate)
-                        {
-                            std::cout << number << " " <<std::endl;
-                        }
-
-                        return result_predicate;
-                   });
+        [&winning_numbers](int number)
+        {
+            bool result_predicate = winning_numbers.contains(number);
+            return result_predicate;
+        });
 }
 
-CardScratcher::CardScratcher(const std::map<CardNumber, Amount>& card_amounts) : card_amounts_(card_amounts)
+CardScratcher::CardScratcher(const std::map<CardNumber, Amount>& card_amounts)
+: card_amounts_(card_amounts)
 {
-
 }
 
 std::map<CardNumber, Amount>& CardScratcher::get_card_amounts()
@@ -28,9 +23,11 @@ std::map<CardNumber, Amount>& CardScratcher::get_card_amounts()
     return card_amounts_;
 }
 
-void CardScratcher::execute_step_nr(CardNumber card_number, const std::set<int>& winning_numbers, std::list<int> scratched_numbers)
+void CardScratcher::execute_step_nr(CardNumber card_number,
+                                    const std::set<int>& winning_numbers,
+                                    std::list<int> scratched_numbers)
 {
-    auto guessed_no = count_guessed_numbers(winning_numbers,scratched_numbers);
+    auto guessed_no = count_guessed_numbers(winning_numbers, scratched_numbers);
 
     if(card_amounts_.contains(card_number))
     {
@@ -60,7 +57,7 @@ int extract_card_number(std::string input_data)
     int card_number{};
     std::string to_ignore;
     ss >> to_ignore >> card_number;
-    
+
     return card_number;
 }
 
@@ -100,6 +97,4 @@ std::list<int> extract_scratched_numbers(std::string input_data)
     }
 
     return scratched_numbers;
-
 }
-
