@@ -3,6 +3,7 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
         ":mirage_maintenance",
+        "//path_helper"
     ]
 )
 

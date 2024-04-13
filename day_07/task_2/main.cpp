@@ -1,5 +1,6 @@
 #include "camel_cards.hpp"
 #include "debug_features/debug_features.hpp"
+#include "path_helper/path_helper.hpp"
 #include <algorithm>
 #include <cassert>
 #include <fstream>
@@ -9,9 +10,8 @@
 
 void run_tests();
 
-void run_app()
+void run_app(std::string filename)
 {
-    std::string filename{"/home/rkumanek/Repos/AoC_2023/day_07/task_2/input"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -45,8 +45,10 @@ void run_app()
 }
 
 
-int main()
+int main(int argc, char** argv)
 {
-    run_app();
+    std::string filename =
+        path_helper::prename + std::string{"/AoC_2023/day_07/task_2/input"};
+    run_app(filename);
     return 0;
 }

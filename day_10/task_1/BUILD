@@ -3,6 +3,7 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
         ":pipe_maze",
+        "//path_helper"
         # "//debug_features:debug_features"],
     ]
 )

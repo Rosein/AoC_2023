@@ -1,4 +1,5 @@
 #include "mirage_maintenance.hpp"
+#include "path_helper/path_helper.hpp"
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -6,10 +7,8 @@
 #include <string>
 
 
-void run_app()
+void run_app(std::string filename)
 {
-    std::string filename{
-        "/home/rkumanek/Repos/AoC_2023/day_09/task_1/input_example"};
     std::fstream fs;
     fs.open(filename);
     if(!fs.is_open())
@@ -41,10 +40,11 @@ void run_app()
     fs.close();
 }
 
-
-int main()
+int main(int argc, char** argv)
 {
-    run_app();
+    std::string filename =
+        path_helper::prename + std::string{"/AoC_2023/day_09/task_1/input"};
+    run_app(filename);
     return 0;
 }
 
