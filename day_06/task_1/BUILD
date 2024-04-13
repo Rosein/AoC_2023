@@ -3,7 +3,8 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
         ":boat_race",
-        "//debug_features"
+        "//debug_features",
+        "//path_helper"
     ]
 )
 

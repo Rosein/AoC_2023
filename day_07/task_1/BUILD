@@ -3,6 +3,7 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
         ":camel_cards",
+        "//path_helper"
     ]
 )
 

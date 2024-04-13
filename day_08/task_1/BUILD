@@ -3,6 +3,7 @@ cc_binary(
     srcs = ["main.cpp"],
     deps = [
         ":haunted_wasteland",
+        "//path_helper"
     ]
 )
 
