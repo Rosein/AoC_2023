@@ -2,6 +2,7 @@
 #include "debug_features/debug_features.hpp"
 #include <algorithm>
 #include <cassert>
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include <string>

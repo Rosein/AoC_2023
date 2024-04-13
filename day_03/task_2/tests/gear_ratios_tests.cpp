@@ -53,8 +53,6 @@ TEST(Test, save_potential_gear1)
     extractor.save_potential_gears();
     PotentialGears actual_result = extractor.get_potential_gears();
 
-    Coordinates expected_coordinates{2, 3};
-
     EXPECT_EQ(actual_result.size(), 1);
     EXPECT_NE(actual_result.find({2, 3}), actual_result.end());
     EXPECT_EQ((actual_result[{2, 3}].first), (375735));
