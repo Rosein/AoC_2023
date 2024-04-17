@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 
-struct PipeMazeTests : public ::testing::Test 
+struct PipeMazeTests : public ::testing::Test
 {
     const PipeMaze pipe_maze = {"-L|F7", "7S-7|", "L|7||", "-L-J|", "L|-JF"};
 };
