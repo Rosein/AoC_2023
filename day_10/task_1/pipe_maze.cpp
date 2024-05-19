@@ -1,6 +1,6 @@
 #include "pipe_maze.hpp"
 
-std::pair<int, int> find_starting_point(const PipeMaze& pipe_maze)
+MazePoint find_starting_point(const PipeMaze& pipe_maze)
 {
     for(auto i = 0U; i < pipe_maze.size(); i++)
     {
@@ -8,9 +8,9 @@ std::pair<int, int> find_starting_point(const PipeMaze& pipe_maze)
         {
             if(pipe_maze[i][j] == 'S')
             {
-                return std::make_pair(i, j);
+                return MazePoint(i, j);
             }
         }
     }
-    return std::make_pair(-1, -1);
+    return MazePoint(-1, -1);
 }

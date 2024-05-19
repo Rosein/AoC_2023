@@ -4,4 +4,5 @@
 #include <vector>
 
 using PipeMaze = std::vector<std::string>;
-std::pair<int, int> find_starting_point(const PipeMaze& pipe_maze);
+using MazePoint = std::pair<int, int>;
+MazePoint find_starting_point(const PipeMaze& pipe_maze);
