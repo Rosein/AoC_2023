@@ -7,7 +7,7 @@ struct PipeMazeTests : public ::testing::Test
     const PipeMaze pipe_maze = {"-L|F7", "7S-7|", "L|7||", "-L-J|", "L|-JF"};
 };
 
-TEST_F(PipeMazeTests, GivenStartingPipe_WhenFindNextNeighbors_ExpectTwoMazePointsOfConnectedPipes)
+TEST_F(PipeMazeTests, GivenMazeWithPipeLoop_WhenFindTheStartingPoint_ExpectCoordinatesFromFieldWhereS)
 {
     ASSERT_EQ(find_starting_point(pipe_maze), MazePoint(1, 1));
 }
