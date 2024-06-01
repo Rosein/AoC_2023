@@ -1,7 +1,6 @@
 #include "pipe_maze.hpp"
 #include <cassert>
 #include <string>
-#include <vector>
 
 MazePoint find_starting_point(const PipeMaze& pipe_maze)
 {
