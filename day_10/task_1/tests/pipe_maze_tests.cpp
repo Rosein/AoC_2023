@@ -22,7 +22,7 @@ TEST_F(PipeMazeTests, GivenStartingPipe_WhenFindNextNeighbors_ExpectTwoMazePoint
     ASSERT_EQ(foundNeighbors.second, MazePoint(2, 1));
 }
 
-TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesFirstDirection_ExpectReturnAppropriateCoordinates)
+TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInFirstDirection_ExpectReturnNextTwoCoordinatesFromExpectedDirection)
 {
     const MazePoint starting_pipe(find_starting_point(pipe_maze));
     const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
@@ -34,7 +34,7 @@ TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesFirstDirection_Exp
     ASSERT_EQ(current_point_in_first_direction, MazePoint(2, 3));
 }
 
-TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesSecondDirection_ExpectReturnAppropriateCoordinates)
+TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInSecondDirection_ExpectReturnNextTwoCoordinatesFromExpectedDirection)
 {
     const MazePoint starting_pipe(find_starting_point(pipe_maze));
     const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
