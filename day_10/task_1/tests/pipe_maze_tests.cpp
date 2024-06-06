@@ -21,3 +21,29 @@ TEST_F(PipeMazeTests, GivenStartingPipe_WhenFindNextNeighbors_ExpectTwoMazePoint
     ASSERT_EQ(foundNeighbors.first, MazePoint(1, 2));
     ASSERT_EQ(foundNeighbors.second, MazePoint(2, 1));
 }
+
+TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInFirstDirection_ExpectReturnNextTwoCoordinatesFromExpectedDirection)
+{
+    const MazePoint starting_pipe(find_starting_point(pipe_maze));
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
+
+    auto current_point_in_first_direction =
+        go_forward(pipe_maze, foundNeighbors.first, starting_pipe);
+    ASSERT_EQ(current_point_in_first_direction, MazePoint(1, 3));
+    current_point_in_first_direction =
+        go_forward(pipe_maze, current_point_in_first_direction, foundNeighbors.first);
+    ASSERT_EQ(current_point_in_first_direction, MazePoint(2, 3));
+}
+
+TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInSecondDirection_ExpectReturnNextTwoCoordinatesFromExpectedDirection)
+{
+    const MazePoint starting_pipe(find_starting_point(pipe_maze));
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
+
+    auto current_point_in_second_direction =
+        go_forward(pipe_maze, foundNeighbors.second, starting_pipe);
+    ASSERT_EQ(current_point_in_second_direction, MazePoint(3, 1));
+    current_point_in_second_direction =
+        go_forward(pipe_maze, current_point_in_second_direction, foundNeighbors.second);
+    ASSERT_EQ(current_point_in_second_direction, MazePoint(3, 2));
+}
