@@ -22,6 +22,23 @@ TEST_F(PipeMazeTests, GivenStartingPipe_WhenFindNextNeighbors_ExpectTwoMazePoint
     ASSERT_EQ(foundNeighbors.second, MazePoint(2, 1));
 }
 
+
+TEST_F(PipeMazeTests, GivenStartingPipe_WhenFindNeighborsForNextPoint_ExpectTwoMazePointsOfConnectedPipes)
+{
+    const MazePoint starting_pipe(find_starting_point(pipe_maze));
+
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
+
+    ASSERT_EQ(foundNeighbors.first, MazePoint(1, 2));
+    ASSERT_EQ(foundNeighbors.second, MazePoint(2, 1));
+
+    const auto foundNeighborsForSecondPoint =
+        find_next_neighbors(pipe_maze, foundNeighbors.first);
+
+    ASSERT_EQ(foundNeighborsForSecondPoint.first, MazePoint(1, 1));
+    ASSERT_EQ(foundNeighborsForSecondPoint.second, MazePoint(1, 3));
+}
+
 TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInFirstDirection_ExpectReturnNextTwoCoordinatesFromExpectedDirection)
 {
     const MazePoint starting_pipe(find_starting_point(pipe_maze));
