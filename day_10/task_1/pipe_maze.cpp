@@ -19,25 +19,25 @@ MazePoint find_starting_point(const PipeMaze& pipe_maze)
 
 bool is_connected_to_north(const char candi_south_pipe)
 {
-    static const std::string pipes_to_north{"|LJ"};
+    static const std::string pipes_to_north{"|LJS"};
     return pipes_to_north.contains(candi_south_pipe);
 }
 
 bool is_connected_to_south(const char candi_north_pipe)
 {
-    static const std::string pipes_to_south{"|F7"};
+    static const std::string pipes_to_south{"|F7S"};
     return pipes_to_south.contains(candi_north_pipe);
 }
 
 bool is_connected_to_west(const char candi_east_pipe)
 {
-    static const std::string pipes_to_west{"-7J"};
+    static const std::string pipes_to_west{"-7JS"};
     return pipes_to_west.contains(candi_east_pipe);
 }
 
 bool is_connected_to_east(const char candi_west_pipe)
 {
-    static const std::string pipes_to_east{"-FL"};
+    static const std::string pipes_to_east{"-FLS"};
     return pipes_to_east.contains(candi_west_pipe);
 }
 
@@ -68,28 +68,32 @@ MazePoint to_west(MazePoint position)
 std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
                                                     const MazePoint& maze_point)
 {
-    const MazePoint current_position(find_starting_point(pipe_maze));
+    const MazePoint current_position(maze_point);
     std::vector<MazePoint> neighbors;
 
-    if(is_connected_to_south(
+    if(is_connected_to_north(pipe_maze[current_position.first][current_position.second]) &&
+       is_connected_to_south(
            pipe_maze[to_north(current_position).first][current_position.second]))
     {
         neighbors.push_back(MazePoint(to_north(current_position)));
     }
 
-    if(is_connected_to_north(
+    if(is_connected_to_south(pipe_maze[current_position.first][current_position.second]) &&
+       is_connected_to_north(
            pipe_maze[to_south(current_position).first][current_position.second]))
     {
         neighbors.push_back(MazePoint(to_south(current_position)));
     }
 
-    if(is_connected_to_west(
+    if(is_connected_to_east(pipe_maze[current_position.first][current_position.second]) &&
+       is_connected_to_west(
            pipe_maze[current_position.first][to_east(current_position).second]))
     {
         neighbors.push_back(MazePoint(to_east(current_position)));
     }
 
-    if(is_connected_to_east(
+    if(is_connected_to_west(pipe_maze[current_position.first][current_position.second]) &&
+       is_connected_to_east(
            pipe_maze[current_position.first][to_west(current_position).second]))
     {
         neighbors.push_back(MazePoint(to_west(current_position)));
