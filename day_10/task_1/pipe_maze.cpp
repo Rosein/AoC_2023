@@ -2,6 +2,8 @@
 #include <cassert>
 #include <string>
 
+MazePoint invalidMazeEntryPoint(-1, -1);
+
 MazePoint find_starting_point(const PipeMaze& pipe_maze)
 {
     for(auto i = 0U; i < pipe_maze.size(); i++)
@@ -14,7 +16,7 @@ MazePoint find_starting_point(const PipeMaze& pipe_maze)
             }
         }
     }
-    return MazePoint(-1, -1);
+    return invalidMazeEntryPoint;
 }
 
 bool is_connected_to_north(const char candi_south_pipe)
@@ -118,5 +120,5 @@ MazePoint go_forward(const PipeMaze& pipe_maze, const MazePoint& current_point, 
         return foundNeighbors.second;
     }
     
-    return MazePoint(-1, -1);
+    return invalidMazeEntryPoint;
 }
