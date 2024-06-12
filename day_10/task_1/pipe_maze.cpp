@@ -2,7 +2,7 @@
 #include <cassert>
 #include <string>
 
-MazePoint invalidMazeEntryPoint(-1, -1);
+const MazePoint invalidMazeEntryPoint{-1, -1};
 
 MazePoint find_starting_point(const PipeMaze& pipe_maze)
 {
