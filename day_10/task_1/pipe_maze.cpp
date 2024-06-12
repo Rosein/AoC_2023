@@ -104,3 +104,19 @@ std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
 
     return {neighbors.back(), neighbors.front()};
 }
+
+MazePoint go_forward(const PipeMaze& pipe_maze, const MazePoint& current_point, const MazePoint& previous_point)
+{
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, current_point);
+
+    if(foundNeighbors.first != previous_point)
+    {
+        return foundNeighbors.first;
+    }
+    if(foundNeighbors.second != previous_point)
+    {
+        return foundNeighbors.second;
+    }
+    
+    return MazePoint(-1, -1);
+}
