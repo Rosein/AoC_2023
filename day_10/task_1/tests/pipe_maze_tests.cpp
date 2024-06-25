@@ -4,6 +4,7 @@
 struct PipeMazeTests : public ::testing::Test
 {
     const PipeMaze pipe_maze = {"-L|F7", "7S-7|", "L|7||", "-L-J|", "L|-JF"};
+    const PipeMaze pipe_maze_extended = {"..F7.", ".FJ|.", "SJ.L7", "|F--J", "LJ..."};
 };
 
 TEST_F(PipeMazeTests, GivenMazeWithPipeLoop_WhenFindTheStartingPoint_ExpectCoordinatesFromFieldWhereS)
@@ -57,4 +58,16 @@ TEST_F(PipeMazeTests, GivenStartingPoint_WhenGoForwardTwoTimesInSecondDirection_
     current_point_in_second_direction =
         go_forward(pipe_maze, current_point_in_second_direction, foundNeighbors.second);
     ASSERT_EQ(current_point_in_second_direction, MazePoint(3, 2));
+}
+
+TEST_F(PipeMazeTests, GivenBasicPipeMaze_WhenCountStepsToFarthestPoint_ShouldReturnNumberOfStepsEqualFour)
+{
+    auto steps_number = count_steps_to_farthest_point(pipe_maze);
+    ASSERT_EQ(steps_number, 4);
+}
+
+TEST_F(PipeMazeTests, GivenExtendedPipeMaze_WhenCountStepsToFarthestPointFrom_ShouldReturnNumberOfStepsEqualEight)
+{
+    auto steps_number = count_steps_to_farthest_point(pipe_maze_extended);
+    ASSERT_EQ(steps_number, 8);
 }
