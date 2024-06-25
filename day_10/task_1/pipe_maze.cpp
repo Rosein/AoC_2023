@@ -2,6 +2,8 @@
 #include <cassert>
 #include <string>
 
+const MazePoint invalidMazeEntryPoint{-1, -1};
+
 MazePoint find_starting_point(const PipeMaze& pipe_maze)
 {
     for(auto i = 0U; i < pipe_maze.size(); i++)
@@ -14,7 +16,7 @@ MazePoint find_starting_point(const PipeMaze& pipe_maze)
             }
         }
     }
-    return MazePoint(-1, -1);
+    return invalidMazeEntryPoint;
 }
 
 bool is_connected_to_north(const char candi_south_pipe)
@@ -103,4 +105,20 @@ std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
            "Pipe at current_position must have exactly two neighbors");
 
     return {neighbors.back(), neighbors.front()};
+}
+
+MazePoint go_forward(const PipeMaze& pipe_maze, const MazePoint& current_point, const MazePoint& previous_point)
+{
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, current_point);
+
+    if(foundNeighbors.first != previous_point)
+    {
+        return foundNeighbors.first;
+    }
+    if(foundNeighbors.second != previous_point)
+    {
+        return foundNeighbors.second;
+    }
+    
+    return invalidMazeEntryPoint;
 }
