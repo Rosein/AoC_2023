@@ -107,7 +107,9 @@ std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
     return {neighbors.back(), neighbors.front()};
 }
 
-MazePoint go_forward(const PipeMaze& pipe_maze, const MazePoint& current_point, const MazePoint& previous_point)
+MazePoint go_forward(const PipeMaze& pipe_maze,
+                     const MazePoint& current_point,
+                     const MazePoint& previous_point)
 {
     const auto foundNeighbors = find_next_neighbors(pipe_maze, current_point);
 
@@ -119,6 +121,25 @@ MazePoint go_forward(const PipeMaze& pipe_maze, const MazePoint& current_point, 
     {
         return foundNeighbors.second;
     }
-    
+
     return invalidMazeEntryPoint;
+}
+
+int count_steps_to_farthest_point(const PipeMaze& pipe_maze)
+{
+    const MazePoint starting_point{find_starting_point(pipe_maze)};
+    MazePoint prev, current;
+    prev = starting_point;
+    current = find_next_neighbors(pipe_maze, starting_point).first;
+    int step_counter{1};
+
+    while(current != starting_point)
+    {
+        auto temp = go_forward(pipe_maze, current, prev);
+        prev = current;
+        current = temp;
+        ++step_counter;
+    }
+
+    return step_counter / 2;
 }
