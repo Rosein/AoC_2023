@@ -4,13 +4,13 @@
 
 const MazePoint invalidMazeEntryPoint{-1, -1};
 
-MazePoint find_starting_point(const PipeMaze& pipe_maze)
+MazePoint AttributedMaze::find_starting_point() const
 {
-    for(auto i = 0U; i < pipe_maze.size(); i++)
+    for(auto i = 0U; i < maze_.size(); i++)
     {
-        for(auto j = 0U; j < pipe_maze[i].size(); j++)
+        for(auto j = 0U; j < maze_[i].size(); j++)
         {
-            if(pipe_maze[i][j] == 'S')
+            if(maze_[i][j].tile == 'S')
             {
                 return MazePoint(i, j);
             }
@@ -67,36 +67,39 @@ MazePoint to_west(MazePoint position)
     return position;
 }
 
-std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
-                                                    const MazePoint& maze_point)
+std::pair<MazePoint, MazePoint> AttributedMaze::find_next_neighbors(const MazePoint& maze_point) const
 {
     const MazePoint current_position(maze_point);
     std::vector<MazePoint> neighbors;
 
-    if(is_connected_to_north(pipe_maze[current_position.first][current_position.second]) &&
+    if(is_connected_to_north(
+           maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_south(
-           pipe_maze[to_north(current_position).first][current_position.second]))
+           maze_[to_north(current_position).first][current_position.second].tile))
     {
         neighbors.push_back(MazePoint(to_north(current_position)));
     }
 
-    if(is_connected_to_south(pipe_maze[current_position.first][current_position.second]) &&
+    if(is_connected_to_south(
+           maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_north(
-           pipe_maze[to_south(current_position).first][current_position.second]))
+           maze_[to_south(current_position).first][current_position.second].tile))
     {
         neighbors.push_back(MazePoint(to_south(current_position)));
     }
 
-    if(is_connected_to_east(pipe_maze[current_position.first][current_position.second]) &&
+    if(is_connected_to_east(
+           maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_west(
-           pipe_maze[current_position.first][to_east(current_position).second]))
+           maze_[current_position.first][to_east(current_position).second].tile))
     {
         neighbors.push_back(MazePoint(to_east(current_position)));
     }
 
-    if(is_connected_to_west(pipe_maze[current_position.first][current_position.second]) &&
+    if(is_connected_to_west(
+           maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_east(
-           pipe_maze[current_position.first][to_west(current_position).second]))
+           maze_[current_position.first][to_west(current_position).second].tile))
     {
         neighbors.push_back(MazePoint(to_west(current_position)));
     }
@@ -107,11 +110,10 @@ std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
     return {neighbors.back(), neighbors.front()};
 }
 
-MazePoint go_forward(const PipeMaze& pipe_maze,
-                     const MazePoint& current_point,
-                     const MazePoint& previous_point)
+MazePoint AttributedMaze::go_forward(const MazePoint& current_point,
+                                     const MazePoint& previous_point) const
 {
-    const auto foundNeighbors = find_next_neighbors(pipe_maze, current_point);
+    const auto foundNeighbors = find_next_neighbors(current_point);
 
     if(foundNeighbors.first != previous_point)
     {
@@ -125,17 +127,17 @@ MazePoint go_forward(const PipeMaze& pipe_maze,
     return invalidMazeEntryPoint;
 }
 
-int count_steps_to_farthest_point(const PipeMaze& pipe_maze)
+int AttributedMaze::count_steps_to_farthest_point() const
 {
-    const MazePoint starting_point{find_starting_point(pipe_maze)};
+    const MazePoint starting_point{find_starting_point()};
     MazePoint prev, current;
     prev = starting_point;
-    current = find_next_neighbors(pipe_maze, starting_point).first;
+    current = find_next_neighbors(starting_point).first;
     int step_counter{1};
 
     while(current != starting_point)
     {
-        auto temp = go_forward(pipe_maze, current, prev);
+        auto temp = go_forward(current, prev);
         prev = current;
         current = temp;
         ++step_counter;
