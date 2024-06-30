@@ -31,6 +31,7 @@ struct AttributedMaze
     std::pair<MazePoint, MazePoint> find_next_neighbors(const MazePoint& maze_point) const;
     MazePoint go_forward(const MazePoint& current_point, const MazePoint& previous_point) const;
     void mark_loop_tiles_in_attributed_maze();
+    bool is_in_maze(const MazePoint& point) const;
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
 };

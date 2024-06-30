@@ -207,3 +207,9 @@ void AttributedMaze::set_tile_at(const MazePoint& point, const Tile& tile)
 {
     maze_[point.first][point.second].tile = tile;
 }
+
+bool AttributedMaze::is_in_maze(const MazePoint& point) const
+{
+    return point.first >= 0 and point.first < static_cast<int>(maze_[0].size()) and
+        point.second >= 0 and point.second < static_cast<int>(maze_.size());
+}
