@@ -6,6 +6,8 @@
 
 using PipeMaze = std::vector<std::string>;
 using MazePoint = std::pair<int, int>;
+using MazeTile = char;
+
 MazePoint find_starting_point(const PipeMaze& pipe_maze);
 std::pair<MazePoint, MazePoint> find_next_neighbors(const PipeMaze& pipe_maze,
                                                     const MazePoint& maze_point);
@@ -23,17 +25,16 @@ enum class State
 
 struct AttributedMazePoint
 {
-    MazePoint point;
     State state;
-    char value;
+    MazeTile tile;
 };
 
 struct AttributedMaze
 {
-    State check_state_at(int first, int second) const;
-    char check_pipe_at(int first, int second) const;
+    State check_state_at(const MazePoint& point) const;
+    MazeTile check_pipe_at(const MazePoint& point) const;
 
-    std::vector<std::vector<AttributedMazePoint>> maze{};
+    std::vector<std::vector<AttributedMazePoint>> maze_{};
 };
 
 AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze);

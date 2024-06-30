@@ -16,7 +16,7 @@ TEST_F(PipeMazeTests, GivenMazeWithPipeLoop_WhenTransformToAttributedMaze_Expect
             constexpr auto expected_state = State::Undefined;
             const auto expected_pipe = pipe_maze[i][j];
 
-            ASSERT_EQ(maze.check_state_at(i, j), expected_state);
-            ASSERT_EQ(maze.check_pipe_at(i, j), expected_pipe);
+            ASSERT_EQ(maze.check_state_at(MazePoint(i, j)), expected_state);
+            ASSERT_EQ(maze.check_pipe_at(MazePoint(i, j)), expected_pipe);
         }
 }

@@ -147,7 +147,7 @@ int count_steps_to_farthest_point(const PipeMaze& pipe_maze)
 AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze)
 {
     AttributedMaze attributed_maze;
-    [[maybe_unused]] AttributedMazePoint attributed_point{};
+    AttributedMazePoint attributed_point{};
 
     for(auto i = 0U; i < pipe_maze.size(); ++i)
     {
@@ -155,41 +155,21 @@ AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze)
         for(auto j = 0U; j < pipe_maze[i].size(); ++j)
         {
             attributed_point.state = State::Undefined;
-            attributed_point.point = MazePoint(i, j);
-            attributed_point.value = pipe_maze[i][j];
+            attributed_point.tile = pipe_maze[i][j];
             points.push_back(attributed_point);
         }
-        attributed_maze.maze.push_back(points);
+        attributed_maze.maze_.push_back(points);
     }
+
     return attributed_maze;
 }
 
-State AttributedMaze::check_state_at(int first, int second) const
+State AttributedMaze::check_state_at(const MazePoint& point) const
 {
-    for(auto i = 0U; i < maze.size(); ++i)
-    {
-        for(auto j = 0U; j < maze[i].size(); ++j)
-        {
-            if(maze[i][j].point == MazePoint(first, second))
-            {
-                return maze[i][j].state;
-            }
-        }
-    }
-    return State::Undefined;
+    return maze_[point.first][point.second].state;
 }
 
-char AttributedMaze::check_pipe_at(int first, int second) const
+MazeTile AttributedMaze::check_pipe_at(const MazePoint& point) const
 {
-    for(auto i = 0U; i < maze.size(); ++i)
-    {
-        for(auto j = 0U; j < maze[i].size(); ++j)
-        {
-            if(maze[i][j].point == MazePoint(first, second))
-            {
-                return maze[i][j].value;
-            }
-        }
-    }
-    return '?';
+    return maze_[point.first][point.second].tile;
 }
