@@ -6,29 +6,31 @@
 
 using PipeMaze = std::vector<std::string>;
 using MazePoint = std::pair<int, int>;
-using MazeTile = char;
+using Tile = char;
 
-
-/// @task2
 enum class State
 {
-    Undefined
+    Undefined,
+    Loop,
 };
 
 struct AttributedMazePoint
 {
     State state;
-    MazeTile tile;
+    Tile tile;
 };
 
 struct AttributedMaze
 {
     State check_state_at(const MazePoint& point) const;
-    MazeTile check_pipe_at(const MazePoint& point) const;
+    Tile check_pipe_at(const MazePoint& point) const;
+    void set_state_at(const MazePoint& point, const State& state);
+    void set_tile_at(const MazePoint& point, const Tile& state);
     int count_steps_to_farthest_point() const;
     MazePoint find_starting_point() const;
     std::pair<MazePoint, MazePoint> find_next_neighbors(const MazePoint& maze_point) const;
     MazePoint go_forward(const MazePoint& current_point, const MazePoint& previous_point) const;
+    void mark_loop_tiles_in_attributed_maze();
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
 };

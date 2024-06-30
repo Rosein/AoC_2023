@@ -146,6 +146,28 @@ int AttributedMaze::count_steps_to_farthest_point() const
     return step_counter / 2;
 }
 
+void AttributedMaze::mark_loop_tiles_in_attributed_maze()
+{
+    const MazePoint starting_point{find_starting_point()};
+    set_state_at(starting_point, State::Loop);
+    MazePoint prev, current;
+    prev = starting_point;
+
+    current = find_next_neighbors(starting_point).first;
+    set_state_at(current, State::Loop);
+
+    int step_counter{1};
+
+    while(current != starting_point)
+    {
+        auto temp = go_forward(current, prev);
+        prev = current;
+        current = temp;
+        set_state_at(current, State::Loop);
+        ++step_counter;
+    }
+}
+
 AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze)
 {
     AttributedMaze attributed_maze;
@@ -171,7 +193,17 @@ State AttributedMaze::check_state_at(const MazePoint& point) const
     return maze_[point.first][point.second].state;
 }
 
-MazeTile AttributedMaze::check_pipe_at(const MazePoint& point) const
+Tile AttributedMaze::check_pipe_at(const MazePoint& point) const
 {
     return maze_[point.first][point.second].tile;
+}
+
+void AttributedMaze::set_state_at(const MazePoint& point, const State& state)
+{
+    maze_[point.first][point.second].state = state;
+}
+
+void AttributedMaze::set_tile_at(const MazePoint& point, const Tile& tile)
+{
+    maze_[point.first][point.second].tile = tile;
 }

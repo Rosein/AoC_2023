@@ -94,9 +94,10 @@ TEST_F(PipeMazeExtendedTests, GivenMazeWithPipeLoop_WhenTransformToAttributedMaz
 
 TEST_F(PipeMazeExtendedTests, GivenMazeWithPipeLoop_WheMarkLoopTilesInAttributedMaze_ExpectTileWhichIsPartOfTheLoopHasStateSetToLoop)
 {
-    maze_extended.mark_loop_tiles_in_attributed_maze();
+    auto maze = maze_extended;
+    maze.mark_loop_tiles_in_attributed_maze();
 
-    ASSERT_EQ(maze_extended.check_state_at(MazePoint(0, 3)), State::Loop);
-    ASSERT_EQ(maze_extended.check_state_at(MazePoint(0, 4)), State::Undefined);
-    ASSERT_EQ(maze_extended.check_state_at(MazePoint(4, 2)), State::Undefined);
+    ASSERT_EQ(maze.check_state_at(MazePoint(0, 3)), State::Loop);
+    ASSERT_EQ(maze.check_state_at(MazePoint(0, 4)), State::Undefined);
+    ASSERT_EQ(maze.check_state_at(MazePoint(4, 2)), State::Undefined);
 }
