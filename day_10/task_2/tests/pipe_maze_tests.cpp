@@ -113,7 +113,7 @@ struct MazeScopeTests : public ::testing::TestWithParam<MazeScopeParams>
     const AttributedMaze maze{transform_to_attributed_maze(pipe_maze)};
 };
 
-TEST_P(MazeScopeTests, GivenMazeWithPipeLoop_WhenCheckIfMazePointIsInMaze_ExpectReturnFalse)
+TEST_P(MazeScopeTests, GivenMazeWithPipeLoop_WhenCheckIfMazePointIsInMaze_ExpectReturnTrueOrFalse)
 {
     auto [maze_point, expected_result] = GetParam();
     ASSERT_EQ(maze.is_in_maze(maze_point), expected_result);
@@ -126,6 +126,45 @@ std::vector<MazeScopeParams> GenerateMazeScopeParams()
                                         {MazePoint{2, 2}, true},
                                         {MazePoint{6, 0}, false}
 
+    };
+}
+
+INSTANTIATE_TEST_SUITE_P(IsInMazeScope,
+                         MazeScopeTests,
+                         testing::ValuesIn(GenerateMazeScopeParams()));
+
+
+TEST_P(MazeScopeTests, GivenMazePoint_WhenCColorNeighborForPoint_ExpectColorEightPoint)
+{
+    // const PipeMaze pipe_maze = {
+    // "- L | F 7",
+    // "7 S - 7 |",
+    // "L | 7 | |",
+    //  "- L - J |",
+    //  "L | -J F"};
+
+    auto [color_right, color_top_right, color_down_right, color_top, color_down,
+          color_left, color_top_left, color_down_left] = GetParam();
+
+    maze.color_neighbor(MazePoint{1, 1});
+    ASSERT_EQ(check_state_at(MazePoint{1, 2}), color_right);
+    ASSERT_EQ(check_state_at(MazePoint{0, 2}), color_top_right);
+    ASSERT_EQ(check_state_at(MazePoint{2, 2}), color_down_right);
+
+    ASSERT_EQ(check_state_at(MazePoint{0, 1}), color_top);
+    ASSERT_EQ(check_state_at(MazePoint{2, 1}), color_down);
+
+    ASSERT_EQ(check_state_at(MazePoint{0, 0}), color_top_left);
+    ASSERT_EQ(check_state_at(MazePoint{1, 0}), color_left);
+    ASSERT_EQ(check_state_at(MazePoint{2, 0}), color_down_left);
+}
+
+std::vector<MazeScopeParams> GenerateMazeScopeParams()
+{
+
+    return std::vector<MazeScopeParams>{
+        {State::Loop, State::Red, State::Green, State::Red, State::Loop,
+         State::Red, State::Red, State::Red},
     };
 }
 
