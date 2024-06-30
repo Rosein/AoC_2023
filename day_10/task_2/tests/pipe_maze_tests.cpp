@@ -1,5 +1,8 @@
 #include "day_10/task_2/pipe_maze.hpp"
 #include "gtest/gtest.h"
+#include <tuple>
+#include <utility>
+#include <vector>
 
 struct PipeMazeTests : public ::testing::Test
 {
@@ -101,3 +104,31 @@ TEST_F(PipeMazeExtendedTests, GivenMazeWithPipeLoop_WheMarkLoopTilesInAttributed
     ASSERT_EQ(maze.check_state_at(MazePoint(0, 4)), State::Undefined);
     ASSERT_EQ(maze.check_state_at(MazePoint(4, 2)), State::Undefined);
 }
+
+using MazeScopeParams = std::tuple<MazePoint, bool>;
+
+struct MazeScopeTests : public ::testing::TestWithParam<MazeScopeParams>
+{
+    const PipeMaze pipe_maze = {"-L|F7", "7S-7|", "L|7||", "-L-J|", "L|-JF"};
+    const AttributedMaze maze{transform_to_attributed_maze(pipe_maze)};
+};
+
+TEST_P(MazeScopeTests, GivenMazeWithPipeLoop_WhenCheckIfMazePointIsInMaze_ExpectReturnFalse)
+{
+    auto [maze_point, expected_result] = GetParam();
+    ASSERT_EQ(maze.is_in_maze(maze_point), expected_result);
+}
+
+std::vector<MazeScopeParams> GenerateMazeScopeParams()
+{
+    return std::vector<MazeScopeParams>{{MazePoint{-1, 0}, false},
+                                        {MazePoint{0, 0}, true},
+                                        {MazePoint{2, 2}, true},
+                                        {MazePoint{6, 0}, false}
+
+    };
+}
+
+INSTANTIATE_TEST_SUITE_P(IsInMazeScope,
+                         MazeScopeTests,
+                         testing::ValuesIn(GenerateMazeScopeParams()));
