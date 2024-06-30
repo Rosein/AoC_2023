@@ -4,15 +4,14 @@
 struct PipeMazeTests : public ::testing::Test
 {
     const PipeMaze pipe_maze = {"..F7.", ".FJ|.", "SJ.L7", "|F--J", "LJ..."};
-    const MazePoint starting_point = find_starting_point(pipe_maze);
 };
 
 TEST_F(PipeMazeTests, GivenMazeWithPipeLoop_WhenTransformToAttributedMaze_ExpectAdditionalAttributeToAccess)
 {
     const AttributedMaze maze{transform_to_attributed_maze(pipe_maze)};
 
-    for(int i = 0; i < pipe_maze.size(); ++i)
-        for(int j = 0; j < pipe_maze.size(); ++j)
+    for(auto i = 0U; i < pipe_maze.size(); ++i)
+        for(auto j = 0U; j < pipe_maze[i].size(); ++j)
         {
             constexpr auto expected_state = State::Undefined;
             const auto expected_pipe = pipe_maze[i][j];
