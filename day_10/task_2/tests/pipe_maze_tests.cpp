@@ -134,7 +134,7 @@ INSTANTIATE_TEST_SUITE_P(IsInMazeScope,
                          testing::ValuesIn(GenerateMazeScopeParams()));
 
 
-TEST_P(MazeScopeTests, GivenMazePoint_WhenCColorNeighborForPoint_ExpectColorEightPoint)
+TEST_P(MazeScopeTests, GivenMazePoint_WhenColorNeighborForPoint_ExpectColorEightPoint)
 {
     // const PipeMaze pipe_maze = {
     // "- L | F 7",
