@@ -134,35 +134,44 @@ INSTANTIATE_TEST_SUITE_P(IsInMazeScope,
                          testing::ValuesIn(GenerateMazeScopeParams()));
 
 
-TEST_P(MazeScopeTests, GivenMazePoint_WhenCColorNeighborForPoint_ExpectColorEightPoint)
+TEST_P(MazeScopeTests, GivenMazePoint_WhenColorNeighborForPoint_ExpectColorEightPoint)
 {
-    // const PipeMaze pipe_maze = {
     // "- L | F 7",
     // "7 S - 7 |",
     // "L | 7 | |",
     //  "- L - J |",
     //  "L | -J F"};
 
-    auto [color_right, color_top_right, color_down_right, color_top, color_down,
-          color_left, color_top_left, color_down_left] = GetParam();
+    auto [color_top_left, color_top, color_top_right, color_right, color_down_right, color_down,
+          color_down_left, color_left] =  GetParam();
 
-    maze.color_neighbor(MazePoint{1, 1});
-    ASSERT_EQ(check_state_at(MazePoint{1, 2}), color_right);
-    ASSERT_EQ(check_state_at(MazePoint{0, 2}), color_top_right);
-    ASSERT_EQ(check_state_at(MazePoint{2, 2}), color_down_right);
+    const MazePoint starting_pipe(find_starting_point(pipe_maze));
+    const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
 
-    ASSERT_EQ(check_state_at(MazePoint{0, 1}), color_top);
-    ASSERT_EQ(check_state_at(MazePoint{2, 1}), color_down);
+    maze.color_neighbor(MazePoint{1, 1}, foundNeighbors.first);
 
     ASSERT_EQ(check_state_at(MazePoint{0, 0}), color_top_left);
-    ASSERT_EQ(check_state_at(MazePoint{1, 0}), color_left);
+    ASSERT_EQ(check_state_at(MazePoint{0, 1}), color_top);
+    ASSERT_EQ(check_state_at(MazePoint{0, 2}), color_top_right);
+    ASSERT_EQ(check_state_at(MazePoint{1, 2}), color_right);
+    ASSERT_EQ(check_state_at(MazePoint{2, 2}), color_down_right);
+    ASSERT_EQ(check_state_at(MazePoint{2, 1}), color_down);
     ASSERT_EQ(check_state_at(MazePoint{2, 0}), color_down_left);
+    ASSERT_EQ(check_state_at(MazePoint{1, 0}), color_left);
 }
 
-std::vector<MazeScopeParams> GenerateMazeScopeParams()
+using ColorTopLeft = MazePoint;
+using ColorTop = MazePoint;
+using ColorTopRight = MazePoint;
+using ColorRight = MazePoint;
+using ColorLeft = MazePoint;
+using ColorDownRight = MazePoint;
+using ColorDown = MazePoint;
+using ColorDownLeft = MazePoint;
+using MazeNeighborColorParams = std::tuple<ColorTopLeft, ColorTop, ColorTopRight, ColorRight, ColorDownRight, ColorDown, ColorDownLeft, ColorLeft>;
+std::vector<MazeNeighborColorParams> GenerateMazeScopeParams()
 {
-
-    return std::vector<MazeScopeParams>{
+    return std::vector<MazeNeighborColorParams>{
         {State::Loop, State::Red, State::Green, State::Red, State::Loop,
          State::Red, State::Red, State::Red},
     };
@@ -170,4 +179,4 @@ std::vector<MazeScopeParams> GenerateMazeScopeParams()
 
 INSTANTIATE_TEST_SUITE_P(IsInMazeScope,
                          MazeScopeTests,
-                         testing::ValuesIn(GenerateMazeScopeParams()));
+                         testing::ValuesIn(MazeNeighborColorParams()));
