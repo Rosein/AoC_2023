@@ -172,8 +172,8 @@ using MazeNeighborColorParams = std::tuple<ColorTopLeft, ColorTop, ColorTopRight
 std::vector<MazeNeighborColorParams> GenerateMazeScopeParams()
 {
     return std::vector<MazeNeighborColorParams>{
-        {State::Loop, State::Red, State::Green, State::Red, State::Loop,
-         State::Red, State::Red, State::Red},
+        {State::Red, State::Red, State::Red, State::Loop, State::Green,
+         State::Loop, State::Red, State::Red},
     };
 }
 
