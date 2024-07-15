@@ -142,8 +142,8 @@ TEST_P(MazeScopeTests, GivenMazePoint_WhenColorNeighborForPoint_ExpectColorEight
     //  "- L - J |",
     //  "L | -J F"};
 
-    auto [color_top_left, color_top, color_top_right, color_right, color_down_right, color_down,
-          color_down_left, color_left] =  GetParam();
+    auto [color_top_left, color_top, color_top_right, color_right,
+          color_down_right, color_down, color_down_left, color_left] = GetParam();
 
     const MazePoint starting_pipe(find_starting_point(pipe_maze));
     const auto foundNeighbors = find_next_neighbors(pipe_maze, starting_pipe);
@@ -168,7 +168,9 @@ using ColorLeft = MazePoint;
 using ColorDownRight = MazePoint;
 using ColorDown = MazePoint;
 using ColorDownLeft = MazePoint;
-using MazeNeighborColorParams = std::tuple<ColorTopLeft, ColorTop, ColorTopRight, ColorRight, ColorDownRight, ColorDown, ColorDownLeft, ColorLeft>;
+using MazeNeighborColorParams =
+    std::tuple<ColorTopLeft, ColorTop, ColorTopRight, ColorRight, ColorDownRight, ColorDown, ColorDownLeft, ColorLeft>;
+
 std::vector<MazeNeighborColorParams> GenerateMazeScopeParams()
 {
     return std::vector<MazeNeighborColorParams>{
