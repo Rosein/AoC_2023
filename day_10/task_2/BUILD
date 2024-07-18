@@ -12,5 +12,6 @@ cc_library(
     name = "pipe_maze",
     hdrs = ["pipe_maze.hpp"],
     srcs = ["pipe_maze.cpp"],
-    visibility = ["//visibility:public"]
+    visibility = ["//visibility:public"],
+    deps = ["//debug_features"]
 )

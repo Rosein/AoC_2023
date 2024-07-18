@@ -1,4 +1,5 @@
 #include "pipe_maze.hpp"
+#include "debug_features/debug_features.hpp"
 #include <algorithm>
 #include <cassert>
 #include <string>
@@ -238,22 +239,42 @@ void AttributedMaze::color_neighbor(const MazePoint& loop_point, const MazePoint
                    all_surrounding_tiles.begin(),
                    [loop_point](const MazePoint& surrounding_point)
                    {
+                       auto it = surrounding_point + loop_point;
+                       DEBUG_PRINT("(" << it.first << ", " << it.second << ")");
                        return surrounding_point + loop_point;
                    });
 
+    int k{};
     while(all_surrounding_tiles.front() != next_loop_point)
     {
         std::vector<MazePoint>& v(all_surrounding_tiles);
         std::rotate(v.rbegin(), v.rbegin() + 1, v.rend());
+        DEBUG_PRINT("Rotation nr" << ++k)
+        for(auto& it : all_surrounding_tiles)
+        {
+            DEBUG_PRINT("(" << it.first << ", " << it.second << ")");
+        }
     }
 
+    DEBUG_PRINT("After rotation");
+
+    for(auto& it : all_surrounding_tiles)
+    {
+        DEBUG_PRINT("(" << it.first << ", " << it.second << ")");
+    }
+
+    DEBUG_PRINT("Coloring");
+
     auto it = all_surrounding_tiles.begin();
+    // ++it;
     bool put_right_color{true};
     for(; it < all_surrounding_tiles.end(); ++it)
     {
+        DEBUG_PRINT("(" << it->first << ", " << it->second << ")");
         const auto current_maze_point = *it;
         if(current_maze_point == second_neighbor)
         {
+            DEBUG_PRINT("Change color");
             put_right_color = false;
             continue;
         }
@@ -262,5 +283,32 @@ void AttributedMaze::color_neighbor(const MazePoint& loop_point, const MazePoint
             const auto color = (put_right_color) ? State::RightColor : State::LeftColor;
             set_state_at(current_maze_point, color);
         }
+    }
+}
+
+void AttributedMaze::print()
+{
+    for(int i = 0; i < static_cast<int>(maze_.size()); ++i)
+    {
+        for(int j = 0; j < static_cast<int>(maze_.front().size()); ++j)
+        {
+            const char to_print_undefined{'o'};
+            char to_print = to_print_undefined;
+            auto checked_state = check_state_at(MazePoint{i, j});
+            if(checked_state == State::Loop)
+            {
+                to_print = 'L';
+            }
+            else if(checked_state == State::LeftColor)
+            {
+                to_print = 'a';
+            }
+            else if(checked_state == State::RightColor)
+            {
+                to_print = 'b';
+            }
+            std::cout << to_print << " ";
+        }
+        std::cout << std::endl;
     }
 }

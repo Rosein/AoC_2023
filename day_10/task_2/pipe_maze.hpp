@@ -35,6 +35,7 @@ struct AttributedMaze
     void mark_loop_tiles_in_attributed_maze();
     bool is_in_maze(const MazePoint& point) const;
     void color_neighbor(const MazePoint& loop_point, const MazePoint& next_loop_point);
+    void print();
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
 };
