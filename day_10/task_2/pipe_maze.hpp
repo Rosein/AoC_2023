@@ -12,6 +12,8 @@ enum class State
 {
     Undefined,
     Loop,
+    LeftColor,
+    RightColor
 };
 
 struct AttributedMazePoint
@@ -23,7 +25,7 @@ struct AttributedMazePoint
 struct AttributedMaze
 {
     State check_state_at(const MazePoint& point) const;
-    Tile check_pipe_at(const MazePoint& point) const;
+    Tile check_tile_at(const MazePoint& point) const;
     void set_state_at(const MazePoint& point, const State& state);
     void set_tile_at(const MazePoint& point, const Tile& state);
     int count_steps_to_farthest_point() const;
@@ -32,6 +34,7 @@ struct AttributedMaze
     MazePoint go_forward(const MazePoint& current_point, const MazePoint& previous_point) const;
     void mark_loop_tiles_in_attributed_maze();
     bool is_in_maze(const MazePoint& point) const;
+    void color_neighbor(const MazePoint& loop_point, const MazePoint& next_loop_point);
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
 };
