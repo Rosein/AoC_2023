@@ -179,11 +179,7 @@ TEST_P(MazeColorTests, GivenMazePoint_WhenColorNeighborForPoint_ExpectColorEight
     MazePoint starting_pipe(maze.find_starting_point());
     maze.mark_loop_tiles_in_attributed_maze();
     const auto foundNeighbors = maze.find_next_neighbors(starting_pipe);
-    // std::cout << "BEFORE COLORING" << std::endl;
-    // maze.print();
     maze.color_neighbor(MazePoint{1, 1}, foundNeighbors.first);
-    // std::cout << "AFTER COLORING" << std::endl;
-    // maze.print();
     ASSERT_EQ(maze.check_state_at(MazePoint{0, 0}), color_top_left);
     ASSERT_EQ(maze.check_state_at(MazePoint{0, 1}), color_top);
     ASSERT_EQ(maze.check_state_at(MazePoint{0, 2}), color_top_right);
