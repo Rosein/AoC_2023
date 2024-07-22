@@ -220,7 +220,7 @@ MazePoint operator+(const MazePoint& lhs, const MazePoint& rhs)
     return MazePoint{lhs.first + rhs.first, lhs.second + rhs.second};
 }
 
-std::vector<MazePoint> GenerateAllSurroudningTilesStartingFromLeftTopClockWise(const MazePoint& mid_loop_point)
+std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point)
 {
     std::vector<MazePoint> all_surrounding_tiles = {
         MazePoint{-1, -1}, MazePoint{-1, 0}, MazePoint{-1, 1},
@@ -245,7 +245,7 @@ void AttributedMaze::color_neighbor(const MazePoint& loop_point, const MazePoint
     MazePoint second_neighbor =
         (next_loop_point == neighbors.first) ? neighbors.second : neighbors.first;
 
-    auto all_surrounding_tiles = GenerateAllSurroudningTilesStartingFromLeftTopClockWise(loop_point);
+    auto all_surrounding_tiles = generate_all_surroudning_tiles_starting_from_left_top_clock_wise(loop_point);
 
     while(all_surrounding_tiles.front() != next_loop_point)
     {
