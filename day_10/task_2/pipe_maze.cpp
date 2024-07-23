@@ -1,4 +1,5 @@
 #include "pipe_maze.hpp"
+#include <algorithm>
 #include <cassert>
 #include <string>
 
@@ -193,7 +194,7 @@ State AttributedMaze::check_state_at(const MazePoint& point) const
     return maze_[point.first][point.second].state;
 }
 
-Tile AttributedMaze::check_pipe_at(const MazePoint& point) const
+Tile AttributedMaze::check_tile_at(const MazePoint& point) const
 {
     return maze_[point.first][point.second].tile;
 }
@@ -212,4 +213,60 @@ bool AttributedMaze::is_in_maze(const MazePoint& point) const
 {
     return point.first >= 0 and point.first < static_cast<int>(maze_[0].size()) and
         point.second >= 0 and point.second < static_cast<int>(maze_.size());
+}
+
+MazePoint operator+(const MazePoint& lhs, const MazePoint& rhs)
+{
+    return MazePoint{lhs.first + rhs.first, lhs.second + rhs.second};
+}
+
+std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point)
+{
+    std::vector<MazePoint> all_surrounding_tiles = {
+        MazePoint{-1, -1}, MazePoint{-1, 0}, MazePoint{-1, 1},
+        MazePoint{0, 1},   MazePoint{1, 1},  MazePoint{1, 0},
+        MazePoint{1, -1},  MazePoint{0, -1}};
+
+    std::transform(all_surrounding_tiles.begin(), all_surrounding_tiles.end(),
+                   all_surrounding_tiles.begin(),
+                   [mid_loop_point](const MazePoint& surrounding_point)
+                   {
+                       return surrounding_point + mid_loop_point;
+                   });
+    return all_surrounding_tiles;
+}
+
+void AttributedMaze::color_neighbor(const MazePoint& loop_point, const MazePoint& next_loop_point)
+{
+    assert(is_in_maze(loop_point));
+    assert(is_in_maze(next_loop_point));
+    auto neighbors = find_next_neighbors(loop_point);
+    assert((next_loop_point == neighbors.first || next_loop_point == neighbors.second));
+    MazePoint second_neighbor =
+        (next_loop_point == neighbors.first) ? neighbors.second : neighbors.first;
+
+    auto all_surrounding_tiles = generate_all_surroudning_tiles_starting_from_left_top_clock_wise(loop_point);
+
+    while(all_surrounding_tiles.front() != next_loop_point)
+    {
+        std::vector<MazePoint>& v(all_surrounding_tiles);
+        std::rotate(v.rbegin(), v.rbegin() + 1, v.rend());
+    }
+
+    auto it = all_surrounding_tiles.begin();
+    bool put_right_color{true};
+    for(; it < all_surrounding_tiles.end(); ++it)
+    {
+        const auto current_maze_point = *it;
+        if(current_maze_point == second_neighbor)
+        {
+            put_right_color = false;
+            continue;
+        }
+        if(check_state_at(current_maze_point) == State::Undefined)
+        {
+            const auto color = (put_right_color) ? State::RightColor : State::LeftColor;
+            set_state_at(current_maze_point, color);
+        }
+    }
 }
