@@ -193,3 +193,42 @@ TEST_P(MazeColorTests, GivenMazePoint_WhenColorNeighborForPoint_ExpectColorEight
 INSTANTIATE_TEST_SUITE_P(IsColoredWell,
                          MazeColorTests,
                          testing::ValuesIn(GenerateMazeColoredScopeParams()));
+
+
+// @test to verify differentiating between enclosed and open tiles
+//
+// Used pipe maze:
+// ...........
+// .S-------7.
+// .|F-----7|.
+// .||.....||.
+// .||.....||.
+// .|L-7.F-J|.
+// .|..|.|..|.
+// .L--J.L--J.
+// ...........
+//
+TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoop_WhenCalculateEnclosedTiles_ThenReturnFour)
+{
+    // Given
+    PipeMaze pipe_maze = {
+        "...........",
+        ".S-------7.",
+        ".|F-----7|.",
+        ".||.....||.",
+        ".||.....||.",
+        ".|L-7.F-J|.",
+        ".|..|.|..|.",
+        ".L--J.L--J.",
+        "...........",
+    }
+    AttributedMaze maze(transform_to_attributed_maze(pipe_maze));
+    maze.mark_loop_tiles_in_attributed_maze();
+
+
+    // When
+    const auto result = maze.count_enclosed_tiles();
+
+    // Then
+    EXPECT_EQ(result, 4);
+}
