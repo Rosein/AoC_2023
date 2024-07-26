@@ -35,6 +35,12 @@ struct AttributedMaze
     void mark_loop_tiles_in_attributed_maze();
     bool is_in_maze(const MazePoint& point) const;
     void color_neighbor(const MazePoint& loop_point, const MazePoint& next_loop_point);
+    int count_enclosed_tiles();
+    void color_neighbors();
+    State find_which_color_is_closed();
+    std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point);
+    void remove_invalid_maze_points(std::vector<MazePoint>& tiles);
+    void print_states();
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
 };

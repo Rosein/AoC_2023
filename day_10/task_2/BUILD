@@ -4,7 +4,6 @@ cc_binary(
     deps = [
         ":pipe_maze",
         "//path_helper"
-        # "//debug_features:debug_features"],
     ]
 )
 
