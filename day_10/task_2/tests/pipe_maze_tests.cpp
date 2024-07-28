@@ -244,7 +244,7 @@ TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButLoopIsCloseToBounda
         ".|L----J|",
         ".S------J",
     };
-    
+
     AttributedMaze maze(transform_to_attributed_maze(pipe_maze));
     maze.mark_loop_tiles_in_attributed_maze();
 
@@ -269,13 +269,13 @@ TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButNotAllTilesAleClose
         "|L-------J|",
         "S---------J",
     };
-    
+
     AttributedMaze maze(transform_to_attributed_maze(pipe_maze));
     maze.mark_loop_tiles_in_attributed_maze();
 
     // When
     const auto result = maze.count_enclosed_tiles();
-
+    maze.print_states();
     // Then
     EXPECT_EQ(result, 21);
 }

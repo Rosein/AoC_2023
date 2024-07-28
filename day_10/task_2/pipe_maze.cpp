@@ -151,7 +151,7 @@ int AttributedMaze::count_steps_to_farthest_point() const
 void AttributedMaze::mark_loop_tiles_in_attributed_maze()
 {
     const MazePoint starting_point{find_starting_point()};
-    
+
     set_state_at(starting_point, State::Loop);
     MazePoint prev, current;
     prev = starting_point;
@@ -345,6 +345,7 @@ State AttributedMaze::find_which_color_is_closed()
 int AttributedMaze::count_enclosed_tiles()
 {
     color_neighbors();
+    fill_with_color_untouched_non_loop_tiles();
     State closed_color = find_which_color_is_closed();
     int counter{0};
     for(const auto& row : maze_)
@@ -353,4 +354,107 @@ int AttributedMaze::count_enclosed_tiles()
             return point.state == closed_color;});
     }
     return counter;
+}
+
+State AttributedMaze::find_the_edge_color_from(const MazePoint& point)
+{
+    auto is_color = [](const auto& state){ return state == State::LeftColor || state == State::RightColor; };
+    // Check to top
+    for(auto i = point.first; i >= 0; --i)
+    {
+        auto potential_candi = check_state_at(MazePoint{i, point.second});
+        if(is_color(potential_candi))
+        {
+            return potential_candi;
+        }
+    }
+
+    // Check to bottom
+    for(auto i = point.first; i < static_cast<int>(maze_.size()) ; ++i)
+    {
+        auto potential_candi = check_state_at(MazePoint{i, point.second});
+        if(is_color(potential_candi))
+        {
+            return potential_candi;
+        }
+    }
+
+    // Check to left
+    for(auto i = point.second; i >= 0; --i)
+    {
+        auto potential_candi = check_state_at(MazePoint{point.first, i});
+        if(is_color(potential_candi))
+        {
+            return potential_candi;
+        }
+    }
+
+    // Check to right
+    for(auto i = point.second; i < static_cast<int>(maze_.front().size()); ++i)
+    {
+        auto potential_candi = check_state_at(MazePoint{point.first, i});
+        if(is_color(potential_candi))
+        {
+            return potential_candi;
+        }
+    }
+
+    return State::Undefined;
+}
+
+void AttributedMaze::fill_all_surrounding_undefined_with_state(const MazePoint& undefined_point, const State& color)
+{
+    assert(check_state_at(undefined_point) == State::Undefined);
+    auto is_color = [](const auto& state){ return state == State::LeftColor || state == State::RightColor; };
+    assert(is_color(color));
+
+    set_state_at(undefined_point, color);
+
+    // Up neighbor
+    const auto upper_neighbor = MazePoint{undefined_point.first - 1, undefined_point.second};
+    if(is_in_maze(upper_neighbor) and check_state_at(upper_neighbor) == State::Undefined)
+    {
+        fill_all_surrounding_undefined_with_state(upper_neighbor, color);
+    }
+
+    // lower neighbor
+    const auto lower_neighbor = MazePoint{undefined_point.first + 1, undefined_point.second};
+    if(is_in_maze(lower_neighbor) and check_state_at(lower_neighbor) == State::Undefined)
+    {
+        fill_all_surrounding_undefined_with_state(lower_neighbor, color);
+    }
+
+    // left neighbor
+    const auto left_neighbor = MazePoint{undefined_point.first, undefined_point.second - 1};
+    if(is_in_maze(left_neighbor) and check_state_at(left_neighbor) == State::Undefined)
+    {
+        fill_all_surrounding_undefined_with_state(left_neighbor, color);
+    }
+
+    // right neighbor
+    const auto right_neighbor = MazePoint{undefined_point.first, undefined_point.second + 1};
+    if(is_in_maze(right_neighbor) and check_state_at(right_neighbor) == State::Undefined)
+    {
+        fill_all_surrounding_undefined_with_state(right_neighbor, color);
+    }
+
+}
+
+
+void AttributedMaze::fill_with_color_untouched_non_loop_tiles()
+{
+    // 1. Assumption is that previously mark_loop_tiles_in_attributed_maze() was called
+    // 2. Assumption is that previously color_neigbhors() was called
+    // The order of both assumptions matters.
+    for(auto i = 0U; i < maze_.size(); i++)
+    {
+        for(auto j = 0U; j < maze_[i].size(); j++)
+        {
+            if(maze_[i][j].state == State::Undefined)
+            {
+                const auto color = find_the_edge_color_from(MazePoint{i, j});
+                fill_all_surrounding_undefined_with_state(MazePoint{i, j}, color);
+            }
+        }
+    }
 }

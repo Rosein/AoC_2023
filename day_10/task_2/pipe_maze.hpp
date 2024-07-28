@@ -41,8 +41,13 @@ struct AttributedMaze
     std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point);
     void remove_invalid_maze_points(std::vector<MazePoint>& tiles);
     void print_states();
+    State find_the_edge_color_from(const MazePoint& point);
+    void fill_all_surrounding_undefined_with_state(const MazePoint& undefined_point, const State& color);
 
     std::vector<std::vector<AttributedMazePoint>> maze_{};
+
+private:
+    void fill_with_color_untouched_non_loop_tiles();
 };
 
 AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze);
