@@ -151,7 +151,7 @@ int AttributedMaze::count_steps_to_farthest_point() const
 void AttributedMaze::mark_loop_tiles_in_attributed_maze()
 {
     const MazePoint starting_point{find_starting_point()};
-    
+
     set_state_at(starting_point, State::Loop);
     MazePoint prev, current;
     prev = starting_point;

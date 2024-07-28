@@ -23,9 +23,11 @@ void run_app(std::string filename)
         // std::cout << line << std::endl;
         pipe.push_back(line);
     }
+    AttributedMaze maze{transform_to_attributed_maze(pipe)};
+    maze.mark_loop_tiles_in_attributed_maze();
 
-    int steps = count_steps_to_farthest_point(pipe);
-    std::cout << "steps: " << steps << std::endl;
+    int number_of_inner_tiles = maze.count_enclosed_tiles();
+    std::cout << "number_of_inner_tiles: " << number_of_inner_tiles << std::endl;
     fs.close();
 }
 
@@ -33,7 +35,7 @@ void run_app(std::string filename)
 int main(int argc, char** argv)
 {
     std::string filename =
-        path_helper::prename + std::string{"/AoC_2023/day_10/task_1/input"};
+        path_helper::prename + std::string{"/AoC_2023/day_10/task_2/input"};
     run_app(filename);
     return 0;
 }
