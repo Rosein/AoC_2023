@@ -185,6 +185,9 @@ AttributedMaze transform_to_attributed_maze(const PipeMaze& pipe_maze)
         attributed_maze.maze_.push_back(points);
     }
 
+    std::vector<AttributedMazePoint> points(pipe_maze.front().size(), AttributedMazePoint{State::Undefined, '-'});
+    attributed_maze.maze_.push_back(points);
+
     return attributed_maze;
 }
 
@@ -305,6 +308,18 @@ void AttributedMaze::print_states()
     }
 }
 
+void AttributedMaze::print_maze()
+{
+    for(const auto& row : maze_)
+    {
+        for(const auto& single_tile : row)
+        {
+            std::cout << single_tile.tile;
+        }
+        std::cout << std::endl;
+    }
+}
+
 void AttributedMaze::color_neighbors()
 {
     const MazePoint starting_point{find_starting_point()};
@@ -325,7 +340,12 @@ void AttributedMaze::color_neighbors()
 
 State AttributedMaze::find_which_color_is_closed()
 {
-    for(auto i = 0U; i < maze_.size(); i++)
+    if(maze_.empty())
+    {
+        return State::Undefined;
+    }
+
+    for(auto i = maze_.size() - 1U; i >= 0 ; --i)
     {
         for(auto j = 0U; j < maze_[i].size(); j++)
         {
