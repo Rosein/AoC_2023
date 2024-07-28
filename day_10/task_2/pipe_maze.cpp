@@ -1,6 +1,7 @@
 #include "pipe_maze.hpp"
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 #include <string>
 
 const MazePoint invalidMazeEntryPoint{-1, -1};
@@ -73,7 +74,7 @@ std::pair<MazePoint, MazePoint> AttributedMaze::find_next_neighbors(const MazePo
     const MazePoint current_position(maze_point);
     std::vector<MazePoint> neighbors;
 
-    if(is_connected_to_north(
+    if((current_position.first - 1) < static_cast<int>(maze_.size()) && is_connected_to_north(
            maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_south(
            maze_[to_north(current_position).first][current_position.second].tile))
@@ -81,7 +82,7 @@ std::pair<MazePoint, MazePoint> AttributedMaze::find_next_neighbors(const MazePo
         neighbors.push_back(MazePoint(to_north(current_position)));
     }
 
-    if(is_connected_to_south(
+    if((current_position.first +1) < static_cast<int>(maze_.size()) && is_connected_to_south(
            maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_north(
            maze_[to_south(current_position).first][current_position.second].tile))
@@ -89,7 +90,7 @@ std::pair<MazePoint, MazePoint> AttributedMaze::find_next_neighbors(const MazePo
         neighbors.push_back(MazePoint(to_south(current_position)));
     }
 
-    if(is_connected_to_east(
+    if((current_position.second + 1) < static_cast<int>(maze_[0].size()) && is_connected_to_east(
            maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_west(
            maze_[current_position.first][to_east(current_position).second].tile))
@@ -97,7 +98,7 @@ std::pair<MazePoint, MazePoint> AttributedMaze::find_next_neighbors(const MazePo
         neighbors.push_back(MazePoint(to_east(current_position)));
     }
 
-    if(is_connected_to_west(
+    if((current_position.second - 1) < static_cast<int>(maze_[0].size()) && is_connected_to_west(
            maze_[current_position.first][current_position.second].tile) &&
        is_connected_to_east(
            maze_[current_position.first][to_west(current_position).second].tile))
@@ -150,6 +151,7 @@ int AttributedMaze::count_steps_to_farthest_point() const
 void AttributedMaze::mark_loop_tiles_in_attributed_maze()
 {
     const MazePoint starting_point{find_starting_point()};
+    
     set_state_at(starting_point, State::Loop);
     MazePoint prev, current;
     prev = starting_point;
@@ -157,15 +159,12 @@ void AttributedMaze::mark_loop_tiles_in_attributed_maze()
     current = find_next_neighbors(starting_point).first;
     set_state_at(current, State::Loop);
 
-    int step_counter{1};
-
     while(current != starting_point)
     {
         auto temp = go_forward(current, prev);
         prev = current;
         current = temp;
         set_state_at(current, State::Loop);
-        ++step_counter;
     }
 }
 
@@ -211,8 +210,7 @@ void AttributedMaze::set_tile_at(const MazePoint& point, const Tile& tile)
 
 bool AttributedMaze::is_in_maze(const MazePoint& point) const
 {
-    return point.first >= 0 and point.first < static_cast<int>(maze_[0].size()) and
-        point.second >= 0 and point.second < static_cast<int>(maze_.size());
+    return point.first >= 0 and point.first < static_cast<int>(maze_.size()) and point.second >= 0 and point.second < static_cast<int>(maze_[0].size());
 }
 
 MazePoint operator+(const MazePoint& lhs, const MazePoint& rhs)
@@ -220,7 +218,14 @@ MazePoint operator+(const MazePoint& lhs, const MazePoint& rhs)
     return MazePoint{lhs.first + rhs.first, lhs.second + rhs.second};
 }
 
-std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point)
+void AttributedMaze::remove_invalid_maze_points(std::vector<MazePoint>& tiles) {
+    tiles.erase(std::remove_if(tiles.begin(), tiles.end(),
+        [this](const MazePoint& tiles) {
+            return not is_in_maze(tiles);
+        }), tiles.end());
+}
+
+std::vector<MazePoint> AttributedMaze::generate_all_surroudning_tiles_starting_from_left_top_clock_wise(const MazePoint& mid_loop_point)
 {
     std::vector<MazePoint> all_surrounding_tiles = {
         MazePoint{-1, -1}, MazePoint{-1, 0}, MazePoint{-1, 1},
@@ -233,6 +238,7 @@ std::vector<MazePoint> generate_all_surroudning_tiles_starting_from_left_top_clo
                    {
                        return surrounding_point + mid_loop_point;
                    });
+    remove_invalid_maze_points (all_surrounding_tiles);
     return all_surrounding_tiles;
 }
 
@@ -269,4 +275,82 @@ void AttributedMaze::color_neighbor(const MazePoint& loop_point, const MazePoint
             set_state_at(current_maze_point, color);
         }
     }
+}
+
+void AttributedMaze::print_states()
+{
+    for(const auto& row : maze_)
+    {
+        for(const auto& single_tile : row)
+        {
+            if(single_tile.state == State::Undefined)
+            {
+                std::cout << ".";
+            }
+            if(single_tile.state == State::LeftColor)
+            {
+                std::cout << "L";
+            }
+            if(single_tile.state == State::RightColor)
+            {
+                std::cout << "R";
+            }
+            if(single_tile.state == State::Loop)
+            {
+                std::cout << "X";
+            }
+
+        }
+        std::cout << std::endl;
+    }
+}
+
+void AttributedMaze::color_neighbors()
+{
+    const MazePoint starting_point{find_starting_point()};
+    MazePoint prev, current;
+    prev = starting_point;
+
+    current = find_next_neighbors(starting_point).first;
+    color_neighbor(prev, current);
+
+    while(current != starting_point)
+    {
+        auto temp = go_forward(current, prev);
+        prev = current;
+        current = temp;
+        color_neighbor(prev, current);
+    }
+}
+
+State AttributedMaze::find_which_color_is_closed()
+{
+    for(auto i = 0U; i < maze_.size(); i++)
+    {
+        for(auto j = 0U; j < maze_[i].size(); j++)
+        {
+            if(maze_[i][j].state == State::LeftColor)
+            {
+                return State::RightColor;
+            }
+            if(maze_[i][j].state == State::RightColor)
+            {
+                return State::LeftColor;
+            }
+        }
+    }
+    return State::Undefined;
+}
+
+int AttributedMaze::count_enclosed_tiles()
+{
+    color_neighbors();
+    State closed_color = find_which_color_is_closed();
+    int counter{0};
+    for(const auto& row : maze_)
+    {
+        counter += std::count_if(row.begin(), row.end(), [closed_color](const AttributedMazePoint& point) {
+            return point.state == closed_color;});
+    }
+    return counter;
 }
