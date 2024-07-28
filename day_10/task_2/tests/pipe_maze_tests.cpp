@@ -255,5 +255,32 @@ TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButLoopIsCloseToBounda
     EXPECT_EQ(result, 4);
 }
 
+TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButNotAllTilesAleClosedToLoop_WhenCalculateEnclosedTiles_ThenReturnTwentyOne)
+{
+    // Given
+    PipeMaze pipe_maze = {
+        "F---7F----7",
+        "|...||....|",
+        "|...||....|",
+        "|...||....|",
+        "|F--JL---7|",
+        "||.......||",
+        "||.......||",
+        "|L-------J|",
+        "S---------J",
+    };
+    
+    AttributedMaze maze(transform_to_attributed_maze(pipe_maze));
+    maze.mark_loop_tiles_in_attributed_maze();
+
+    // When
+    const auto result = maze.count_enclosed_tiles();
+
+    // Then
+    EXPECT_EQ(result, 21);
+}
+
+
+
 
 
