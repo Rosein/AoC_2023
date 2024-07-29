@@ -255,7 +255,7 @@ TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButLoopIsCloseToBounda
     EXPECT_EQ(result, 4);
 }
 
-TEST(AttributedMazeTest, GivenAttributedMazeWithMarkedLoopButNotAllTilesAleClosedToLoop_WhenCalculateEnclosedTiles_ThenReturnTwentyOne)
+TEST(AttributedMazeTest, GivenAttributedMazeWithEnclosedButTouchingTilesToLoop_WhenCalculateEnclosedTiles_ThenReturnTwentyOne)
 {
     // Given
     PipeMaze pipe_maze = {
