@@ -25,12 +25,10 @@ void run_app(std::string filename)
     }
 
     CosmicExpansion cosmic{cosmic_data};
-    cosmic.expands_columns_without_galaxy();
-    cosmic.expands_rows_without_galaxy();
 
     GalaxiesCoords coords = cosmic.extract_galaxies_coordinates();
 
-    int total_distance{0};
+    long long unsigned int total_distance{0};
 
     for(std::size_t i = 0; i < coords.size(); ++i)
     {
