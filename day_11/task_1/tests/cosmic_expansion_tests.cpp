@@ -1,12 +1,6 @@
 #include "day_11/task_1/cosmic_expansion.hpp"
 #include "gtest/gtest.h"
 
-enum class TypeOfBlock
-{
-    row,
-    column
-};
-
 using DoesBlockContainGalaxyParams =
     std::tuple<std::size_t, TypeOfBlock, bool>;
 
@@ -34,15 +28,17 @@ struct CosmicUniverseTest : public ::testing::TestWithParam<DoesBlockContainGala
      "..........",
      ".......#..",
      "#...#....."};
+    CosmicExpansion sut{cosmic_universe};
 };
 
 TEST_P(CosmicUniverseTest, GivenCosmicUniverse_WhenCheckDoesBlockContainGalaxy_ThenConfimartionIsAsExpected)
 {
     // Given
+
     auto [index, type_of_block, expected_result] = GetParam();
 
     // When
-    auto actual_result = does_block_contain_galaxy(index, type_of_block);
+    auto actual_result = sut.does_block_contain_galaxy(index, type_of_block);
 
     // Then
     ASSERT_EQ(actual_result, expected_result);
