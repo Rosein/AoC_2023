@@ -96,3 +96,37 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForRowWithoutGalaxyThen
     ASSERT_FALSE(has_new_row_galaxy);
 }
 
+TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForAllRowsWithoutGalaxyThenShouldExpandGalaxyVertically)
+{
+    // Given
+    auto previous_galaxy_size = cosmic_universe[0].size();
+    const auto first_new_row_index = 4U;
+    const auto second_new_row_index = 9U;
+
+    // Then
+    sut.expands_rows_without_galaxy();
+
+    // When
+    ASSERT_EQ(sut.size_of_rows(), previous_galaxy_size + 2);
+    ASSERT_FALSE(sut.does_block_contain_galaxy(first_new_row_index, TypeOfBlock::row));
+    ASSERT_FALSE(sut.does_block_contain_galaxy(second_new_row_index, TypeOfBlock::row));
+}
+
+TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForAllColumnsWithoutGalaxyThenShouldExpandGalaxyHorizontally)
+{
+    // Given
+    auto previous_galaxy_size = cosmic_universe[0].size();
+    const auto first_new_column_index = 3U;
+    const auto second_new_column_index = 7U;
+    const auto third_new_column_index = 11U;
+
+    // Then
+    sut.expands_columns_without_galaxy();
+
+    // When
+    ASSERT_EQ(sut.size_of_columns(), previous_galaxy_size + 3);
+    ASSERT_FALSE(sut.does_block_contain_galaxy(first_new_column_index, TypeOfBlock::column));
+    ASSERT_FALSE(sut.does_block_contain_galaxy(second_new_column_index, TypeOfBlock::column));
+    ASSERT_FALSE(sut.does_block_contain_galaxy(third_new_column_index, TypeOfBlock::column));
+}
+
