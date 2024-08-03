@@ -130,3 +130,21 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForAllColumnsWithoutGal
     ASSERT_FALSE(sut.does_block_contain_galaxy(third_new_column_index, TypeOfBlock::column));
 }
 
+TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExtractGalaxiesCoordinatesThenShouldReturnAllCoordinates)
+{
+    // Given
+    // When
+    GalaxiesCoords galaxies_coordinates = sut.extract_galaxies_coordinates();
+
+    // Then
+    ASSERT_EQ(galaxies_coordinates.size(), 9);
+    ASSERT_EQ(galaxies_coordinates.at(0), (GalaxyCoords{0,3}));
+    ASSERT_EQ(galaxies_coordinates.at(1), (GalaxyCoords{1,7}));
+    ASSERT_EQ(galaxies_coordinates.at(2), (GalaxyCoords{2,0}));
+    ASSERT_EQ(galaxies_coordinates.at(3), (GalaxyCoords{4,6}));
+    ASSERT_EQ(galaxies_coordinates.at(4), (GalaxyCoords{5,1}));
+    ASSERT_EQ(galaxies_coordinates.at(5), (GalaxyCoords{6,9}));
+    ASSERT_EQ(galaxies_coordinates.at(6), (GalaxyCoords{8,7}));
+    ASSERT_EQ(galaxies_coordinates.at(7), (GalaxyCoords{9,0}));
+    ASSERT_EQ(galaxies_coordinates.at(8), (GalaxyCoords{9,4}));
+}
