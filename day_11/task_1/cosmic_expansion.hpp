@@ -1,5 +1,6 @@
 #pragma once
 #include <deque>
+#include <vector>
 #include <string>
 
 enum class TypeOfBlock
@@ -9,6 +10,8 @@ enum class TypeOfBlock
 };
 
 using CosmicUniverse = std::deque<std::string>;
+using GalaxyCoords = std::pair<int,int>;
+using GalaxiesCoords = std::vector<GalaxyCoords>;
 
 class CosmicExpansion
 {
@@ -18,6 +21,8 @@ public:
     void expand_for_block_without_galaxy(const int index, const TypeOfBlock type_of_block);
     void expands_rows_without_galaxy();
     void expands_columns_without_galaxy();
+
+    GalaxiesCoords extract_galaxies_coordinates();
 
     std::size_t number_of_rows();
     std::size_t number_of_columns();

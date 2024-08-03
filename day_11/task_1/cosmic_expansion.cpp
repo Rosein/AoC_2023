@@ -92,3 +92,21 @@ void CosmicExpansion::expands_columns_without_galaxy()
         }
     }
 }
+
+GalaxiesCoords CosmicExpansion::extract_galaxies_coordinates()
+{
+    GalaxiesCoords galaxies_coords{};
+
+    for(std::size_t i = 0; i < number_of_rows(); ++i)
+    {
+        for(std::size_t j = 0; j < number_of_rows(); ++j)
+        {
+            if(cosmic_universe_[i][j] == '#')
+            {
+                galaxies_coords.emplace_back(i,j);
+            }
+        }
+    }
+
+    return galaxies_coords;
+}
