@@ -15,19 +15,22 @@ std::vector<DoesBlockContainGalaxyParams> GenerateDoesBlockContainGalaxyParams()
         };
 }
 
+const CosmicUniverse cosmic_universe =
+{
+    "...#......",
+    ".......#..",
+    "#.........",
+    "..........",
+    "......#...",
+    ".#........",
+    ".........#",
+    "..........",
+    ".......#..",
+    "#...#....."
+};
+
 struct CosmicUniverseTest : public ::testing::TestWithParam<DoesBlockContainGalaxyParams>
 {
-    const CosmicUniverse cosmic_universe =
-    {"...#......",
-     ".......#..",
-     "#.........",
-     "..........",
-     "......#...",
-     ".#........",
-     ".........#",
-     "..........",
-     ".......#..",
-     "#...#....."};
     CosmicExpansion sut{cosmic_universe};
 };
 
@@ -50,17 +53,6 @@ INSTANTIATE_TEST_SUITE_P(IsColmunGalaxieslessTest,
 
 struct CosmicExpansionTest : ::testing::Test
 {
-    CosmicUniverse cosmic_universe =
-    {"...#......",
-     ".......#..",
-     "#.........",
-     "..........",
-     "......#...",
-     ".#........",
-     ".........#",
-     "..........",
-     ".......#..",
-     "#...#....."};
     CosmicExpansion sut{cosmic_universe};
 };
 
@@ -148,3 +140,48 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExtractGalaxiesCoordinatesThe
     ASSERT_EQ(galaxies_coordinates.at(7), (GalaxyCoords{9,0}));
     ASSERT_EQ(galaxies_coordinates.at(8), (GalaxyCoords{9,4}));
 }
+
+using DistanceBetweenGalaxiesParams = std::tuple<GalaxyCoords, GalaxyCoords, int>;
+
+std::vector<DistanceBetweenGalaxiesParams> GenerateDistanceBetweenGalaxiesParams()
+{
+    GalaxiesCoords galaxies_coords{
+        GalaxyCoords{10000000,10000000};
+        GalaxyCoords{0, 1},
+        GalaxyCoords{1, 9},
+        GalaxyCoords{2, 0},
+        GalaxyCoords{6, 8},
+        GalaxyCoords{7, 1},
+        GalaxyCoords{8, 12},
+        GalaxyCoords{11, 9},
+        GalaxyCoords{12, 0},
+        GalaxyCoords{12, 5},
+    };
+    return std::vector<DistanceBetweenGalaxiesParams>{
+        {galaxies_coords[5], galaxies_coords[9], 9},
+        {galaxies_coords[1], galaxies_coords[7], 15},
+        {galaxies_coords[3], galaxies_coords[6], 17},
+        {galaxies_coords[8], galaxies_coords[9], 5}
+        };
+}
+
+struct DistanceBetweenGalaxiesTest : ::testing::TestWithParam<>
+{
+    CosmicExpansion sut{cosmic_universe};
+};
+
+TEST_P(DistanceBetweenGalaxiesTest, GivenTwoGalaxiesCoordsWhenCalculateItsDistanceThenShouldReturnExpectedDistance)
+{
+    // Given
+    auto [first_galaxy, second_galaxy, expected_distance] = GetParam();
+
+    // When
+    auto actual_distance = sut.measure_distance_between(first_galaxy, second_galaxy);
+
+    // Then
+    ASSERT_DOUBLE_EQ(actual_distance, expected_distance);
+}
+
+INSTANTIATE_TEST_SUITE_P(MeasureDistanceBetweenGalaxies,
+                         DistanceBetweenGalaxiesTest,
+                         testing::ValuesIn(GenerateDistanceBetweenGalaxiesParams()));
