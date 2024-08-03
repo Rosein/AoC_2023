@@ -99,7 +99,7 @@ GalaxiesCoords CosmicExpansion::extract_galaxies_coordinates()
 
     for(std::size_t i = 0; i < number_of_rows(); ++i)
     {
-        for(std::size_t j = 0; j < number_of_rows(); ++j)
+        for(std::size_t j = 0; j < number_of_columns(); ++j)
         {
             if(cosmic_universe_[i][j] == '#')
             {

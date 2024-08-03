@@ -16,12 +16,30 @@ void run_app(std::string filename)
     }
 
     std::string line;
+    CosmicUniverse cosmic_data;
 
     while(std::getline(fs, line))
     {
-        std::cout << line << std::endl;
+        // std::cout << line << std::endl;
+        cosmic_data.push_back(line);
     }
 
+    CosmicExpansion cosmic{cosmic_data};
+    cosmic.expands_columns_without_galaxy();
+    cosmic.expands_rows_without_galaxy();
+
+    GalaxiesCoords coords = cosmic.extract_galaxies_coordinates();
+
+    int total_distance{0};
+
+    for(std::size_t i = 0; i < coords.size(); ++i)
+    {
+        for(std::size_t j = i + 1; j < coords.size(); ++j)
+        {
+            total_distance += cosmic.measure_distance_between(coords[i], coords[j]);
+        }
+    }
+    std::cout << "Total distance: " << total_distance << std::endl;
     fs.close();
 }
 
