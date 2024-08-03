@@ -1,5 +1,6 @@
 #include "cosmic_expansion.hpp"
 #include <cassert>
+#include <iostream>
 
 bool is_row(TypeOfBlock type_of_block)
 {
@@ -36,12 +37,12 @@ bool CosmicExpansion::does_block_contain_galaxy(const int index, const TypeOfBlo
     return false;
 }
 
-std::size_t CosmicExpansion::size_of_rows()
+std::size_t CosmicExpansion::number_of_rows()
 {
     return cosmic_universe_.size();
 }
 
-std::size_t CosmicExpansion::size_of_columns()
+std::size_t CosmicExpansion::number_of_columns()
 {
     assert(not cosmic_universe_.empty());
     return cosmic_universe_.front().size();
@@ -60,10 +61,34 @@ void CosmicExpansion::expand_for_block_without_galaxy(const int index, const Typ
 
     } else if(is_column(type_of_block))
     {
-        for(std::size_t i = 0U; i < size_of_rows(); ++i)
+        for(std::size_t i = 0U; i < number_of_rows(); ++i)
         {
             const int kHowMany = 1;
             cosmic_universe_[i].insert(index, kHowMany, kEmptySpace);
+        }
+    }
+}
+
+void CosmicExpansion::expands_rows_without_galaxy()
+{
+    for(std::size_t i = 0; i < number_of_rows(); ++i)
+    {
+        if(not does_block_contain_galaxy(i, TypeOfBlock::row))
+        {
+            expand_for_block_without_galaxy(i, TypeOfBlock::row);
+            ++i;
+        }
+    }
+}
+
+void CosmicExpansion::expands_columns_without_galaxy()
+{
+    for(std::size_t i = 0; i < number_of_columns(); ++i)
+    {
+        if(not does_block_contain_galaxy(i, TypeOfBlock::column))
+        {
+            expand_for_block_without_galaxy(i, TypeOfBlock::column);
+            ++i;
         }
     }
 }

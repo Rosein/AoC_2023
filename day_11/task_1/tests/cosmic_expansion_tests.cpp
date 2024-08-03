@@ -71,12 +71,12 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForColumnWithoutGalaxyT
     auto index = 2U;
     ASSERT_TRUE(sut.does_block_contain_galaxy(index + 1, TypeOfBlock::column));
 
-    // Then
+    // When
     sut.expand_for_block_without_galaxy(index, TypeOfBlock::column);
     auto has_new_column_galaxy = sut.does_block_contain_galaxy(index + 1, TypeOfBlock::column);
 
-    // When
-    ASSERT_EQ(sut.size_of_columns(), previous_galaxy_size + 1);
+    // Then
+    ASSERT_EQ(sut.number_of_columns(), previous_galaxy_size + 1);
     ASSERT_FALSE(has_new_column_galaxy);
 }
 
@@ -87,12 +87,12 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForRowWithoutGalaxyThen
     const auto index = 3U;
     ASSERT_TRUE(sut.does_block_contain_galaxy(index + 1, TypeOfBlock::row));
 
-    // Then
+    // When
     sut.expand_for_block_without_galaxy(index, TypeOfBlock::row);
     auto has_new_row_galaxy = sut.does_block_contain_galaxy(index + 1, TypeOfBlock::row);
 
-    // When
-    ASSERT_EQ(sut.size_of_rows(), previous_galaxy_size + 1);
+    // Then
+    ASSERT_EQ(sut.number_of_rows(), previous_galaxy_size + 1);
     ASSERT_FALSE(has_new_row_galaxy);
 }
 
@@ -103,11 +103,11 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForAllRowsWithoutGalaxy
     const auto first_new_row_index = 4U;
     const auto second_new_row_index = 9U;
 
-    // Then
+    // When
     sut.expands_rows_without_galaxy();
 
-    // When
-    ASSERT_EQ(sut.size_of_rows(), previous_galaxy_size + 2);
+    // Then
+    ASSERT_EQ(sut.number_of_rows(), previous_galaxy_size + 2);
     ASSERT_FALSE(sut.does_block_contain_galaxy(first_new_row_index, TypeOfBlock::row));
     ASSERT_FALSE(sut.does_block_contain_galaxy(second_new_row_index, TypeOfBlock::row));
 }
@@ -120,11 +120,11 @@ TEST_F(CosmicExpansionTest, GivenCosmicUniverseWhenExpandForAllColumnsWithoutGal
     const auto second_new_column_index = 7U;
     const auto third_new_column_index = 11U;
 
-    // Then
+    // When
     sut.expands_columns_without_galaxy();
 
-    // When
-    ASSERT_EQ(sut.size_of_columns(), previous_galaxy_size + 3);
+    // Then
+    ASSERT_EQ(sut.number_of_columns(), previous_galaxy_size + 3);
     ASSERT_FALSE(sut.does_block_contain_galaxy(first_new_column_index, TypeOfBlock::column));
     ASSERT_FALSE(sut.does_block_contain_galaxy(second_new_column_index, TypeOfBlock::column));
     ASSERT_FALSE(sut.does_block_contain_galaxy(third_new_column_index, TypeOfBlock::column));
