@@ -1,6 +1,6 @@
 #include "cosmic_expansion.hpp"
 #include <cassert>
-#include <iostream>
+#include <cmath>
 
 bool is_row(TypeOfBlock type_of_block)
 {
@@ -109,4 +109,9 @@ GalaxiesCoords CosmicExpansion::extract_galaxies_coordinates()
     }
 
     return galaxies_coords;
+}
+
+int CosmicExpansion::measure_distance_between(const GalaxyCoords& first_galaxy, const GalaxyCoords&  second_galaxy)
+{
+    return std::abs(first_galaxy.first - second_galaxy.first) + std::abs(first_galaxy.second - second_galaxy.second);
 }

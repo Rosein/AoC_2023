@@ -146,16 +146,16 @@ using DistanceBetweenGalaxiesParams = std::tuple<GalaxyCoords, GalaxyCoords, int
 std::vector<DistanceBetweenGalaxiesParams> GenerateDistanceBetweenGalaxiesParams()
 {
     GalaxiesCoords galaxies_coords{
-        GalaxyCoords{10000000,10000000};
-        GalaxyCoords{0, 1},
+        GalaxyCoords{10000000,10000000},
+        GalaxyCoords{0, 4},
         GalaxyCoords{1, 9},
         GalaxyCoords{2, 0},
-        GalaxyCoords{6, 8},
-        GalaxyCoords{7, 1},
-        GalaxyCoords{8, 12},
-        GalaxyCoords{11, 9},
-        GalaxyCoords{12, 0},
-        GalaxyCoords{12, 5},
+        GalaxyCoords{5, 8},
+        GalaxyCoords{6, 1},
+        GalaxyCoords{7, 12},
+        GalaxyCoords{10, 9},
+        GalaxyCoords{11, 0},
+        GalaxyCoords{11, 5},
     };
     return std::vector<DistanceBetweenGalaxiesParams>{
         {galaxies_coords[5], galaxies_coords[9], 9},
@@ -165,7 +165,7 @@ std::vector<DistanceBetweenGalaxiesParams> GenerateDistanceBetweenGalaxiesParams
         };
 }
 
-struct DistanceBetweenGalaxiesTest : ::testing::TestWithParam<>
+struct DistanceBetweenGalaxiesTest : ::testing::TestWithParam<DistanceBetweenGalaxiesParams>
 {
     CosmicExpansion sut{cosmic_universe};
 };

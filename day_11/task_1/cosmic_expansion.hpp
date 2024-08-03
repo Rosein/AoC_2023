@@ -21,6 +21,7 @@ public:
     void expand_for_block_without_galaxy(const int index, const TypeOfBlock type_of_block);
     void expands_rows_without_galaxy();
     void expands_columns_without_galaxy();
+    int measure_distance_between(const GalaxyCoords& first_galaxy, const GalaxyCoords&  second_galaxy);
 
     GalaxiesCoords extract_galaxies_coordinates();
 
