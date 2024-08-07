@@ -28,7 +28,7 @@ void run_app(std::string filename)
 
     GalaxiesCoords coords = cosmic.extract_galaxies_coordinates();
 
-    int total_distance{0};
+    long long unsigned int total_distance{0};
 
     for(std::size_t i = 0; i < coords.size(); ++i)
     {
@@ -45,7 +45,7 @@ void run_app(std::string filename)
 int main(int argc, char** argv)
 {
     std::string filename =
-        path_helper::prename + std::string{"/AoC_2023/day_11/task_1/input"};
+        path_helper::prename + std::string{"/AoC_2023/day_11/task_2/input"};
     run_app(filename);
     return 0;
 }
