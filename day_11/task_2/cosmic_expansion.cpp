@@ -53,15 +53,15 @@ void CosmicExpansion::expand_for_block_without_galaxy(const int index, const Typ
     assert(not does_block_contain_galaxy(index, type_of_block));
 
     const char kEmptySpace = '.';
+    const int kHowMany = 1;
     if(is_row(type_of_block))
     {
         const auto empty_row = std::string(cosmic_universe_.front().size(), kEmptySpace);
         const auto where_to_put = std::next(std::begin(cosmic_universe_), index);
-        cosmic_universe_.insert(where_to_put, empty_row);
+        cosmic_universe_.insert(where_to_put, kHowMany, empty_row);
 
     } else if(is_column(type_of_block))
     {
-        const int kHowMany = 1;
         for(std::size_t i = 0U; i < number_of_rows(); ++i)
         {
             cosmic_universe_[i].insert(index, kHowMany, kEmptySpace);
@@ -113,5 +113,35 @@ GalaxiesCoords CosmicExpansion::extract_galaxies_coordinates()
 
 int CosmicExpansion::measure_distance_between(const GalaxyCoords& first_galaxy, const GalaxyCoords&  second_galaxy)
 {
-    return std::abs(first_galaxy.first - second_galaxy.first) + std::abs(first_galaxy.second - second_galaxy.second);
+    GalaxyCoords left_top_corner{std::min(first_galaxy.first, second_galaxy.first), std::min(first_galaxy.second, second_galaxy.second)};
+    GalaxyCoords right_bottom_corner{std::max(first_galaxy.first, second_galaxy.first), std::max(first_galaxy.second, second_galaxy.second)};
+    int distance{0};
+    const int kBonusDueToGalaxyAbsence{1000'000};
+
+    for(int i = left_top_corner.first; i < right_bottom_corner.first; ++i)
+    {
+        if(does_block_contain_galaxy(i, TypeOfBlock::row))
+        {
+            ++distance;
+        }
+        else
+        {
+            distance += kBonusDueToGalaxyAbsence;
+        }
+
+    }
+
+    for(int i = left_top_corner.second; i < right_bottom_corner.second; ++i)
+    {
+        if(does_block_contain_galaxy(i, TypeOfBlock::column))
+        {
+            ++distance;
+        }
+        else
+        {
+            distance += kBonusDueToGalaxyAbsence;
+        }
+
+    }
+    return distance;
 }
