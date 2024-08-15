@@ -11,7 +11,7 @@ TEST_F(HotSpringTest, givenSpringConditionDataWhenExtractGroupsThenOnlyGroupsSho
     //Given
 
     //When
-    std::string extracted_spring_groups = extract_groups(spring_condition_data);
+    std::vector<int> extracted_spring_groups = extract_groups(spring_condition_data);
 
     //Then
     std::vector<int> expected_extracted_condition{1,1,3};
@@ -27,7 +27,7 @@ TEST_F(HotSpringTest, givenSpringConditionDataWhenExtractConditionThenOnlySpring
 
     //Then
     std::string expected_extracted_condition{"???.###"};
-    ASSERT_EQ(extracted_condition, arranged_spring);
+    ASSERT_EQ(extracted_condition, expected_extracted_condition);
 }
 
 TEST_F(HotSpringTest, whenSpringHasObviousUnknownSpringCondidtionsThenShouldArrangeItWithProperValue)
