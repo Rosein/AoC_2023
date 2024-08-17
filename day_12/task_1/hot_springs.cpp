@@ -7,8 +7,15 @@ std::vector<int> extract_groups(std::string spring_condition_data)
     std::replace(spring_condition_data.begin(), spring_condition_data.end(),',', ' ');
     std::stringstream ss{spring_condition_data};
     std::string conditions;
-    std::vector<int> groups(3);
-    ss >> conditions >> groups[0] >> groups[1] >> groups[2];
+    ss >> conditions;
+
+    int broker{};
+    std::vector<int> groups{};
+    while(ss >> broker)
+    {
+        groups.push_back(broker);
+    }
+
     return groups;
 }
 
