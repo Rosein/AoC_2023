@@ -2,6 +2,10 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <map>
+
+
+std::map<std::pair<std::string, std::vector<int>>, long long unsigned> MEMO;
 
 std::vector<int> extract_groups(std::string spring_condition_data)
 {
@@ -25,7 +29,6 @@ std::string extract_conditions(std::string spring_condition_data)
     std::stringstream ss{spring_condition_data};
     std::string conditions;
     ss >> conditions;
-    conditions = "." + conditions + ".";
     return conditions;
 }
 
@@ -33,33 +36,39 @@ int check_last_condition(std::string extracted_condition)
 {
     if(extracted_condition.contains('#'))
     {
-        std::cout <<  "found # in substr" << std::endl;
         return 0;
     }
     return 1;
 }
 
 
-int arrange_spring(std::string extracted_condition, std::vector<int> groups) {
+long long unsigned arrange_spring(std::string extracted_condition, std::vector<int> groups)
+{
+    auto key = std::make_pair(extracted_condition, groups);
+    if (MEMO.find(key) != MEMO.end())
+    {
+       return MEMO[key];
+    }
 
     if(groups.empty())
     {
-        std::cout <<  "empty groups" << std::endl;
         return check_last_condition(extracted_condition);
     }
 
-    int size = groups[0];
+    long long unsigned size = groups[0];
     groups.erase(groups.begin());
 
-    int count = 0;
+    long long unsigned count = 0;
 
-    for (int end = 0; end < extracted_condition.length(); ++end) {
-        int start = end - (size - 1);
+    for (int end = 0; end < extracted_condition.length(); ++end)
+    {
+        long long unsigned start = end - (size - 1);
 
         if (fits(extracted_condition, start, end)) {
             count += arrange_spring(extracted_condition.substr(end + 1), groups);
         }
     }
+    MEMO[key] = count;
     return count;
 }
 
@@ -67,25 +76,36 @@ bool fits(std::string extracted_condition, int start, int end)
 {
     if(start - 1 < 0 or end + 1 >= extracted_condition.length())
     {
-        std::cout << "out of bounds" << std::endl;
         return false;
     }
     if(extracted_condition[start - 1] == '#' or extracted_condition[end + 1] == '#')
     {
-        std::cout << "surrounded by hash char" << std::endl;
         return false;
     }
     if (extracted_condition.substr(0, start).contains('#'))
     {
-        std::cout << "skipping '#'" << std::endl;
         return false;
     }
-    for (int i = start; i <= end; ++i) {
+    for (int i = start; i <= end; ++i)
+    {
         if (extracted_condition[i] == '.') {
-            std::cout << "segment is impossible" << std::endl;
             return false;
         }
     }
-    std::cout << "segment is POSSIBLE" << std::endl;
     return true;
+}
+
+void unfold_data(std::string& extracted_condition, std::vector<int>& groups)
+{
+    auto extracted_condition_temp = extracted_condition;
+    for(int i = 0; i < 4; ++i)
+    {
+        extracted_condition += "?" +extracted_condition_temp;
+    }
+
+    std::vector<int> temp = groups;
+    for (int i = 0; i < 4; ++i)
+    {
+        groups.insert(groups.end(), temp.begin(), temp.end());
+    }
 }
