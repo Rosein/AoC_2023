@@ -58,3 +58,19 @@ Grid transpose(Grid grid)
 
     return transposed_grid;
 }
+
+int countReflection(std::vector<Grid> grids)
+{
+    int total{0};
+    for(auto grid : grids)
+    {
+        auto horizontal = findSplit(grid);
+        Grid transposed = transpose(grid);
+        auto vertical = findSplit(transposed);
+        transposed.clear();
+
+        total += 100 *  horizontal;
+        total +=   vertical;
+    }
+    return total;
+}
