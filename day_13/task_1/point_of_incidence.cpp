@@ -25,3 +25,36 @@ bool reflects(Grid grid, int start_index)
 
     return true;
 }
+
+int findSplit(Grid grid)
+{
+    for(int i = 0; i < grid.size() - 1; ++i)
+    {
+        if(reflects(grid, i))
+        {
+            return i + 1;
+        }
+    }
+    return 0;
+}
+
+Grid transpose(Grid grid)
+{
+    if(grid.empty())
+    {
+        return {};
+    }
+
+    Grid transposed_grid{};
+    for (size_t j = 0; j < grid[0].size(); ++j)
+    {
+        std::string new_row;
+        for (size_t i = 0; i < grid.size(); ++i)
+        {
+            new_row.push_back(grid[i][j]);
+        }
+        transposed_grid.push_back(new_row);
+    }
+
+    return transposed_grid;
+}

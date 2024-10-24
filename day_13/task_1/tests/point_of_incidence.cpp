@@ -54,3 +54,101 @@ TEST_P(IfRefectionTests, whenReflectsShouldBeTheSameInUpperAndLowerDirection)
 }
 
 INSTANTIATE_TEST_SUITE_P(ReflectionTest, IfRefectionTests, testing::ValuesIn(GenerateReflectionGridParams()));
+
+
+using GridOfSplitedReflections = std::tuple<Grid, int>;
+
+struct FindSplitTests : ::testing::TestWithParam<GridOfSplitedReflections>
+{
+};
+
+std::vector<GridOfSplitedReflections> GenerateFindSplitParams()
+{
+    return {
+        {
+            {
+                "##......#",
+                "##......#"
+            }, 1
+        },
+        {
+            {
+                "##...#..#",
+                "##......#"
+            }, 0
+        },
+        {
+            {
+                "..#.##.#.",
+                "##......#",
+                "##......#",
+                "..#.##.#."
+            }, 2
+        },
+        {
+            {
+                "..#.##.#.",
+                "##......#",
+                "##..#...#",
+                "..#.##.#."
+            }, 0
+        },
+        {
+            {
+                "#...##..#",
+                "#....#..#",
+                "..##..###",
+                "#####.##.",
+                "#####.##.",
+                "..##..###",
+                "#....#..#"
+            }, 4
+        },
+        {
+            {
+                "#....#..#",
+                "..##..###",
+                "#####.##.",
+                "#####.##.",
+                "..##..###",
+                "#....#..#"
+            }, 3
+        }
+        };
+}
+
+TEST_P(FindSplitTests, whenFindSplitShouldReturnNumerRowWhenReflectsBegins)
+{
+    //Given
+    auto [grid_to_check, expected_split] = GetParam();
+
+    //When
+    int founded_split = findSplit(grid_to_check);
+
+    //Then
+    ASSERT_EQ(founded_split, expected_split);
+}
+
+INSTANTIATE_TEST_SUITE_P(FindSplitTest, FindSplitTests, testing::ValuesIn(GenerateFindSplitParams()));
+
+TEST(TransposeTest, transposeVector)
+{
+    Grid enter_grid {
+        "##......#",
+        "##......#"
+    };
+
+    Grid transposed_grid {
+        "##",
+        "##",
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "..",
+        "##"
+    };
+
+    ASSERT_EQ(transpose(enter_grid), transposed_grid);
+}
