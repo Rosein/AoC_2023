@@ -1,4 +1,4 @@
-#include "hot_springs.hpp"
+#include "point_of_incidence.hpp"
 #include "path_helper/path_helper.hpp"
 #include <fstream>
 #include <iostream>
@@ -15,24 +15,37 @@ void run_app(std::string filename)
         std::cout << "File couldn't be open" << std::endl;
     }
 
+    std::vector<Grid> grids;
+    Grid currentGrid;
     std::string line;
 
     while(std::getline(fs, line))
     {
-        std::cout << line << std::endl;
+        if (line.empty())
+        {
+            if (!currentGrid.empty())
+            {
+                grids.push_back(currentGrid);
+                currentGrid.clear();
+            }
+        } else {
+            currentGrid.push_back(line);
+        }
     }
 
-    long long unsigned int total_distance{0};
+    if (!currentGrid.empty()) {
+        grids.push_back(currentGrid);
+    }
 
-    std::cout << "Total distance: " << total_distance << std::endl;
+    long long unsigned int total{0};
+    total += countReflection(grids);
+    std::cout << "Total distance: " << total << std::endl;
     fs.close();
 }
 
-
 int main(int argc, char** argv)
 {
-    std::string filename =
-        path_helper::prename + std::string{"/AoC_2023/day_12/task_1/input"};
+    std::string filename = std::string{"/Users/dariakumanek/Desktop/workspace/projects/AoC_2023/day_13/task_1/input"};
     run_app(filename);
     return 0;
 }
